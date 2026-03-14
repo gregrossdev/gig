@@ -1,6 +1,8 @@
 ---
 name: gig:research
 description: Deep-dive a topic using subagents. Feeds findings into decisions or working memory.
+user-invocable: true
+argument-hint: "[topic to research]"
 ---
 
 # /gig:research Skill
@@ -17,7 +19,7 @@ Classify the research:
 | Type | Approach |
 |------|----------|
 | **Library/framework** | WebSearch + docs, compare alternatives |
-| **Codebase question** | Subagents to explore code (Task tool, subagent_type "Explore") |
+| **Codebase question** | Subagents to explore code (Agent tool, subagent_type "Explore") |
 | **Architecture pattern** | WebSearch + existing codebase analysis |
 | **API/service** | WebSearch + docs, check compatibility |
 | **Bug investigation** | Codebase exploration + error analysis |
@@ -26,9 +28,9 @@ Classify the research:
 
 Launch subagents in parallel where possible:
 
-- Use Task tool with subagent_type "Explore" for codebase investigation.
+- Use Agent tool with subagent_type "Explore" for codebase investigation.
 - Use WebSearch for external information.
-- Use Task tool with subagent_type "general-purpose" for complex multi-step research.
+- Use Agent tool with subagent_type "general-purpose" for complex multi-step research.
 
 Collect all findings.
 

@@ -1,6 +1,7 @@
 ---
 name: gig:init
 description: Initialize the gig system in any project. Discovers context, scaffolds .gig/, proposes first milestone. Universal entry point.
+user-invocable: true
 ---
 
 # /gig:init Skill
@@ -23,6 +24,7 @@ If user chooses reinitialize, delete `.gig/` and proceed.
 2. Create `.gig/phases/` directory (for completed phase archives).
 3. Copy templates into `.gig/`:
    - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/` (plugin install), then `~/.claude/templates/gig/` (script install).
+   - If templates are not found at either location, say: "Error: gig templates not found. Reinstall gig or check your installation." STOP.
    - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md
 4. Say: "Initialized `.gig/` from templates."
 
@@ -46,7 +48,7 @@ Classify as:
 
 **If new project:** Skip to Step 4.
 
-**If existing project:** Use subagents (Task tool, subagent_type "Explore") to discover:
+**If existing project:** Use subagents (Agent tool, subagent_type "Explore") to discover:
 
 1. **Structure** — directory layout, key file locations, naming conventions.
 2. **Stack** — languages, frameworks, runtime, database, from package files and imports.
@@ -56,12 +58,12 @@ Classify as:
 6. **Tests** — test framework, coverage, test file locations.
 7. **Config** — linters, formatters, CI/CD, environment setup.
 
-Compile findings into a Discovery Report (internal — used in Steps 4-5).
+Compile findings into a Discovery Report (internal context — findings are used directly in Steps 4-5, not written to a file).
 
 ## Step 4 — Populate Architecture
 
 **If new project:**
-Leave `.gig/ARCHITECTURE.md` as the blank template. User fills during `gig:decide`.
+Leave `.gig/ARCHITECTURE.md` as the blank template. User fills during `gig:gather`.
 
 **If existing project:**
 Update `.gig/ARCHITECTURE.md` with discovered context:
@@ -118,6 +120,7 @@ Based on discovery, propose the first milestone:
    - Status: `IDLE`
    - Last Batch: "Project discovery & scaffold"
    - Last Updated: today's date
+   - Working Memory (the Working Memory section of STATE.md — key context like file paths, patterns, and conventions discovered during work): leave empty for now; populated during implement.
 
 3. Add bootstrap entry to Batch History:
    `| 0.0.1 | 0 | Project discovery & scaffold | PLANNED | done | {today} |`
