@@ -1,6 +1,8 @@
 ---
 name: gig:milestone
 description: Create and complete milestones, manage ROADMAP.md, tag releases.
+user-invocable: true
+argument-hint: "[create | complete | view]"
 ---
 
 # /gig:milestone Skill

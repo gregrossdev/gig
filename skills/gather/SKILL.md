@@ -1,6 +1,8 @@
 ---
 name: gig:gather
 description: Research the problem, make decisions, and build the implementation plan. Two approval gates, one command.
+user-invocable: true
+argument-hint: "[goal or topic]"
 ---
 
 # /gig:gather Skill

@@ -1,6 +1,8 @@
 ---
 name: gig:implement
 description: Execute the approved plan batch by batch with team-first parallel execution and human-in-the-loop checkpoints.
+user-invocable: true
+argument-hint: "[batch number]"
 ---
 
 # /gig:implement Skill
@@ -48,12 +50,15 @@ Otherwise, execute the next batch in-session (Step 4c).
 
 When 2+ independent batches are ready:
 
-1. Use Agent Teams with worktrees (`isolation: "worktree"`).
-2. Each teammate gets: batch description, relevant ACTIVE decisions, working memory from STATE.md.
-3. Each teammate works on branch: `feature/v0.{N}-{phase-name}/batch-{P}`
-4. After completion, merge task branches into the phase branch (regular merge, not squash):
+1. For each independent batch, use the Agent tool with `isolation: "worktree"`.
+   Each agent receives a prompt containing:
+   - The batch description and work items from PLAN.md
+   - Relevant ACTIVE decisions from DECISIONS.md
+   - Working memory from STATE.md
+2. Each agent works on an isolated branch: `feature/v0.{N}-{phase-name}/batch-{P}`
+3. After all agents complete, merge each task branch into the phase branch:
    `git merge feature/v0.{N}-{phase-name}/batch-{P}` — resolve conflicts if any.
-5. Delete task branches after merge.
+4. Delete task branches after merge.
 
 If only 1 batch is ready, execute it in-session instead.
 

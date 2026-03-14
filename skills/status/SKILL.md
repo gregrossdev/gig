@@ -1,9 +1,26 @@
 ---
 name: gig:status
 description: Show current state and suggest the ONE next action to take.
+user-invocable: true
 ---
 
 # /gig:status Skill
+
+## Step 0 — Command Routing
+
+If the user's message matches a natural language command, handle it directly:
+
+**"decisions"** — Read `.gig/DECISIONS.md` and display all ACTIVE entries as a summary table:
+| ID | Decision | Status |
+Then STOP.
+
+**"issues"** — Read `.gig/ISSUES.md` and display all OPEN and DEFERRED entries:
+| ID | Title | Severity | Status |
+If none, say "No open issues." Then STOP.
+
+**"history"** — Read `.gig/STATE.md` Batch History section and display the table as-is. Then STOP.
+
+If no command match, proceed to Step 1.
 
 ## Step 1 — Read State
 
