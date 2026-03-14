@@ -1,6 +1,7 @@
 ---
 name: gig:govern
 description: Verify, validate, track issues, archive phase, summarize status, and suggest next phase ideas.
+user-invocable: true
 ---
 
 # /gig:govern Skill

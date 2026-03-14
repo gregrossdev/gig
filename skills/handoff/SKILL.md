@@ -1,6 +1,8 @@
 ---
 name: gig:handoff
 description: Create or restore a session handoff for context continuity across sessions.
+user-invocable: true
+argument-hint: "[create | restore]"
 ---
 
 # /gig:handoff Skill
