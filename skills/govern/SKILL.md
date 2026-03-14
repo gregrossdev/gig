@@ -256,7 +256,18 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
 
-Then suggest 2-3 potential next phases:
+Check `.gig/ROADMAP.md` for an Upcoming Phases section.
+
+**If an upcoming phase exists**, show it prominently:
+
+```
+> **Next up:** {name} — {description}
+> Run `gather` to start.
+```
+
+Then suggest 1-2 additional alternatives below it.
+
+**If no upcoming phases**, suggest 2-3 potential next phases:
 
 ```
 ### Suggested Next Phases
