@@ -94,8 +94,8 @@ assert "templates symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/t
 # --- Test 5: Default install detects symlinks ---
 
 echo "[5] Symlink detection"
-OUTPUT="$(echo "n" | sh "$SCRIPT_DIR/install.sh" 2>&1 || true)"
-assert "warns about symlinks" echo "$OUTPUT" | grep -q "installed via symlinks"
+sh "$SCRIPT_DIR/install.sh" < /dev/null > "$TEMP_HOME/detect_output.txt" 2>&1 || true
+assert "warns about symlinks" grep -q "installed via symlinks" "$TEMP_HOME/detect_output.txt"
 
 # --- Test 6: Uninstall ---
 
