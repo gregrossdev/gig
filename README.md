@@ -23,6 +23,19 @@ git clone https://github.com/gregrossdev/gig.git
 cd gig && ./install.sh
 ```
 
+**Developer mode (symlinks — edits to repo are instantly live):**
+
+```bash
+git clone https://github.com/gregrossdev/gig.git
+cd gig && ./install.sh --symlink
+```
+
+**Uninstall:**
+
+```bash
+./install.sh --uninstall
+```
+
 ## How it works
 
 ```
