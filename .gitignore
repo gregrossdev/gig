@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Archives
+*.zip
+
+# Environment
+.env
+.env.*
+
+# Gig project state (per-project, not part of the source)
+.gig/
