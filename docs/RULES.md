@@ -131,8 +131,8 @@ On session start in any project directory:
 
 ## Templates
 
-Reusable project scaffolding lives in `~/.claude/templates/gig/`. The `/gig:init`
-skill copies these into `.gig/` on first use.
+Reusable project scaffolding is included with gig. The `/gig:init` skill
+copies templates into `.gig/` on first use.
 
 ## Natural Language Commands
 
@@ -157,6 +157,3 @@ These are shortcuts the user can type during an active gig session:
 
 **Workflow skills (gig):** `/gig:init`, `/gig:gather`, `/gig:implement`,
 `/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`, `/gig:handoff`.
-
-**CLI skills:** glab, komodo, vault, proxmox — invoke by name when the user
-requests their domain.
