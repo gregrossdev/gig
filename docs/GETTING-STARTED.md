@@ -6,6 +6,17 @@ This guide walks you through your first project with gig.
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed
 - gig installed (via plugin or `install.sh`)
+- Contributing to gig? Use `./install.sh --symlink` for dev mode (repo edits are instantly live)
+
+## Verify it works
+
+After installing, open Claude Code in any project directory and check:
+
+1. **Skills are visible** — type `/gig:` and you should see all 8 skills in autocomplete (init, gather, implement, govern, status, milestone, research, handoff)
+2. **Status responds** — run `/gig:status`. It should say "No gig context. Use `/gig:init` to start."
+3. **Init creates .gig/** — run `/gig:init` in a test directory. Confirm `.gig/` is created with STATE.md, PLAN.md, DECISIONS.md, etc.
+
+If any of these fail, check your installation method and try reinstalling.
 
 ## Step 1 — Initialize
 
@@ -101,12 +112,20 @@ gig will:
 
 ## Repeat
 
-After governance approves the phase, start the next one:
+After governance approves the phase, just say `gather` to start the next one.
+
+If your roadmap has pre-planned phases (in the Upcoming Phases section of ROADMAP.md), gig auto-flows:
+
+- **Govern** finishes with: `> Next up: Phase Name — description. Run gather to start.`
+- **Gather** auto-pulls the next planned phase — no need to specify what to build
+- You can still say `skip` to choose something different
+
+If no upcoming phases are planned, gather asks what you want to build next.
 
 ```
-/gig:gather    # new phase, new decisions, new plan
-/gig:implement # execute
-/gig:govern    # validate
+/gig:gather    # auto-pulls next phase, or asks if none planned
+/gig:implement # execute batches
+/gig:govern    # validate, archive, surface next phase
 ```
 
 Each phase increments the MINOR version. Phases build toward the milestone.
@@ -121,6 +140,9 @@ Each phase increments the MINOR version. Phases build toward the milestone.
 | `status` | Quick progress check |
 | `next` | Execute next batch |
 | `fix [thing]` | Unplanned work as next batch |
+| `decisions` | Show active decisions |
+| `issues` | Show open/deferred issues |
+| `history` | Show batch execution history |
 
 ## Tips
 
