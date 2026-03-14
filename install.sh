@@ -102,6 +102,10 @@ if [ "$MODE" = "symlink" ]; then
     [ -e "$SKILLS_DEST" ] && rm -rf "$SKILLS_DEST"
     [ -e "$TEMPLATES_DEST" ] && rm -rf "$TEMPLATES_DEST"
 
+    # Ensure parent directories exist
+    mkdir -p "$(dirname "$SKILLS_DEST")"
+    mkdir -p "$(dirname "$TEMPLATES_DEST")"
+
     ln -s "$SCRIPT_DIR/skills" "$SKILLS_DEST"
     echo "  Linked skills: $SKILLS_DEST -> $SCRIPT_DIR/skills"
 
