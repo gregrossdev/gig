@@ -131,7 +131,7 @@ fi
 
 echo ""
 printf "Append gig workflow rules to %s? [y/N] " "$CLAUDE_MD"
-read -r answer
+read -r answer || answer="n"
 
 case "$answer" in
     [yY]|[yY][eE][sS])
