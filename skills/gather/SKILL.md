@@ -34,7 +34,15 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 
 ### Step 2 — Gather Intent
 
-Ask the user ONE open-ended question: "What do you want to build or accomplish?"
+**Auto-detect from roadmap:** Check `.gig/ROADMAP.md` for an Upcoming Phases section.
+If an upcoming phase exists and the user did NOT provide a specific goal:
+1. Present: "Next planned phase: **{name}** — {description}. Starting research on this. Say `skip` to choose something else."
+2. Move the phase entry from Upcoming Phases to the active Phases table with status `planned`.
+3. Proceed to Step 3 using the phase name and description as the goal.
+
+**If user provided args or said `skip`:** Use the user's stated goal instead.
+
+**If no upcoming phases and no user goal:** Ask the user ONE open-ended question: "What do you want to build or accomplish?"
 
 If the user already stated their goal (same message or prior context), skip and proceed.
 
