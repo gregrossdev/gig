@@ -1,10 +1,13 @@
-# gig
-
-A structured workflow system for [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Three phases, two approval gates, zero decision fatigue.
-
 ```
-gather → implement → govern
+  ____ ___ ____
+ / ___|_ _/ ___|
+| |  _ | | |  _
+| |_| || | |_| |
+ \____|___\____|
 ```
+
+A structured workflow system for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+Three phases, two approval gates, zero decision fatigue.
 
 Claude researches the problem, makes all decisions, builds the plan, executes in batches, and validates quality. You just say "looks good" or "change X."
 
@@ -16,18 +19,17 @@ Claude researches the problem, makes all decisions, builds the plan, executes in
 /plugin install gig
 ```
 
-**Shell script (fallback):**
+**Shell script:**
 
 ```bash
 git clone https://github.com/gregrossdev/gig.git
 cd gig && ./install.sh
 ```
 
-**Developer mode (symlinks — edits to repo are instantly live):**
+**Developer mode** (symlinks — repo edits are instantly live):
 
 ```bash
-git clone https://github.com/gregrossdev/gig.git
-cd gig && ./install.sh --symlink
+./install.sh --symlink
 ```
 
 **Uninstall:**
@@ -38,14 +40,17 @@ cd gig && ./install.sh --symlink
 
 ## How it works
 
-```
-┌─────────────────────────────────────────────────┐
-│  /gig:init     → scaffold .gig/, first milestone│
-│  /gig:gather   → research, decisions, plan      │
-│  /gig:implement→ execute batches, checkpoints   │
-│  /gig:govern   → verify, issues, archive phase  │
-│  ↺ repeat for next phase                        │
-└─────────────────────────────────────────────────┘
+```mermaid
+graph LR
+    A["/gig:init"] --> B["/gig:gather"]
+    B --> C["/gig:implement"]
+    C --> D["/gig:govern"]
+    D -->|next phase| B
+
+    style A fill:#1a1a2e,stroke:#e94560,color:#fff
+    style B fill:#1a1a2e,stroke:#0f3460,color:#fff
+    style C fill:#1a1a2e,stroke:#0f3460,color:#fff
+    style D fill:#1a1a2e,stroke:#0f3460,color:#fff
 ```
 
 1. **Init** — Run once per project. Discovers existing context, scaffolds `.gig/`, proposes first milestone.
@@ -81,13 +86,28 @@ cd gig && ./install.sh --symlink
 
 > "Does this batch look good?"
 >
-> - **"yes"** / **"looks good"** → Claude executes
-> - **"change X"** → Claude adjusts and re-presents
-> - **"no"** → Claude re-evaluates
+> - **"yes"** / **"looks good"** — Claude executes
+> - **"change X"** — Claude adjusts and re-presents
+> - **"no"** — Claude re-evaluates
 
 ## Versioning
 
-Every project uses `MAJOR.MINOR.PATCH`:
+```mermaid
+graph LR
+    subgraph "Phase 1"
+        A["v0.1.1"] --> B["v0.1.2"] --> C["v0.1.3"]
+    end
+    subgraph "Phase 2"
+        D["v0.2.1"] --> E["v0.2.2"]
+    end
+    C -->|"phase complete"| D
+
+    style A fill:#16213e,stroke:#0f3460,color:#fff
+    style B fill:#16213e,stroke:#0f3460,color:#fff
+    style C fill:#16213e,stroke:#e94560,color:#fff
+    style D fill:#16213e,stroke:#0f3460,color:#fff
+    style E fill:#16213e,stroke:#e94560,color:#fff
+```
 
 - **PATCH** — increments per executed batch
 - **MINOR** — always equals the phase number
