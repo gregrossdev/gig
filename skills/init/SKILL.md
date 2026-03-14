@@ -21,8 +21,9 @@ If user chooses reinitialize, delete `.gig/` and proceed.
 
 1. Create `.gig/` directory.
 2. Create `.gig/phases/` directory (for completed phase archives).
-3. Copy templates from `~/.claude/templates/gig/` into `.gig/`:
-   - STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md
+3. Copy templates into `.gig/`:
+   - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/` (plugin install), then `~/.claude/templates/gig/` (script install).
+   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md
 4. Say: "Initialized `.gig/` from templates."
 
 ## Step 2 — Detect Project Type
