@@ -9,88 +9,145 @@
 A structured workflow system for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 Three phases, two approval gates, zero decision fatigue.
 
-Claude researches the problem, makes all decisions, builds the plan, executes in batches, and validates quality. You just say "looks good" or "change X."
-
-## Install
-
-**Plugin (recommended):**
+## Quick start
 
 ```bash
-/plugin install gig
+# Install
+git clone https://github.com/gregrossdev/gig.git && cd gig && ./install.sh
+
+# Then in any project:
+cd your-project
 ```
 
-**Shell script:**
-
-```bash
-git clone https://github.com/gregrossdev/gig.git
-cd gig && ./install.sh
+```
+/gig:init       →  scaffolds .gig/, discovers your stack, proposes first milestone
+/gig:gather     →  researches, makes decisions, builds the plan
+/gig:implement  →  executes batches with checkpoints
+/gig:govern     →  validates, tracks issues, archives phase
 ```
 
-**Developer mode** (symlinks — repo edits are instantly live):
+That's it. Repeat `gather → implement → govern` for each phase.
 
-```bash
-./install.sh --symlink
+## What actually happens
+
+### `/gig:gather` — Claude does the thinking
+
+You say what you want. Claude researches your codebase, makes every decision, and presents them for approval:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Does this batch look good?                              │
+│                                                         │
+│ | ID    | Decision        | Choice          |           │
+│ |-------|-----------------|-----------------|           │
+│ | D-1.1 | Database        | SQLite + Drizzle|           │
+│ | D-1.2 | API pattern     | REST with Hono  |           │
+│ | D-1.3 | Auth            | Better Auth     |           │
+│ | D-1.4 | Validation      | Zod schemas     |           │
+│                                                         │
+│ → "approve" / "D-1.2: use tRPC instead" / "no"         │
+└─────────────────────────────────────────────────────────┘
 ```
 
-**Uninstall:**
+After you approve decisions, Claude builds the plan — small batches, one concern each:
 
-```bash
-./install.sh --uninstall
+```
+| Batch | Version | Title                    | Status  |
+|-------|---------|--------------------------|---------|
+| 1.1   | 0.1.1   | Database schema & config | pending |
+| 1.2   | 0.1.2   | Auth setup               | pending |
+| 1.3   | 0.1.3   | API routes               | pending |
+| 1.4   | 0.1.4   | Input validation         | pending |
 ```
 
-## How it works
+You approve again, then run `/gig:implement`.
 
-```mermaid
-graph LR
-    A["/gig:init"] --> B["/gig:gather"]
-    B --> C["/gig:implement"]
-    C --> D["/gig:govern"]
-    D -->|next phase| B
+### `/gig:implement` — Claude does the work
 
-    style A fill:#1a1a2e,stroke:#e94560,color:#fff
-    style B fill:#1a1a2e,stroke:#0f3460,color:#fff
-    style C fill:#1a1a2e,stroke:#0f3460,color:#fff
-    style D fill:#1a1a2e,stroke:#0f3460,color:#fff
+Batches execute one at a time with checkpoints after each:
+
+```
+Checkpoint. Batch 1.2 complete — version 0.1.2.
+
+  Auth setup done: Better Auth configured, login/register routes,
+  session middleware, protected route wrapper.
+
+  → "next" to continue
+  → "fix [thing]" to insert unplanned work
+  → "pause" to stop here
 ```
 
-1. **Init** — Run once per project. Discovers existing context, scaffolds `.gig/`, proposes first milestone.
-2. **Gather** — Claude researches the problem, generates all decisions as a batch for your approval, then builds the implementation plan. Two gates, one command.
-3. **Implement** — Executes batches with human-in-the-loop checkpoints. Parallel execution via worktrees when independent batches exist. Decisions can be revised mid-build.
-4. **Govern** — Runs tests, validates acceptance criteria, audits decisions, tracks issues. Fixes blockers before archiving. Summarizes what was built and suggests next phase.
+Independent batches run in parallel using Agent Teams with git worktrees.
+Decisions can be revised mid-build if reality disagrees with the plan.
 
-## Commands
+### `/gig:govern` — Claude validates the work
 
-| Skill | Purpose |
-|-------|---------|
-| `/gig:init` | Initialize project, discover context, create first milestone |
-| `/gig:gather` | Research + decisions + plan (two approval gates) |
-| `/gig:implement` | Execute plan batch by batch |
-| `/gig:govern` | Verify, validate, archive phase |
-| `/gig:status` | Show current state + suggest next action |
-| `/gig:milestone` | Create or complete milestones |
-| `/gig:research` | Deep-dive a topic with subagents |
-| `/gig:handoff` | Save/restore session context across sessions |
+Governance runs tests, checks acceptance criteria, audits decisions, and tracks issues:
 
-**Natural language shortcuts** (during an active session):
+```
+### Governance Report
 
-| Say | Effect |
-|-----|--------|
-| `next` | Execute next batch |
-| `status` | Show progress |
-| `fix [thing]` | Insert unplanned work |
-| `skip` | Skip current batch |
-| `amend [change]` | Modify the plan |
-| `phase done` | Complete current phase |
+Test Results: 24/24 passed
+Acceptance Criteria: 4/4 met
+Decision Audit: 4/4 match implementation
+
+Issues: 0 blockers, 0 majors
+
+→ "approve" to archive phase and merge to main
+```
+
+Blockers and majors loop back to implement. Minor issues defer to future phases.
+After approval, the phase archives to `.gig/phases/` and govern suggests what's next.
 
 ## The only question Claude asks
 
 > "Does this batch look good?"
 >
-> - **"yes"** / **"looks good"** — Claude executes
-> - **"change X"** — Claude adjusts and re-presents
-> - **"no"** — Claude re-evaluates
+> **"yes"** → Claude executes  |  **"change X"** → Claude adjusts  |  **"no"** → Claude re-evaluates
+
+## Install
+
+**Plugin:**
+```bash
+/plugin install gig
+```
+
+**Shell script:**
+```bash
+git clone https://github.com/gregrossdev/gig.git
+cd gig && ./install.sh
+```
+
+**Dev mode** (symlinks — repo edits are instantly live):
+```bash
+./install.sh --symlink
+```
+
+**Uninstall:**
+```bash
+./install.sh --uninstall
+```
+
+## Commands
+
+| Skill | What it does |
+|-------|-------------|
+| `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
+| `/gig:gather` | Research → decisions → plan (two approval gates) |
+| `/gig:implement` | Execute batches, checkpoints, parallel when possible |
+| `/gig:govern` | Test, validate, track issues, archive phase |
+| `/gig:status` | Where am I? What's next? |
+| `/gig:milestone` | Create or complete milestones |
+| `/gig:research` | Deep-dive a topic with subagents |
+| `/gig:handoff` | Save/restore session context across sessions |
+
+**Natural language shortcuts:**
+
+`next` · `status` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `phase done`
 
 ## Versioning
+
+Every batch gets a version. Every phase gets a tag.
 
 ```mermaid
 graph LR
@@ -113,44 +170,33 @@ graph LR
 - **MINOR** — always equals the phase number
 - **MAJOR** — milestone completion (you declare v1.0, never Claude)
 
-## How gig differs from alternatives
+## How gig differs
 
 | | gig | GSD | PAUL |
 |---|---|---|---|
+| **Approach** | Claude decides everything, you approve | Interactive discussion | Interactive planning |
 | **Workflow** | gather → implement → govern | discuss → plan → execute → verify | plan → apply → unify |
-| **Decision-making** | Claude decides everything, you approve batches | Interactive discussion | Interactive planning |
-| **Distribution** | Native Claude Code plugin | npx installer | npx installer |
-| **Versioning** | Built-in batch versioning (MAJOR.MINOR.PATCH) | Phase-based | Phase-based |
-| **Issue tracking** | Built-in (ISSUES.md, severity, fix cycles) | External | External |
-| **Parallel execution** | Agent Teams with worktrees | Sequential | Sequential |
+| **Issue tracking** | Built-in (severity, fix cycles) | External | External |
+| **Parallel execution** | Agent Teams + worktrees | Sequential | Sequential |
+| **Versioning** | Batch-level (MAJOR.MINOR.PATCH) | Phase-based | Phase-based |
 
-## Project structure
+## What `.gig/` looks like
 
 ```
-.gig/                    # Created per-project by /gig:init
+.gig/
 ├── STATE.md             # Current version, phase, progress
-├── PLAN.md              # Active phase plan
-├── DECISIONS.md         # Append-only decision log
-├── ISSUES.md            # Issue tracker
-├── ARCHITECTURE.md      # Project structure overview
-├── ROADMAP.md           # Milestone/phase tracker
+├── PLAN.md              # Active phase — batches and acceptance criteria
+├── DECISIONS.md         # Why things are the way they are
+├── ISSUES.md            # Problems found, tracked by severity
+├── ARCHITECTURE.md      # Your stack, structure, patterns
+├── ROADMAP.md           # Milestones, phases, what's next
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
-└── phases/              # Completed phase archives
+└── phases/              # Completed phase archives (full history)
 ```
 
-## Getting started
+## Learn more
 
-See [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) for a full walkthrough.
-
-**Quick start:**
-
-```
-cd your-project
-/gig:init              # scaffold + first milestone
-/gig:gather            # research → decisions → plan
-/gig:implement         # execute batches
-/gig:govern            # verify + archive
-```
+See [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) for a full walkthrough with tips.
 
 ## License
 
