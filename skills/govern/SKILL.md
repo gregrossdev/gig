@@ -18,7 +18,32 @@ Read `.gig/STATE.md`, `.gig/PLAN.md`, and `.gig/DECISIONS.md`.
 **If status is NOT "IMPLEMENTED" and NOT "IMPLEMENTING":**
 Say: "Nothing to govern. Run `/gig:implement` first." STOP.
 
-## Step 2 — Run Automated Tests
+## Step 2 — Manual Verification
+
+Before running automated checks, present a quick verification card so the user can manually confirm the latest work:
+
+1. Read `.gig/PLAN.md` and identify the most recently completed batch(es).
+2. For each, extract the test criteria and acceptance criteria.
+3. Present a concise checklist:
+
+```
+### Quick Verify (optional)
+
+The latest batch implemented: **{batch title}**
+
+Try these to confirm it works:
+- [ ] {Step derived from test criteria — something the user can do in 30 seconds}
+- [ ] {Another step if applicable}
+
+Reply **"verified"** or **"skip"** to continue with governance.
+```
+
+**If user says "verified":** Note it in the governance report and proceed.
+**If user says "skip":** Proceed without manual verification.
+
+Do NOT block on this — it's optional. If the user has already confirmed or the batch is trivial (docs, config), skip automatically and proceed.
+
+## Step 3 — Run Automated Tests
 
 Auto-detect project tooling and run test suites:
 
@@ -33,7 +58,7 @@ Auto-detect project tooling and run test suites:
 If no tooling detected, note "No automated checks configured" and proceed.
 Capture all results (pass/fail/warnings/error output).
 
-## Step 3 — Validate Acceptance Criteria
+## Step 4 — Validate Acceptance Criteria
 
 For each batch in `.gig/PLAN.md`:
 1. Read the acceptance criteria.
@@ -41,7 +66,7 @@ For each batch in `.gig/PLAN.md`:
 3. Mark each: PASS or FAIL with evidence.
 4. Cross-reference with ACTIVE decisions — does implementation match?
 
-## Step 4 — Decision Audit
+## Step 5 — Decision Audit
 
 Compare every ACTIVE decision against actual implementation:
 
@@ -52,7 +77,7 @@ For mismatches:
 - Determine if deviation was necessary (discovered during build).
 - Propose either: fix code to match decision, OR revise the decision.
 
-## Step 5 — User Acceptance Testing (UAT)
+## Step 6 — User Acceptance Testing (UAT)
 
 Present a guided UAT checklist from the plan's acceptance criteria.
 For each item, ask the user to verify:
@@ -64,9 +89,9 @@ Result: [ PASS | FAIL | SKIP ]
 Severity (if FAIL): [ Blocker | Major | Minor | Cosmetic ]
 ```
 
-## Step 6 — Issue Tracking
+## Step 7 — Issue Tracking
 
-For every failure discovered in Steps 2-5, log an issue in `.gig/ISSUES.md`.
+For every failure discovered in Steps 3-6, log an issue in `.gig/ISSUES.md`.
 
 Entry format:
 ```
@@ -87,7 +112,7 @@ Entry format:
 - **Minor** — Small issue. Can defer to a future phase.
 - **Cosmetic** — Polish item. Defer to a future phase.
 
-## Step 7 — Governance Report
+## Step 8 — Governance Report
 
 Present a complete report:
 
@@ -115,7 +140,7 @@ Majors: {count}
 Deferred (Minor/Cosmetic): {count}
 ```
 
-## Step 8 — Update State
+## Step 9 — Update State
 
 Update `.gig/STATE.md`:
 - Update batch history entries with final status.
@@ -230,7 +255,7 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 
 ---
 
-## Step 9 — Phase Summary & Next Suggestions
+## Step 10 — Phase Summary & Next Suggestions
 
 After archiving, present a comprehensive summary:
 
