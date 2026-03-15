@@ -7,7 +7,7 @@
 ```
 
 A structured workflow system for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
-Three phases, two approval gates, zero decision fatigue.
+Gather. Implement. Govern. Zero decision fatigue.
 
 ## Quick start
 
