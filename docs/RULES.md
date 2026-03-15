@@ -153,6 +153,23 @@ These are shortcuts the user can type during an active gig session:
 | `phase done` | Mark current phase as complete |
 | `milestone` | Bump MAJOR version |
 
+## Context Management
+
+Long sessions consume the context window. gig state files persist everything,
+so clearing and resuming is safe and encouraged.
+
+**Proactive checkpoint:** After each govern cycle (phase complete), suggest:
+> "Phase archived. Good point to `/clear` if the conversation is long.
+> Run `/gig:status` after clearing to resume."
+
+**After `/clear`:** Running any gig command auto-loads STATE.md and resumes.
+The recommended resume command is `/gig:status` — it shows where you are
+and what to do next.
+
+**Hard rule:** If the conversation has completed 2+ full gather→implement→govern
+cycles without clearing, proactively recommend clearing before starting
+the next phase.
+
 ## Skills
 
 **Workflow skills (gig):** `/gig:init`, `/gig:gather`, `/gig:implement`,

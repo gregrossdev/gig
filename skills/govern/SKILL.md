@@ -314,6 +314,12 @@ Then say:
 
 > "Phase archived to `.gig/phases/v0.{N}-{phase-name}/`. Pick a direction and run `/gig:gather` to start the next phase, or `/gig:milestone` to manage milestones."
 
+Then add a context checkpoint:
+
+> "Good point to `/clear` if the conversation is long. Run `/gig:status` after clearing to resume where you left off."
+
+**Hard rule:** If 2+ full gather→implement→govern cycles have completed in this conversation without clearing, strongly recommend clearing before the next phase.
+
 ## If Failures Need Fixing
 
 If user chooses to fix issues:
