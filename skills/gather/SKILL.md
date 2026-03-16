@@ -34,17 +34,27 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 
 ### Step 2 — Gather Intent
 
-**Auto-detect from roadmap:** Check `.gig/ROADMAP.md` for an Upcoming Phases section.
-If an upcoming phase exists and the user did NOT provide a specific goal:
-1. Present: "Next planned phase: **{name}** — {description}. Starting research on this. Say `skip` to choose something else."
-2. Move the phase entry from Upcoming Phases to the active Phases table with status `planned`.
-3. Proceed to Step 3 using the phase name and description as the goal.
+Check `.gig/ROADMAP.md` for an Upcoming Phases section with entries.
 
-**If user provided args or said `skip`:** Use the user's stated goal instead.
+**If user provided args:** Check if the args match an entry name in the Upcoming Phases table (case-insensitive). If matched, consume that entry (see "Consuming an Upcoming Phase" below). If no match, use the args as a freeform goal and skip to "After intent is set".
+
+**If user did NOT provide args and the Upcoming Phases table has entries:** Take the **first row** of the table.
+1. Present: "Next planned phase: **{name}** — {description}. Starting research on this. Say `skip` to choose something else."
+2. If user says `skip`, ask: "What do you want to build or accomplish?"
+3. Otherwise, consume that entry (see below).
 
 **If no upcoming phases and no user goal:** Ask the user ONE open-ended question: "What do you want to build or accomplish?"
 
 If the user already stated their goal (same message or prior context), skip and proceed.
+
+#### Consuming an Upcoming Phase
+
+When a phase is selected from the Upcoming Phases table:
+1. **Remove** the entry's row from the Upcoming Phases table in `.gig/ROADMAP.md`.
+2. **Add** it to the Phases table with status `planned`: `| {N} | {Name} | v0.{N}.x | planned |`
+3. Use the phase name and description as the goal for Steps 3-4.
+
+#### After intent is set
 
 If there are open issues from `.gig/ISSUES.md` (deferred from prior phases), surface them:
 "Open issues from prior phases: {list}. Want to address any of these?"
