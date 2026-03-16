@@ -6,10 +6,13 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 SKILLS_DEST="$CLAUDE_DIR/skills/gig"
 TEMPLATES_DEST="$CLAUDE_DIR/templates/gig"
+HOOKS_DEST="$CLAUDE_DIR/hooks/gig"
+SETTINGS="$CLAUDE_DIR/settings.json"
 RULES_SRC="$SCRIPT_DIR/docs/RULES.md"
 CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
 
 SKILLS="init gather implement govern status milestone research handoff"
+HAS_JQ=false
 
 MODE="copy"
 
@@ -25,7 +28,7 @@ while [ $# -gt 0 ]; do
             echo "  -s, --symlink     Symlink instead of copy (for development)"
             echo "  -u, --uninstall   Remove gig from ~/.claude/"
             echo ""
-            echo "Default: copies skills and templates to ~/.claude/"
+            echo "Default: copies skills, templates, and hooks to ~/.claude/"
             exit 0
             ;;
         -s|--symlink)
@@ -52,6 +55,10 @@ if [ ! -d "$CLAUDE_DIR" ]; then
     exit 1
 fi
 
+if command -v jq >/dev/null 2>&1; then
+    HAS_JQ=true
+fi
+
 # --- Uninstall ---
 
 if [ "$MODE" = "uninstall" ]; then
@@ -65,6 +72,27 @@ if [ "$MODE" = "uninstall" ]; then
     if [ -e "$TEMPLATES_DEST" ]; then
         rm -rf "$TEMPLATES_DEST"
         echo "  Removed $TEMPLATES_DEST"
+    fi
+
+    if [ -e "$HOOKS_DEST" ]; then
+        rm -rf "$HOOKS_DEST"
+        echo "  Removed $HOOKS_DEST"
+    fi
+
+    # Remove gig hook entries from settings.json
+    if [ "$HAS_JQ" = true ] && [ -f "$SETTINGS" ]; then
+        if jq -e '.hooks' "$SETTINGS" >/dev/null 2>&1; then
+            cp "$SETTINGS" "$SETTINGS.bak"
+            jq '
+              .hooks |= with_entries(
+                .value |= map(
+                  select(.hooks | all(.command | test("govern-context-check\\.sh$") | not))
+                )
+              ) |
+              .hooks |= with_entries(select(.value | length > 0))
+            ' "$SETTINGS.bak" > "$SETTINGS"
+            echo "  Removed gig hooks from settings.json"
+        fi
     fi
 
     if [ -f "$CLAUDE_MD" ]; then
@@ -101,16 +129,21 @@ if [ "$MODE" = "symlink" ]; then
     # Remove existing (copy or symlink) before creating new symlinks
     [ -e "$SKILLS_DEST" ] && rm -rf "$SKILLS_DEST"
     [ -e "$TEMPLATES_DEST" ] && rm -rf "$TEMPLATES_DEST"
+    [ -e "$HOOKS_DEST" ] && rm -rf "$HOOKS_DEST"
 
     # Ensure parent directories exist
     mkdir -p "$(dirname "$SKILLS_DEST")"
     mkdir -p "$(dirname "$TEMPLATES_DEST")"
+    mkdir -p "$(dirname "$HOOKS_DEST")"
 
     ln -s "$SCRIPT_DIR/skills" "$SKILLS_DEST"
     echo "  Linked skills: $SKILLS_DEST -> $SCRIPT_DIR/skills"
 
     ln -s "$SCRIPT_DIR/templates" "$TEMPLATES_DEST"
     echo "  Linked templates: $TEMPLATES_DEST -> $SCRIPT_DIR/templates"
+
+    ln -s "$SCRIPT_DIR/hooks" "$HOOKS_DEST"
+    echo "  Linked hooks: $HOOKS_DEST -> $SCRIPT_DIR/hooks"
 
 # --- Copy mode (default) ---
 
@@ -128,6 +161,13 @@ else
     for tmpl in "$SCRIPT_DIR"/templates/*.md; do
         cp "$tmpl" "$TEMPLATES_DEST/"
         echo "  Installed template: $(basename "$tmpl")"
+    done
+
+    mkdir -p "$HOOKS_DEST"
+    for hook in "$SCRIPT_DIR"/hooks/*; do
+        cp "$hook" "$HOOKS_DEST/"
+        chmod +x "$HOOKS_DEST/$(basename "$hook")"
+        echo "  Installed hook: $(basename "$hook")"
     done
 fi
 
@@ -166,6 +206,49 @@ case "$answer" in
         echo "  Skipped. You can find the rules in docs/RULES.md"
         ;;
 esac
+
+# --- Register hooks in settings.json ---
+
+if [ "$HAS_JQ" = true ]; then
+    # Determine the absolute path to the installed hooks
+    if [ "$MODE" = "symlink" ]; then
+        HOOK_PATH="$SCRIPT_DIR/hooks/govern-context-check.sh"
+    else
+        HOOK_PATH="$HOOKS_DEST/govern-context-check.sh"
+    fi
+
+    # Ensure settings.json exists with at least an empty object
+    if [ ! -f "$SETTINGS" ]; then
+        echo '{}' > "$SETTINGS"
+    fi
+
+    # Check if gig hook is already registered (by filename)
+    if ! jq -e '
+        [.hooks.UserPromptSubmit // [] | .[] | .hooks[]? | .command] | any(test("govern-context-check\\.sh$"))
+    ' "$SETTINGS" >/dev/null 2>&1; then
+        cp "$SETTINGS" "$SETTINGS.bak"
+        jq --arg cmd "$HOOK_PATH" '
+          .hooks.UserPromptSubmit = (.hooks.UserPromptSubmit // []) + [
+            {
+              "matcher": "gig:govern",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": $cmd
+                }
+              ]
+            }
+          ]
+        ' "$SETTINGS.bak" > "$SETTINGS"
+        echo "  Registered gig hooks in settings.json"
+    else
+        echo "  Gig hooks already registered in settings.json"
+    fi
+else
+    echo ""
+    echo "  Note: jq not found — hook files installed but not registered in settings.json."
+    echo "  Install jq and re-run, or manually add the hook to ~/.claude/settings.json."
+fi
 
 # --- Done ---
 
