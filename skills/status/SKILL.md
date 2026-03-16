@@ -47,6 +47,9 @@ Phases:    {completed}/{total} complete
 
 Open Issues: {count from ISSUES.md — OPEN or DEFERRED}
 
+Upcoming:
+  {list phase names from ROADMAP.md Upcoming Phases table, or "None"}
+
 Archived phases:
   {list from .gig/phases/ or "None yet"}
 ```
