@@ -36,6 +36,7 @@ assert_not() {
 TEMP_HOME="$(mktemp -d)"
 export HOME="$TEMP_HOME"
 mkdir -p "$TEMP_HOME/.claude"
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
 
 cleanup() {
     rm -rf "$TEMP_HOME"
@@ -69,6 +70,9 @@ for tmpl in $TEMPLATES; do
 done
 
 assert "skills dir is not a symlink" test ! -L "$TEMP_HOME/.claude/skills/gig"
+assert "hook govern-context-check.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
+assert "hook is executable" test -x "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
+assert "hook syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
 
 # --- Test 3: CLAUDE.md append ---
 
@@ -90,6 +94,8 @@ assert "skills is a symlink" test -L "$TEMP_HOME/.claude/skills/gig"
 assert "templates is a symlink" test -L "$TEMP_HOME/.claude/templates/gig"
 assert "skills symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/skills/gig")" = "$SCRIPT_DIR/skills"
 assert "templates symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/templates/gig")" = "$SCRIPT_DIR/templates"
+assert "hooks is a symlink" test -L "$TEMP_HOME/.claude/hooks/gig"
+assert "hooks symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/hooks/gig")" = "$SCRIPT_DIR/hooks"
 
 # --- Test 5: Default install detects symlinks ---
 
@@ -104,11 +110,44 @@ sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 
 assert_not "skills dir removed" test -e "$TEMP_HOME/.claude/skills/gig"
 assert_not "templates dir removed" test -e "$TEMP_HOME/.claude/templates/gig"
+assert_not "hooks dir removed" test -e "$TEMP_HOME/.claude/hooks/gig"
 assert_not "CLAUDE.md markers removed" grep -q "# --- gig workflow rules ---" "$TEMP_HOME/.claude/CLAUDE.md"
 
-# --- Test 7: Plugin manifest ---
+# --- Test 7: Hook settings.json registration ---
 
-echo "[7] Plugin manifest"
+echo "[7] Hook settings.json registration"
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
+echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
+
+assert "settings.json has UserPromptSubmit" jq -e '.hooks.UserPromptSubmit' "$TEMP_HOME/.claude/settings.json"
+assert "hook entry has gig:govern matcher" jq -e '.hooks.UserPromptSubmit[0].matcher == "gig:govern"' "$TEMP_HOME/.claude/settings.json"
+assert "hook entry has command type" jq -e '.hooks.UserPromptSubmit[0].hooks[0].type == "command"' "$TEMP_HOME/.claude/settings.json"
+assert "hook command points to script" jq -e '[.hooks.UserPromptSubmit[0].hooks[0].command] | any(test("govern-context-check.sh$"))' "$TEMP_HOME/.claude/settings.json"
+
+# Test idempotency — second install should not duplicate
+echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
+HOOK_COUNT=$(jq '.hooks.UserPromptSubmit | length' "$TEMP_HOME/.claude/settings.json")
+assert "no duplicate hook entries on reinstall" test "$HOOK_COUNT" -eq 1
+
+# Test uninstall removes hook from settings.json
+sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
+assert "settings.json hooks cleaned after uninstall" jq -e '.hooks == {} or .hooks == null' "$TEMP_HOME/.claude/settings.json"
+
+# Test install preserves existing non-gig hooks
+echo '{"hooks":{"UserPromptSubmit":[{"matcher":"other-tool","hooks":[{"type":"command","command":"/usr/bin/other"}]}]}}' > "$TEMP_HOME/.claude/settings.json"
+mkdir -p "$TEMP_HOME/.claude"
+echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
+assert "preserves existing hooks" jq -e '.hooks.UserPromptSubmit | length == 2' "$TEMP_HOME/.claude/settings.json"
+assert "existing hook still present" jq -e '.hooks.UserPromptSubmit[] | select(.matcher == "other-tool")' "$TEMP_HOME/.claude/settings.json"
+
+# Uninstall should only remove gig hooks
+sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
+assert "uninstall preserves non-gig hooks" jq -e '.hooks.UserPromptSubmit[] | select(.matcher == "other-tool")' "$TEMP_HOME/.claude/settings.json"
+assert_not "uninstall removes gig hooks" jq -e '[.hooks.UserPromptSubmit // [] | .[] | .hooks[]? | .command] | any(test("govern-context-check"))' "$TEMP_HOME/.claude/settings.json"
+
+# --- Test 8: Plugin manifest ---
+
+echo "[8] Plugin manifest"
 assert "plugin.json exists" test -f "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin.json is valid JSON" python3 -m json.tool "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin name is gig" grep -q '"name": "gig"' "$SCRIPT_DIR/.claude-plugin/plugin.json"
