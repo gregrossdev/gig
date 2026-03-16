@@ -164,9 +164,32 @@ sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 assert "uninstall preserves non-gig hooks" jq -e '.hooks.PreToolUse[] | select(.matcher == "Write")' "$TEMP_HOME/.claude/settings.json"
 assert_not "uninstall removes gig hooks" jq -e '[.hooks.PreToolUse // [] | .[] | .hooks[]? | .command] | any(test("block-git-add"))' "$TEMP_HOME/.claude/settings.json"
 
-# --- Test 8: Plugin manifest ---
+# --- Test 8: --no-hooks flag ---
 
-echo "[8] Plugin manifest"
+echo "[8] --no-hooks flag"
+sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
+echo "n" | sh "$SCRIPT_DIR/install.sh" --no-hooks > /dev/null 2>&1
+
+assert "skills installed with --no-hooks" test -d "$TEMP_HOME/.claude/skills/gig"
+assert "templates installed with --no-hooks" test -d "$TEMP_HOME/.claude/templates/gig"
+assert_not "hooks dir skipped with --no-hooks" test -e "$TEMP_HOME/.claude/hooks/gig"
+assert "settings.json has no hooks" jq -e '.hooks == null or .hooks == {} or (.hooks | length == 0)' "$TEMP_HOME/.claude/settings.json"
+
+# Also test --symlink --no-hooks
+sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
+echo "n" | sh "$SCRIPT_DIR/install.sh" --symlink --no-hooks > /dev/null 2>&1
+
+assert "skills symlinked with --no-hooks" test -L "$TEMP_HOME/.claude/skills/gig"
+assert_not "hooks symlink skipped with --no-hooks" test -e "$TEMP_HOME/.claude/hooks/gig"
+
+# Cleanup for next test
+sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
+
+# --- Test 9: Plugin manifest ---
+
+echo "[9] Plugin manifest"
 assert "plugin.json exists" test -f "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin.json is valid JSON" python3 -m json.tool "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin name is gig" grep -q '"name": "gig"' "$SCRIPT_DIR/.claude-plugin/plugin.json"
