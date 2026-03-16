@@ -73,12 +73,15 @@ assert "skills dir is not a symlink" test ! -L "$TEMP_HOME/.claude/skills/gig"
 assert "hook govern-context-check.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
 assert "hook block-git-add.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
 assert "hook load-gig-state.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
+assert "hook check-readme.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/check-readme.sh"
 assert "hook govern-context-check.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
 assert "hook block-git-add.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
 assert "hook load-gig-state.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
+assert "hook check-readme.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/check-readme.sh"
 assert "govern-context-check.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
 assert "block-git-add.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
 assert "load-gig-state.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
+assert "check-readme.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/check-readme.sh"
 
 # --- Test 3: CLAUDE.md append ---
 
@@ -135,14 +138,15 @@ assert "UserPromptSubmit has gig:govern matcher" jq -e '.hooks.UserPromptSubmit[
 assert "PreToolUse has Bash matcher" jq -e '.hooks.PreToolUse[0].matcher == "Bash"' "$TEMP_HOME/.claude/settings.json"
 
 # Correct commands
-assert "govern-context-check registered" jq -e '[.hooks.UserPromptSubmit[0].hooks[0].command] | any(test("govern-context-check.sh$"))' "$TEMP_HOME/.claude/settings.json"
+assert "govern-context-check registered" jq -e '[.hooks.UserPromptSubmit[] | .hooks[]? | .command] | any(test("govern-context-check.sh$"))' "$TEMP_HOME/.claude/settings.json"
+assert "check-readme registered" jq -e '[.hooks.UserPromptSubmit[] | .hooks[]? | .command] | any(test("check-readme.sh$"))' "$TEMP_HOME/.claude/settings.json"
 assert "block-git-add registered" jq -e '[.hooks.PreToolUse[0].hooks[0].command] | any(test("block-git-add.sh$"))' "$TEMP_HOME/.claude/settings.json"
 assert "load-gig-state registered" jq -e '[.hooks.SessionStart[0].hooks[0].command] | any(test("load-gig-state.sh$"))' "$TEMP_HOME/.claude/settings.json"
 
 # Test idempotency — second install should not duplicate
 echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
 TOTAL_HOOKS=$(jq '[.hooks[] | length] | add' "$TEMP_HOME/.claude/settings.json")
-assert "no duplicate hook entries on reinstall" test "$TOTAL_HOOKS" -eq 3
+assert "no duplicate hook entries on reinstall" test "$TOTAL_HOOKS" -eq 4
 
 # Test uninstall removes all gig hooks from settings.json
 sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1

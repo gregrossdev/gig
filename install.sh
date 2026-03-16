@@ -89,6 +89,7 @@ if [ "$MODE" = "uninstall" ]; then
                   select(.hooks | all(
                     .command | (
                       test("govern-context-check\\.sh$") or
+                      test("check-readme\\.sh$") or
                       test("block-git-add\\.sh$") or
                       test("load-gig-state\\.sh$")
                     ) | not
@@ -259,6 +260,7 @@ if [ "$HAS_JQ" = true ]; then
     }
 
     register_hook "UserPromptSubmit" "gig:govern" "$HOOK_DIR/govern-context-check.sh"
+    register_hook "UserPromptSubmit" "gig:govern" "$HOOK_DIR/check-readme.sh"
     register_hook "PreToolUse" "Bash" "$HOOK_DIR/block-git-add.sh"
     register_hook "SessionStart" "" "$HOOK_DIR/load-gig-state.sh"
 
