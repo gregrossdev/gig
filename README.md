@@ -145,6 +145,20 @@ cd gig && ./install.sh
 
 `next` · `status` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `phase done`
 
+## Hooks
+
+gig ships hooks that auto-register in `~/.claude/settings.json` on install:
+
+| Hook | Event | What it does |
+|------|-------|-------------|
+| `govern-context-check.sh` | UserPromptSubmit | Estimates context window usage at governance time, suggests `/clear` when near 30% |
+| `block-git-add.sh` | PreToolUse | Blocks `git add -A`, `git add .`, `git add --all` — enforces staging by filename |
+| `load-gig-state.sh` | SessionStart | Auto-loads `.gig/STATE.md` into Claude's context on session start/resume/clear |
+| `check-readme.sh` | UserPromptSubmit | Reminds to update README if user-facing changes shipped without a README update |
+
+Hooks are installed to `~/.claude/hooks/gig/` and require `jq` for settings.json registration.
+Uninstall (`./install.sh --uninstall`) cleanly removes all hooks and their settings.json entries.
+
 ## Versioning
 
 Every batch gets a version. Every phase gets a tag.
