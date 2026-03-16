@@ -13,6 +13,7 @@ CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
 
 SKILLS="init gather implement govern status milestone research handoff"
 HAS_JQ=false
+SKIP_HOOKS=false
 
 MODE="copy"
 
@@ -27,6 +28,7 @@ while [ $# -gt 0 ]; do
             echo "  -h, --help        Show this help message"
             echo "  -s, --symlink     Symlink instead of copy (for development)"
             echo "  -u, --uninstall   Remove gig from ~/.claude/"
+            echo "      --no-hooks    Skip hook installation and registration"
             echo ""
             echo "Default: copies skills, templates, and hooks to ~/.claude/"
             exit 0
@@ -37,6 +39,10 @@ while [ $# -gt 0 ]; do
             ;;
         -u|--uninstall)
             MODE="uninstall"
+            shift
+            ;;
+        --no-hooks)
+            SKIP_HOOKS=true
             shift
             ;;
         *)
@@ -149,8 +155,10 @@ if [ "$MODE" = "symlink" ]; then
     ln -s "$SCRIPT_DIR/templates" "$TEMPLATES_DEST"
     echo "  Linked templates: $TEMPLATES_DEST -> $SCRIPT_DIR/templates"
 
-    ln -s "$SCRIPT_DIR/hooks" "$HOOKS_DEST"
-    echo "  Linked hooks: $HOOKS_DEST -> $SCRIPT_DIR/hooks"
+    if [ "$SKIP_HOOKS" = false ]; then
+        ln -s "$SCRIPT_DIR/hooks" "$HOOKS_DEST"
+        echo "  Linked hooks: $HOOKS_DEST -> $SCRIPT_DIR/hooks"
+    fi
 
 # --- Copy mode (default) ---
 
@@ -170,12 +178,14 @@ else
         echo "  Installed template: $(basename "$tmpl")"
     done
 
-    mkdir -p "$HOOKS_DEST"
-    for hook in "$SCRIPT_DIR"/hooks/*; do
-        cp "$hook" "$HOOKS_DEST/"
-        chmod +x "$HOOKS_DEST/$(basename "$hook")"
-        echo "  Installed hook: $(basename "$hook")"
-    done
+    if [ "$SKIP_HOOKS" = false ]; then
+        mkdir -p "$HOOKS_DEST"
+        for hook in "$SCRIPT_DIR"/hooks/*; do
+            cp "$hook" "$HOOKS_DEST/"
+            chmod +x "$HOOKS_DEST/$(basename "$hook")"
+            echo "  Installed hook: $(basename "$hook")"
+        done
+    fi
 fi
 
 # --- Offer to append workflow rules to CLAUDE.md ---
@@ -216,7 +226,9 @@ esac
 
 # --- Register hooks in settings.json ---
 
-if [ "$HAS_JQ" = true ]; then
+if [ "$SKIP_HOOKS" = true ]; then
+    echo "  Skipped hooks (--no-hooks)"
+elif [ "$HAS_JQ" = true ]; then
     # Determine the absolute path prefix for hooks
     if [ "$MODE" = "symlink" ]; then
         HOOK_DIR="$SCRIPT_DIR/hooks"

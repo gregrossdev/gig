@@ -159,6 +159,8 @@ gig ships hooks that auto-register in `~/.claude/settings.json` on install:
 Hooks are installed to `~/.claude/hooks/gig/` and require `jq` for settings.json registration.
 Uninstall (`./install.sh --uninstall`) cleanly removes all hooks and their settings.json entries.
 
+**Disabling hooks:** Use `./install.sh --no-hooks` to install without hooks. To disable a specific hook after install, remove its entry from `~/.claude/settings.json` under the `hooks` key.
+
 ## Versioning
 
 Every batch gets a version. Every phase gets a tag.
