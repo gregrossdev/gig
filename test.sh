@@ -71,8 +71,14 @@ done
 
 assert "skills dir is not a symlink" test ! -L "$TEMP_HOME/.claude/skills/gig"
 assert "hook govern-context-check.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
-assert "hook is executable" test -x "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
-assert "hook syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
+assert "hook block-git-add.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
+assert "hook load-gig-state.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
+assert "hook govern-context-check.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
+assert "hook block-git-add.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
+assert "hook load-gig-state.sh is executable" test -x "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
+assert "govern-context-check.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
+assert "block-git-add.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
+assert "load-gig-state.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
 
 # --- Test 3: CLAUDE.md append ---
 
@@ -119,31 +125,40 @@ echo "[7] Hook settings.json registration"
 echo '{}' > "$TEMP_HOME/.claude/settings.json"
 echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
 
+# All three event types registered
 assert "settings.json has UserPromptSubmit" jq -e '.hooks.UserPromptSubmit' "$TEMP_HOME/.claude/settings.json"
-assert "hook entry has gig:govern matcher" jq -e '.hooks.UserPromptSubmit[0].matcher == "gig:govern"' "$TEMP_HOME/.claude/settings.json"
-assert "hook entry has command type" jq -e '.hooks.UserPromptSubmit[0].hooks[0].type == "command"' "$TEMP_HOME/.claude/settings.json"
-assert "hook command points to script" jq -e '[.hooks.UserPromptSubmit[0].hooks[0].command] | any(test("govern-context-check.sh$"))' "$TEMP_HOME/.claude/settings.json"
+assert "settings.json has PreToolUse" jq -e '.hooks.PreToolUse' "$TEMP_HOME/.claude/settings.json"
+assert "settings.json has SessionStart" jq -e '.hooks.SessionStart' "$TEMP_HOME/.claude/settings.json"
+
+# Correct matchers
+assert "UserPromptSubmit has gig:govern matcher" jq -e '.hooks.UserPromptSubmit[0].matcher == "gig:govern"' "$TEMP_HOME/.claude/settings.json"
+assert "PreToolUse has Bash matcher" jq -e '.hooks.PreToolUse[0].matcher == "Bash"' "$TEMP_HOME/.claude/settings.json"
+
+# Correct commands
+assert "govern-context-check registered" jq -e '[.hooks.UserPromptSubmit[0].hooks[0].command] | any(test("govern-context-check.sh$"))' "$TEMP_HOME/.claude/settings.json"
+assert "block-git-add registered" jq -e '[.hooks.PreToolUse[0].hooks[0].command] | any(test("block-git-add.sh$"))' "$TEMP_HOME/.claude/settings.json"
+assert "load-gig-state registered" jq -e '[.hooks.SessionStart[0].hooks[0].command] | any(test("load-gig-state.sh$"))' "$TEMP_HOME/.claude/settings.json"
 
 # Test idempotency — second install should not duplicate
 echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
-HOOK_COUNT=$(jq '.hooks.UserPromptSubmit | length' "$TEMP_HOME/.claude/settings.json")
-assert "no duplicate hook entries on reinstall" test "$HOOK_COUNT" -eq 1
+TOTAL_HOOKS=$(jq '[.hooks[] | length] | add' "$TEMP_HOME/.claude/settings.json")
+assert "no duplicate hook entries on reinstall" test "$TOTAL_HOOKS" -eq 3
 
-# Test uninstall removes hook from settings.json
+# Test uninstall removes all gig hooks from settings.json
 sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 assert "settings.json hooks cleaned after uninstall" jq -e '.hooks == {} or .hooks == null' "$TEMP_HOME/.claude/settings.json"
 
 # Test install preserves existing non-gig hooks
-echo '{"hooks":{"UserPromptSubmit":[{"matcher":"other-tool","hooks":[{"type":"command","command":"/usr/bin/other"}]}]}}' > "$TEMP_HOME/.claude/settings.json"
+echo '{"hooks":{"PreToolUse":[{"matcher":"Write","hooks":[{"type":"command","command":"/usr/bin/other"}]}]}}' > "$TEMP_HOME/.claude/settings.json"
 mkdir -p "$TEMP_HOME/.claude"
 echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
-assert "preserves existing hooks" jq -e '.hooks.UserPromptSubmit | length == 2' "$TEMP_HOME/.claude/settings.json"
-assert "existing hook still present" jq -e '.hooks.UserPromptSubmit[] | select(.matcher == "other-tool")' "$TEMP_HOME/.claude/settings.json"
+assert "preserves existing hooks" jq -e '.hooks.PreToolUse | length == 2' "$TEMP_HOME/.claude/settings.json"
+assert "existing hook still present" jq -e '.hooks.PreToolUse[] | select(.matcher == "Write")' "$TEMP_HOME/.claude/settings.json"
 
 # Uninstall should only remove gig hooks
 sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
-assert "uninstall preserves non-gig hooks" jq -e '.hooks.UserPromptSubmit[] | select(.matcher == "other-tool")' "$TEMP_HOME/.claude/settings.json"
-assert_not "uninstall removes gig hooks" jq -e '[.hooks.UserPromptSubmit // [] | .[] | .hooks[]? | .command] | any(test("govern-context-check"))' "$TEMP_HOME/.claude/settings.json"
+assert "uninstall preserves non-gig hooks" jq -e '.hooks.PreToolUse[] | select(.matcher == "Write")' "$TEMP_HOME/.claude/settings.json"
+assert_not "uninstall removes gig hooks" jq -e '[.hooks.PreToolUse // [] | .[] | .hooks[]? | .command] | any(test("block-git-add"))' "$TEMP_HOME/.claude/settings.json"
 
 # --- Test 8: Plugin manifest ---
 
