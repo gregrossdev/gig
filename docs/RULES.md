@@ -24,7 +24,7 @@ phases in one step.
 **Hard rules:**
 - Never write code before decisions are locked and plan is approved.
 - Never commit without governance approval.
-- Never push without explicit approval.
+- Governance approval implies push approval — auto-push after govern if a remote exists.
 - If uncertain whether approval was given, ask.
 
 ## The Only Question Claude Asks
