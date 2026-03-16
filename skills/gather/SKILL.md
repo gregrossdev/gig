@@ -223,7 +223,8 @@ Update `.gig/STATE.md`:
 - **Working Memory:** key context from the plan (file paths, naming, patterns)
 
 Update `.gig/ROADMAP.md` phases table:
-- Add row: `| {N} | {Name} | v0.{N}.x | planned |`
+- If the phase was consumed from Upcoming Phases in Step 2, it's already in the Phases table — skip adding.
+- Otherwise (freeform goal), add row: `| {N} | {Name} | v0.{N}.x | planned |`
 
 ### APPROVAL GATE 2 — Plan
 
