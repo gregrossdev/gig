@@ -7,12 +7,28 @@ argument-hint: "[topic to research]"
 
 # /gig:research Skill
 
-## Step 1 — Gather Topic
+## Step 0 — Auto-Load Context
+
+If `.gig/STATE.md` exists, read it and display:
+`Version: {version} | Phase: {phase} | Status: {status}`
+
+## Step 1 — Guard Check
+
+Check if `.gig/` exists in the current project root.
+
+**If NOT present:**
+Note: "No gig context — research will proceed but findings won't be integrated."
+Continue to Step 2 (research works standalone).
+
+**If present:**
+Read `.gig/STATE.md`, `.gig/DECISIONS.md`, and `.gig/ARCHITECTURE.md` for context.
+
+## Step 2 — Gather Topic
 
 If the user provided a topic in their message, use it.
 Otherwise ask: "What do you want to research?"
 
-## Step 2 — Determine Research Scope
+## Step 3 — Determine Research Scope
 
 Classify the research:
 
@@ -24,7 +40,7 @@ Classify the research:
 | **API/service** | WebSearch + docs, check compatibility |
 | **Bug investigation** | Codebase exploration + error analysis |
 
-## Step 3 — Execute Research
+## Step 4 — Execute Research
 
 Launch subagents in parallel where possible:
 
@@ -34,7 +50,7 @@ Launch subagents in parallel where possible:
 
 Collect all findings.
 
-## Step 4 — Synthesize
+## Step 5 — Synthesize
 
 Present a concise research report:
 
@@ -54,7 +70,9 @@ Present a concise research report:
 {Links, file paths, or references}
 ```
 
-## Step 5 — Integrate (if active gig context exists)
+## Step 6 — Integrate
+
+Skip if no gig context (Step 1 noted absence).
 
 If `.gig/STATE.md` exists and has an active phase:
 - Ask: "Want me to save these findings to working memory?"
