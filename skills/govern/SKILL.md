@@ -316,6 +316,26 @@ Derive suggestions from:
 - **Natural extensions** — what logically follows from what was just built
 - **Quality improvements** — testing, refactoring, documentation, performance
 
+### Write Suggestions to Roadmap
+
+After presenting suggestions (whether from existing upcoming phases or newly generated), write them to `.gig/ROADMAP.md` so they persist across context clears.
+
+**If suggestions were newly generated (no existing upcoming phases):**
+
+1. Present the suggestions with:
+   > "I'll add these to your roadmap as upcoming phases. Edit, remove, or say **'skip'** to leave the roadmap empty."
+
+2. **If user edits:** Apply their changes and write the edited versions.
+3. **If user says 'skip':** Do not write to ROADMAP.md.
+4. **If user approves (or continues without objection):** Write to ROADMAP.md.
+
+5. Add each accepted suggestion as a row in the Upcoming Phases table:
+   ```
+   | {next phase #} | {Phase Name} | {One-line description} |
+   ```
+
+**If upcoming phases already existed:** No write needed — they're already in ROADMAP.md.
+
 Then say:
 
 > "Phase archived to `.gig/phases/v0.{N}-{phase-name}/`. Pick a direction and run `/gig:gather` to start the next phase, or `/gig:milestone` to manage milestones."
