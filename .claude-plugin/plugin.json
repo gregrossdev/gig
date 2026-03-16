@@ -1,13 +1,15 @@
 {
   "name": "gig",
-  "version": "0.1.0",
+  "version": "0.14.2",
   "description": "A structured workflow system for Claude Code: gather decisions, implement in batches, govern quality. Three phases, two approval gates, zero decision fatigue.",
   "author": {
     "name": "gregrossdev",
     "url": "https://github.com/gregrossdev"
   },
+  "homepage": "https://github.com/gregrossdev/gig#readme",
   "repository": "https://github.com/gregrossdev/gig",
   "license": "MIT",
+  "hooks": "./hooks/hooks.json",
   "keywords": [
     "workflow",
     "planning",

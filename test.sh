@@ -193,6 +193,22 @@ echo "[9] Plugin manifest"
 assert "plugin.json exists" test -f "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin.json is valid JSON" python3 -m json.tool "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin name is gig" grep -q '"name": "gig"' "$SCRIPT_DIR/.claude-plugin/plugin.json"
+assert "plugin.json has hooks field" jq -e '.hooks' "$SCRIPT_DIR/.claude-plugin/plugin.json"
+assert "plugin.json has homepage" jq -e '.homepage' "$SCRIPT_DIR/.claude-plugin/plugin.json"
+
+# --- Test 10: Plugin hooks.json ---
+
+echo "[10] Plugin hooks.json"
+assert "hooks.json exists" test -f "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json is valid JSON" python3 -m json.tool "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json has UserPromptSubmit" jq -e '.UserPromptSubmit' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json has PreToolUse" jq -e '.PreToolUse' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json has SessionStart" jq -e '.SessionStart' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json uses CLAUDE_PLUGIN_ROOT" grep -q 'CLAUDE_PLUGIN_ROOT' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json declares govern-context-check" jq -e '[.. | .command? // empty] | any(test("govern-context-check"))' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json declares block-git-add" jq -e '[.. | .command? // empty] | any(test("block-git-add"))' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json declares load-gig-state" jq -e '[.. | .command? // empty] | any(test("load-gig-state"))' "$SCRIPT_DIR/hooks/hooks.json"
+assert "hooks.json declares check-readme" jq -e '[.. | .command? // empty] | any(test("check-readme"))' "$SCRIPT_DIR/hooks/hooks.json"
 
 # --- Summary ---
 
