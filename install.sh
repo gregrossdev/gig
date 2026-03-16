@@ -79,14 +79,20 @@ if [ "$MODE" = "uninstall" ]; then
         echo "  Removed $HOOKS_DEST"
     fi
 
-    # Remove gig hook entries from settings.json
+    # Remove all gig hook entries from settings.json
     if [ "$HAS_JQ" = true ] && [ -f "$SETTINGS" ]; then
         if jq -e '.hooks' "$SETTINGS" >/dev/null 2>&1; then
             cp "$SETTINGS" "$SETTINGS.bak"
             jq '
               .hooks |= with_entries(
                 .value |= map(
-                  select(.hooks | all(.command | test("govern-context-check\\.sh$") | not))
+                  select(.hooks | all(
+                    .command | (
+                      test("govern-context-check\\.sh$") or
+                      test("block-git-add\\.sh$") or
+                      test("load-gig-state\\.sh$")
+                    ) | not
+                  ))
                 )
               ) |
               .hooks |= with_entries(select(.value | length > 0))
@@ -210,11 +216,11 @@ esac
 # --- Register hooks in settings.json ---
 
 if [ "$HAS_JQ" = true ]; then
-    # Determine the absolute path to the installed hooks
+    # Determine the absolute path prefix for hooks
     if [ "$MODE" = "symlink" ]; then
-        HOOK_PATH="$SCRIPT_DIR/hooks/govern-context-check.sh"
+        HOOK_DIR="$SCRIPT_DIR/hooks"
     else
-        HOOK_PATH="$HOOKS_DEST/govern-context-check.sh"
+        HOOK_DIR="$HOOKS_DEST"
     fi
 
     # Ensure settings.json exists with at least an empty object
@@ -222,25 +228,42 @@ if [ "$HAS_JQ" = true ]; then
         echo '{}' > "$SETTINGS"
     fi
 
-    # Check if gig hook is already registered (by filename)
-    if ! jq -e '
-        [.hooks.UserPromptSubmit // [] | .[] | .hooks[]? | .command] | any(test("govern-context-check\\.sh$"))
-    ' "$SETTINGS" >/dev/null 2>&1; then
-        cp "$SETTINGS" "$SETTINGS.bak"
-        jq --arg cmd "$HOOK_PATH" '
-          .hooks.UserPromptSubmit = (.hooks.UserPromptSubmit // []) + [
-            {
-              "matcher": "gig:govern",
-              "hooks": [
+    REGISTERED=0
+
+    # Helper: register a hook if not already present
+    register_hook() {
+        event="$1"
+        matcher="$2"
+        script="$3"
+        filename=$(basename "$script")
+
+        if ! jq -e --arg e "$event" --arg f "$filename" '
+            [.hooks[$e] // [] | .[] | .hooks[]? | .command] | any(test($f + "$"))
+        ' "$SETTINGS" >/dev/null 2>&1; then
+            cp "$SETTINGS" "$SETTINGS.bak"
+            jq --arg e "$event" --arg m "$matcher" --arg cmd "$script" '
+              .hooks[$e] = (.hooks[$e] // []) + [
                 {
-                  "type": "command",
-                  "command": $cmd
+                  "matcher": $m,
+                  "hooks": [
+                    {
+                      "type": "command",
+                      "command": $cmd
+                    }
+                  ]
                 }
               ]
-            }
-          ]
-        ' "$SETTINGS.bak" > "$SETTINGS"
-        echo "  Registered gig hooks in settings.json"
+            ' "$SETTINGS.bak" > "$SETTINGS"
+            REGISTERED=$((REGISTERED + 1))
+        fi
+    }
+
+    register_hook "UserPromptSubmit" "gig:govern" "$HOOK_DIR/govern-context-check.sh"
+    register_hook "PreToolUse" "Bash" "$HOOK_DIR/block-git-add.sh"
+    register_hook "SessionStart" "" "$HOOK_DIR/load-gig-state.sh"
+
+    if [ "$REGISTERED" -gt 0 ]; then
+        echo "  Registered $REGISTERED gig hook(s) in settings.json"
     else
         echo "  Gig hooks already registered in settings.json"
     fi
