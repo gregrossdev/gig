@@ -19,7 +19,7 @@ Built with gig workflow system & Claude Code
 ## Testing
 
 - Run `./test.sh` during governance (Step 2) to verify install.sh works
-- All 32+ tests must pass before approving
+- All 80+ tests must pass before approving
 
 ## Git identity
 
