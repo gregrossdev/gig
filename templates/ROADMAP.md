@@ -13,7 +13,7 @@
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
-<!-- Phases added by gig:plan, archived by gig:verify -->
+<!-- Phases added by gig:gather, archived by gig:govern -->
 
 ## Upcoming Phases
 
