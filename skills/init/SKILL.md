@@ -25,7 +25,7 @@ If user chooses reinitialize, delete `.gig/` and proceed.
 3. Copy templates into `.gig/`:
    - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/` (plugin install), then `~/.claude/templates/gig/` (script install).
    - If templates are not found at either location, say: "Error: gig templates not found. Reinstall gig or check your installation." STOP.
-   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md
+   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, ARTICLE.md
 4. Say: "Initialized `.gig/` from templates."
 
 ## Step 2 — Detect Project Type
@@ -79,14 +79,15 @@ Mark uncertain sections with `[needs confirmation]`.
 
 If `.git/` does NOT exist and the project is new:
 1. Run `git init`.
-2. Create `.gitignore` if not present — include common ignores for the detected stack
+2. Create `.gitignore` if not present — include `.gig/` and common ignores for the detected stack
    (e.g., `node_modules/`, `dist/`, `.env`, `*.sqlite` for Node; `target/` for Rust; etc.).
 3. Add `.gig/` files and `.gitignore`.
 4. Initial commit: `chore: initialize project`
 
 If `.git/` already exists:
 - Skip git init.
-- Do NOT commit `.gig/` files yet — they'll be committed with the first batch.
+- Ensure `.gig/` is in `.gitignore` — if not present, append `.gig/` to the file (create `.gitignore` if it doesn't exist).
+- Do NOT commit `.gig/` files — they are local session state.
 
 Reference: `.gig/GIT-STRATEGY.md` for full branch/commit/tag conventions.
 
