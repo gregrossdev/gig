@@ -210,6 +210,67 @@ assert "hooks.json declares block-git-add" jq -e '[.. | .command? // empty] | an
 assert "hooks.json declares load-gig-state" jq -e '[.. | .command? // empty] | any(test("load-gig-state"))' "$SCRIPT_DIR/hooks/hooks.json"
 assert "hooks.json declares check-readme" jq -e '[.. | .command? // empty] | any(test("check-readme"))' "$SCRIPT_DIR/hooks/hooks.json"
 
+# --- Test 11: migrate.sh ---
+
+echo "[11] migrate.sh"
+
+# Setup: create old-style .gig/ in a temp directory
+MIGRATE_DIR="$(mktemp -d)"
+mkdir "$MIGRATE_DIR/.gig"
+
+cat > "$MIGRATE_DIR/.gig/STATE.md" << 'MIGEOF'
+| **Phase** | 1 — Test |
+| Version | Phase | Batch Title | Type | Status | Timestamp |
+MIGEOF
+
+cat > "$MIGRATE_DIR/.gig/ISSUES.md" << 'MIGEOF'
+> Tracked during governance. Resolved issues are archived with their phase.
+> Deferred issues persist here and carry forward to future phases.
+  DEFERRED  — Severity allows deferral to a future phase
+**Phase:** {phase number where discovered}
+MIGEOF
+
+cat > "$MIGRATE_DIR/.gig/ROADMAP.md" << 'MIGEOF'
+## Phases
+
+## Upcoming Phases
+<!-- Pre-planned phases for the current milestone. -->
+MIGEOF
+
+cat > "$MIGRATE_DIR/.gig/ARCHITECTURE.md" << 'MIGEOF'
+- **Phase-based versioning** — MINOR = phase number
+milestone/phase hierarchy
+MIGEOF
+
+# Test: migrate old-style files
+(cd "$MIGRATE_DIR" && sh "$SCRIPT_DIR/migrate.sh") > /dev/null 2>&1
+assert "STATE.md field renamed" grep -q 'Iteration' "$MIGRATE_DIR/.gig/STATE.md"
+assert "STATE.md column renamed" grep -q '| Iteration |' "$MIGRATE_DIR/.gig/STATE.md"
+assert "ISSUES.md updated" grep -q 'iteration' "$MIGRATE_DIR/.gig/ISSUES.md"
+assert "ROADMAP.md sections renamed" grep -q '## Iterations' "$MIGRATE_DIR/.gig/ROADMAP.md"
+assert "ROADMAP.md upcoming renamed" grep -q '## Upcoming Iterations' "$MIGRATE_DIR/.gig/ROADMAP.md"
+assert "ARCHITECTURE.md updated" grep -q 'Iteration-based versioning' "$MIGRATE_DIR/.gig/ARCHITECTURE.md"
+
+# Test: idempotency — second run should report no changes
+assert "idempotent — no changes on re-run" sh -c "cd '$MIGRATE_DIR' && sh '$SCRIPT_DIR/migrate.sh' 2>&1 | grep -q 'No changes needed'"
+
+# Test: missing .gig/ — should exit 1
+NO_GIG_DIR="$(mktemp -d)"
+assert_not "exits 1 without .gig/" sh -c "cd '$NO_GIG_DIR' && sh '$SCRIPT_DIR/migrate.sh' > /dev/null 2>&1"
+rm -rf "$NO_GIG_DIR"
+
+# Test: partial files — only STATE.md present
+PARTIAL_DIR="$(mktemp -d)"
+mkdir "$PARTIAL_DIR/.gig"
+cat > "$PARTIAL_DIR/.gig/STATE.md" << 'MIGEOF'
+| **Phase** | 1 — Test |
+MIGEOF
+(cd "$PARTIAL_DIR" && sh "$SCRIPT_DIR/migrate.sh") > /dev/null 2>&1
+assert "partial — STATE.md still migrated" grep -q 'Iteration' "$PARTIAL_DIR/.gig/STATE.md"
+rm -rf "$PARTIAL_DIR"
+
+rm -rf "$MIGRATE_DIR"
+
 # --- Summary ---
 
 echo ""
