@@ -1,6 +1,6 @@
 ---
 name: gig:govern
-description: Verify, validate, track issues, archive phase, summarize status, and suggest next phase ideas.
+description: Verify, validate, track issues, archive iteration, summarize status, and suggest next iteration ideas.
 user-invocable: true
 ---
 
@@ -9,7 +9,7 @@ user-invocable: true
 ## Step 0 — Auto-Load Context
 
 Read `.gig/STATE.md` and display:
-`Version: {version} | Phase: {phase} | Status: {status}`
+`Version: {version} | Iteration: {iteration} | Status: {status}`
 
 ## Step 1 — Guard Check
 
@@ -99,7 +99,7 @@ Entry format:
 
 **Severity:** Blocker | Major | Minor | Cosmetic
 **Source:** UAT-{N} | Decision Audit | Automated Tests | Lint
-**Phase:** {current phase number}
+**Iteration:** {current iteration number}
 **Status:** OPEN
 **Description:** {What's wrong}
 **Evidence:** {Error output, failing test, mismatched behavior}
@@ -107,10 +107,10 @@ Entry format:
 ```
 
 **Severity rules:**
-- **Blocker** — Cannot ship. Must fix before phase completes.
-- **Major** — Significant issue. Should fix before phase completes.
-- **Minor** — Small issue. Can defer to a future phase.
-- **Cosmetic** — Polish item. Defer to a future phase.
+- **Blocker** — Cannot ship. Must fix before iteration completes.
+- **Major** — Significant issue. Should fix before iteration completes.
+- **Minor** — Small issue. Can defer to a future iteration.
+- **Cosmetic** — Polish item. Defer to a future iteration.
 
 ## Step 8 — Governance Report
 
@@ -155,7 +155,7 @@ Present the governance report, then:
 > **Issues require attention.**
 >
 > - **Fix all** — I'll create unplanned batches for all Blocker/Major issues and go back to `/gig:implement`.
-> - **Fix blockers only** — defer Majors to a future phase.
+> - **Fix blockers only** — defer Majors to a future iteration.
 > - **Defer all** — override severity and defer everything (not recommended for Blockers).
 > - **Revise decisions** — reference by ID to update.
 
@@ -171,7 +171,7 @@ After user chooses:
 
 2. For issues being deferred:
    - Update issue status to `DEFERRED` in ISSUES.md.
-   - These persist in ISSUES.md and carry forward to future phases.
+   - These persist in ISSUES.md and carry forward to future iterations.
 
 **If NO Blockers or Majors (or all resolved):**
 
@@ -179,25 +179,25 @@ Present the governance report, then:
 
 > **Does this look good?**
 >
-> - **Approve** — reply "approve" to archive phase and merge.
-> - **Rollback** — revert specific batches or the entire phase.
+> - **Approve** — reply "approve" to archive iteration and merge.
+> - **Rollback** — revert specific batches or the entire iteration.
 
 **STOP. Do not merge. Do not commit. Do not push. Wait for approval.**
 
-## After Approval — Archive Phase
+## After Approval — Archive Iteration
 
-### 1. Create Phase Archive
+### 1. Create Iteration Archive
 
-Create directory: `.gig/phases/v0.{N}-{phase-name}/`
+Create directory: `.gig/iterations/v0.{N}-{iteration-name}/`
 
 Copy into the archive:
-- `.gig/PLAN.md` → `.gig/phases/v0.{N}-{phase-name}/PLAN.md` (frozen snapshot)
-- Extract this phase's decisions from `.gig/DECISIONS.md` → `.gig/phases/v0.{N}-{phase-name}/DECISIONS.md`
-- Extract this phase's resolved issues from `.gig/ISSUES.md` → `.gig/phases/v0.{N}-{phase-name}/ISSUES.md`
+- `.gig/PLAN.md` → `.gig/iterations/v0.{N}-{iteration-name}/PLAN.md` (frozen snapshot)
+- Extract this iteration's decisions from `.gig/DECISIONS.md` → `.gig/iterations/v0.{N}-{iteration-name}/DECISIONS.md`
+- Extract this iteration's resolved issues from `.gig/ISSUES.md` → `.gig/iterations/v0.{N}-{iteration-name}/ISSUES.md`
 
 ### 2. Clear Active Files
 
-- Reset `.gig/PLAN.md` to template state (no active phase).
+- Reset `.gig/PLAN.md` to template state (no active iteration).
 - Remove archived decisions from `.gig/DECISIONS.md` (keep the header/format comments).
 - Remove RESOLVED issues from `.gig/ISSUES.md` (DEFERRED issues stay — they carry forward).
 
@@ -206,30 +206,30 @@ Copy into the archive:
 Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 
 1. **Prepare merge:**
-   - Show files changed across all batch commits on the phase branch.
+   - Show files changed across all batch commits on the iteration branch.
    - Show the batch commit log: `git log main..HEAD --oneline`
 
 2. **Execute merge (regular merge by default — do not prompt):**
    - Switch to main: `git checkout main`
    - Regular merge (preserves batch commits):
      ```
-     git merge --no-ff feature/v0.{N}-{phase-name}
+     git merge --no-ff feature/v0.{N}-{iteration-name}
      ```
-   - Only use squash if the user explicitly requests it for this phase.
+   - Only use squash if the user explicitly requests it for this iteration.
 
-3. **Tag the phase:**
+3. **Tag the iteration:**
    - Tag with the **actual last batch version** (not a reset):
      ```
-     git tag -a v0.{N}.{last-P} -m "Phase {N}: {phase name}"
+     git tag -a v0.{N}.{last-P} -m "Iteration {N}: {iteration name}"
      ```
      Example: if last batch was `v0.7.4`, the tag is `v0.7.4`.
-   - If this is also a milestone boundary (last phase in milestone):
+   - If this is also a milestone boundary (last iteration in milestone):
      ```
      git tag -a v{MAJOR}.0.0 -m "Milestone: {milestone name}"
      ```
 
 4. **Cleanup:**
-   - Delete feature branch: `git branch -d feature/v0.{N}-{phase-name}`
+   - Delete feature branch: `git branch -d feature/v0.{N}-{iteration-name}`
    - Remove worktrees if any were created for team tasks.
    - Verify clean state: `git status`
 
@@ -246,27 +246,27 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 
 ### If NOT in a git repo:
 - Skip merge/commit/tag steps.
-- Still archive phase files.
+- Still archive iteration files.
 
 ### 4. Final State Updates
 
 1. Update `.gig/STATE.md`:
    - **Status:** `GOVERNED`
    - Version stays at the last batch version (e.g., `0.7.4`)
-   - Next phase will start at `0.{N+1}.1` when the first batch of that phase completes
+   - Next iteration will start at `0.{N+1}.1` when the first batch of that iteration completes
 
 2. Update `.gig/ROADMAP.md`:
-   - Mark phase as `complete` in the phases table.
+   - Mark iteration as `complete` in the iterations table.
    - Update version range with actual final version.
 
 ---
 
-## Step 10 — Phase Summary & Next Suggestions
+## Step 10 — Iteration Summary & Next Suggestions
 
 After archiving, present a comprehensive summary:
 
 ```
-## Phase {N} Complete — {Phase Name}
+## Iteration {N} Complete — {Iteration Name}
 
 ### What Was Built
 - {Feature/capability 1}
@@ -274,10 +274,10 @@ After archiving, present a comprehensive summary:
 - ...
 
 ### Key Decisions Made
-{List ACTIVE decisions from the archived phase — ID + one-liner}
+{List ACTIVE decisions from the archived iteration — ID + one-liner}
 
 ### Issues
-- Resolved this phase: {count}
+- Resolved this iteration: {count}
 - Deferred to future: {count} {list if any}
 
 ### Version
@@ -287,9 +287,9 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
 
-Check `.gig/ROADMAP.md` for an Upcoming Phases section.
+Check `.gig/ROADMAP.md` for an Upcoming Iterations section.
 
-**If an upcoming phase exists**, show it prominently:
+**If an upcoming iteration exists**, show it prominently:
 
 ```
 > **Next up:** {name} — {description}
@@ -298,16 +298,16 @@ Check `.gig/ROADMAP.md` for an Upcoming Phases section.
 
 Then suggest 1-2 additional alternatives below it.
 
-**If no upcoming phases**, suggest 2-3 potential next phases:
+**If no upcoming iterations**, suggest 2-3 potential next iterations:
 
 ```
-### Suggested Next Phases
+### Suggested Next Iterations
 
 Based on the current state, open issues, and roadmap:
 
-1. **{Phase idea 1}** — {Why: addresses deferred issues, natural next step, etc.}
-2. **{Phase idea 2}** — {Why: extends what was built, fills a gap, etc.}
-3. **{Phase idea 3}** — {Why: improves quality, adds tests, refactors, etc.}
+1. **{Iteration idea 1}** — {Why: addresses deferred issues, natural next step, etc.}
+2. **{Iteration idea 2}** — {Why: extends what was built, fills a gap, etc.}
+3. **{Iteration idea 3}** — {Why: improves quality, adds tests, refactors, etc.}
 ```
 
 Derive suggestions from:
@@ -318,33 +318,30 @@ Derive suggestions from:
 
 ### Write Suggestions to Roadmap
 
-After presenting suggestions (whether from existing upcoming phases or newly generated), write them to `.gig/ROADMAP.md` so they persist across context clears.
+After presenting suggestions (whether from existing upcoming iterations or newly generated), write them to `.gig/ROADMAP.md` so they persist across context clears.
 
-**If suggestions were newly generated (no existing upcoming phases):**
+**If suggestions were newly generated (no existing upcoming iterations):**
 
 1. Present the suggestions with:
-   > "I'll add these to your roadmap as upcoming phases. Edit, remove, or say **'skip'** to leave the roadmap empty."
+   > "I'll add these to your roadmap as upcoming iterations. Edit or remove any you don't want."
 
 2. **If user edits:** Apply their changes and write the edited versions.
-3. **If user says 'skip':** Do not write to ROADMAP.md.
-4. **If user approves (or continues without objection):** Write to ROADMAP.md.
+3. **Otherwise:** Write all suggestions to ROADMAP.md.
 
-5. Add each accepted suggestion as a row in the Upcoming Phases table:
+4. Add each accepted suggestion as a row in the Upcoming Iterations table:
    ```
-   | {next phase #} | {Phase Name} | {One-line description} |
+   | {next iteration #} | {Iteration Name} | {One-line description} |
    ```
 
-**If upcoming phases already existed:** No write needed — they're already in ROADMAP.md.
+**If upcoming iterations already existed:** No write needed — they're already in ROADMAP.md.
 
 Then say:
 
-> "Phase archived to `.gig/phases/v0.{N}-{phase-name}/`. Pick a direction and run `/gig:gather` to start the next phase, or `/gig:milestone` to manage milestones."
+> "Iteration archived to `.gig/iterations/v0.{N}-{iteration-name}/`. Pick a direction and run `/gig:gather` to start the next iteration, or `/gig:milestone` to manage milestones."
 
 Then add a context checkpoint:
 
-> "Good point to `/clear` if the conversation is long. Run `/gig:status` after clearing to resume where you left off."
-
-**Hard rule:** If 2+ full gather→implement→govern cycles have completed in this conversation without clearing, strongly recommend clearing before the next phase.
+> "Run `/gig:status` after clearing to resume where you left off."
 
 ## If Failures Need Fixing
 

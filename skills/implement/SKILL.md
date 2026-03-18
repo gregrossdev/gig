@@ -10,7 +10,7 @@ argument-hint: "[batch number]"
 ## Step 0 — Auto-Load Context
 
 Read `.gig/STATE.md` and display:
-`Version: {version} | Phase: {phase} | Status: {status}`
+`Version: {version} | Iteration: {iteration} | Status: {status}`
 
 ## Step 1 — Guard Check
 
@@ -19,20 +19,20 @@ Read `.gig/STATE.md` and `.gig/PLAN.md`.
 **If status is NOT "GATHERED" and NOT "IMPLEMENTING":**
 Say: "No approved plan found. Run `/gig:gather` first." STOP.
 
-**If all batches in the active phase are done:**
+**If all batches in the active iteration are done:**
 Say: "All batches complete. Run `/gig:govern` to validate." STOP.
 
 ## Step 2 — Set Up Git Branch
 
 Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 
-If in a git repository and no feature branch exists for this phase:
+If in a git repository and no feature branch exists for this iteration:
 1. Ensure `main` is clean (`git status` — no uncommitted changes).
-2. Create branch from main: `git checkout -b feature/v0.{N}-{phase-name}`
+2. Create branch from main: `git checkout -b feature/v0.{N}-{iteration-name}`
 3. If not a git repo, skip git operations but continue with state tracking.
 
 If feature branch already exists (resuming), switch to it:
-`git checkout feature/v0.{N}-{phase-name}`
+`git checkout feature/v0.{N}-{iteration-name}`
 
 ## Step 3 — Analyze Batch Dependencies
 
@@ -55,9 +55,9 @@ When 2+ independent batches are ready:
    - The batch description and work items from PLAN.md
    - Relevant ACTIVE decisions from DECISIONS.md
    - Working memory from STATE.md
-2. Each agent works on an isolated branch: `feature/v0.{N}-{phase-name}/batch-{P}`
-3. After all agents complete, merge each task branch into the phase branch:
-   `git merge feature/v0.{N}-{phase-name}/batch-{P}` — resolve conflicts if any.
+2. Each agent works on an isolated branch: `feature/v0.{N}-{iteration-name}/batch-{P}`
+3. After all agents complete, merge each task branch into the iteration branch:
+   `git merge feature/v0.{N}-{iteration-name}/batch-{P}` — resolve conflicts if any.
 4. Delete task branches after merge.
 
 If only 1 batch is ready, execute it in-session instead.
@@ -91,7 +91,7 @@ If in a git repo and verification passed:
    ```
    fix(v0.{N}.{P}): {description}
 
-   [UNPLANNED] — inserted during phase {N} implement.
+   [UNPLANNED] — inserted during iteration {N} implement.
    ```
 3. Per-batch commits give granular rollback.
 4. Never force-push. Never rewrite history.
@@ -143,8 +143,8 @@ Then say:
 **If user says continue:** go back to Step 3 for next batch.
 **If user says pause:** update STATE and stop.
 
-## Step 9 — Phase Complete
+## Step 9 — Iteration Complete
 
 When all batches are done:
 1. Update `.gig/STATE.md`: set **Status** to `IMPLEMENTED`.
-2. Say: "All batches implemented. Run `/gig:govern` to validate and complete the phase."
+2. Say: "All batches implemented. Run `/gig:govern` to validate and complete the iteration."
