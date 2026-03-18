@@ -217,7 +217,17 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
      ```
    - Only use squash if the user explicitly requests it for this iteration.
 
-3. **Tag the iteration:**
+3. **Update plugin manifest (if present):**
+   - Check if `.claude-plugin/plugin.json` exists in the project root.
+   - If yes, update the `"version"` field to `0.{N}.{last-P}` (the last batch version from STATE.md).
+   - Stage and commit:
+     ```
+     git add .claude-plugin/plugin.json
+     git commit -m "chore(v0.{N}.{last-P}): update plugin.json version"
+     ```
+   - If `.claude-plugin/plugin.json` does not exist, skip silently.
+
+4. **Tag the iteration:**
    - Tag with the **actual last batch version** (not a reset):
      ```
      git tag -a v0.{N}.{last-P} -m "Iteration {N}: {iteration name}"
@@ -228,18 +238,18 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
      git tag -a v{MAJOR}.0.0 -m "Milestone: {milestone name}"
      ```
 
-4. **Cleanup:**
+5. **Cleanup:**
    - Delete feature branch: `git branch -d feature/v0.{N}-{iteration-name}`
    - Remove worktrees if any were created for team tasks.
    - Verify clean state: `git status`
 
-5. **Push (if remote exists):**
+6. **Push (if remote exists):**
    - Check: `git remote` — if output is non-empty, a remote is configured.
    - Push main and tags: `git push origin main --tags`
    - Report: "Pushed to origin." or note if push fails.
    - If no remote, skip silently.
 
-6. **Never:**
+7. **Never:**
    - Force-push
    - Rewrite history on main
    - Delete or move tags
