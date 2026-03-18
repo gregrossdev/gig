@@ -10,9 +10,16 @@ argument-hint: "[create | complete | view]"
 ## Step 0 — Auto-Load Context
 
 Read `.gig/STATE.md` and `.gig/ROADMAP.md`.
-Display: `Version: {version} | Milestone: {name} v{target}`
+Display: `Version: {version} | Iteration: {iteration} | Status: {status}`
 
-## Step 1 — Determine Action
+## Step 1 — Guard Check
+
+Check if `.gig/` exists in the current project root.
+
+**If NOT present:**
+Say: "No gig context found. Run `/gig:init` first." STOP.
+
+## Step 2 — Determine Action
 
 Use AskUserQuestion to present options:
 
@@ -20,7 +27,7 @@ Use AskUserQuestion to present options:
 2. **Complete current milestone** — verify all iterations done, tag, and archive.
 3. **View roadmap** — show milestone/iteration overview.
 
-## Step 2a — Create New Milestone
+## Step 3a — Create New Milestone
 
 1. Ask for:
    - **Name:** short descriptive name
@@ -38,39 +45,56 @@ Use AskUserQuestion to present options:
 3. Update `.gig/ROADMAP.md`:
    - Set Current Milestone with name, version, status "in-progress", description.
    - Clear Iterations table.
+   - **Preserve** the Upcoming Iterations table — existing entries may be pre-planned for the new milestone.
 
 4. Update `.gig/STATE.md` Working Memory with milestone context.
 
 5. Say: "Milestone created. Run `/gig:gather` to start the first iteration."
 
-## Step 2b — Complete Current Milestone
+## Step 3b — Complete Current Milestone
 
 1. **Verify completion:**
    - Read ROADMAP.md iterations table.
    - All iterations must be "complete" or "verified".
    - If incomplete, list them and STOP.
 
-2. **If all iterations complete:**
+2. **Check Upcoming Iterations:**
+   - Read the Upcoming Iterations table in ROADMAP.md.
+   - If entries exist, warn: "Upcoming iterations still queued: {list names}. Complete milestone anyway?"
+   - If user says no, STOP.
+
+3. **If all iterations complete (and user confirmed if upcoming exist):**
    - Ask user to confirm: "Ready to complete milestone {name} v{version}?"
 
-3. **After confirmation:**
+4. **After confirmation:**
    - If in a git repo: create annotated tag on main:
      ```
      git tag -a v{version} -m "Milestone: {name}"
      ```
      Reference: `.gig/GIT-STRATEGY.md` for full conventions. Never move or delete tags.
-   - Move Current Milestone to Completed Milestones in ROADMAP.md:
+   - Move Current Milestone to Completed Milestones in ROADMAP.md using the rich format:
      ```
      ### v{version} — {Name} (completed {TODAY'S DATE})
+
      {Description}
-     Iterations: {list of iteration names from iterations/ directory}
+
+     **Iterations:**
+     {For each iteration in the Iterations table, format as:}
+     {N}. {Name} (v0.{N}.{first-batch}–v0.{N}.{last-batch})
      ```
+     Derive version ranges from the Iterations table's "Version Range" column.
    - Clear Current Milestone section.
    - Update STATE.md: set status to `IDLE`, clear iteration/batch.
 
-4. Say: "Milestone v{version} complete. Run `/gig:milestone` to create the next one."
+5. **Push (if remote exists):**
+   - Check: `git remote` — if output is non-empty, a remote is configured.
+   - Push main and tags: `git push origin main --tags`
+   - Report: "Pushed to origin." or note if push fails.
+   - If no remote, skip silently.
 
-## Step 2c — View Roadmap
+6. Say: "Milestone v{version} complete. Run `/gig:milestone` to create the next one."
+
+## Step 3c — View Roadmap
 
 1. Read `.gig/ROADMAP.md`.
 2. Also list `.gig/iterations/` directory for archived iteration history.
@@ -80,6 +104,9 @@ Use AskUserQuestion to present options:
 
    Iterations:
      {list from roadmap table}
+
+   Upcoming:
+     {list from Upcoming Iterations table, or "None"}
 
    Archived:
      {list from .gig/iterations/ directory}
