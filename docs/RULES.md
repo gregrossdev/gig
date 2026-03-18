@@ -19,7 +19,7 @@ phases in one step.
    checkpoints after each batch. Decisions can be revised if reality disagrees.
 3. **Govern** (`/gig:govern`) — Run tests, validate acceptance criteria, audit
    decisions, track issues in ISSUES.md. Fix blockers/majors before archiving.
-   After archiving, summarize what was built and suggest next phase ideas.
+   After archiving, summarize what was built and suggest next iteration ideas.
 
 **Hard rules:**
 - Never write code before decisions are locked and plan is approved.
@@ -40,7 +40,7 @@ phases in one step.
 Version format: `MAJOR.MINOR.PATCH` — a linear timeline of everything done.
 
 - **PATCH** — every executed batch (planned or unplanned)
-- **MINOR** — phase completion (MINOR always equals the phase number)
+- **MINOR** — iteration completion (MINOR always equals the iteration number)
 - **MAJOR** — milestone completion (user declares, Claude never proposes v1.0+)
 
 Unplanned work (`fix [thing]`) gets the next PATCH, tagged `[UNPLANNED]`,
@@ -62,19 +62,19 @@ are tracked in `.gig/DECISIONS.md`.
 Issues are discovered during governance and tracked in `.gig/ISSUES.md`.
 
 Issue flow: `OPEN → FIXING → RESOLVED` or `OPEN → DEFERRED`
-- **Blocker/Major** — must fix before phase completes (loops back to implement).
-- **Minor/Cosmetic** — can defer to future phases (carried forward in ISSUES.md).
-- Resolved issues are archived with their phase.
+- **Blocker/Major** — must fix before iteration completes (loops back to implement).
+- **Minor/Cosmetic** — can defer to future iterations (carried forward in ISSUES.md).
+- Resolved issues are archived with their iteration.
 - Deferred issues persist and are surfaced at the start of the next gather.
 
-## Phase Archiving
+## Iteration Archiving
 
-When a phase completes (`/gig:govern` approved):
-- Phase plan, decisions, and resolved issues are archived to `.gig/phases/v0.{N}-{phase-name}/`
-- Active PLAN.md and DECISIONS.md are cleared for the next phase
+When an iteration completes (`/gig:govern` approved):
+- Iteration plan, decisions, and resolved issues are archived to `.gig/iterations/v0.{N}-{iteration-name}/`
+- Active PLAN.md and DECISIONS.md are cleared for the next iteration
 - Deferred issues remain in ISSUES.md
-- A summary of what was built + 2-3 next phase suggestions are presented
-- `ls .gig/phases/` shows the full linear project history
+- A summary of what was built + 2-3 next iteration suggestions are presented
+- `ls .gig/iterations/` shows the full linear project history
 
 ## Delegation Policy
 
@@ -100,10 +100,10 @@ Default to teams for implementation. Default to subagent for research.
 
 Full reference in `.gig/GIT-STRATEGY.md` (copied per project). Summary:
 
-- **Branches:** `main` (stable) → `feature/v0.{N}-{phase-name}` (per phase)
+- **Branches:** `main` (stable) → `feature/v0.{N}-{iteration-name}` (per iteration)
 - **Commits:** one per batch — `{type}(v0.{N}.{P}): {description}`
-- **Tags:** `v0.{N}.{last-P}` per phase (actual last batch), `v{MAJOR}.0.0` per milestone
-- **Merge:** phase branch → main via regular merge (`--no-ff`) by default
+- **Tags:** `v0.{N}.{last-P}` per iteration (actual last batch), `v{MAJOR}.0.0` per milestone
+- **Merge:** iteration branch → main via regular merge (`--no-ff`) by default
 - **Never:** force-push, rewrite main history, `git add -A`, skip hooks
 
 ## Quality Standards
@@ -143,14 +143,14 @@ These are shortcuts the user can type during an active gig session:
 | `gather` | Start/continue gathering (research + decisions + plan) |
 | `implement` / `next` | Execute the next planned batch |
 | `govern` | Start governance |
-| `status` | Show current version, phase, progress |
+| `status` | Show current version, iteration, progress |
 | `issues` | Show open issues |
 | `fix [thing]` | Insert unplanned work as next batch |
 | `skip` | Skip current batch with reason |
 | `amend [change]` | Propose plan modification |
 | `decisions` | Show recent decisions |
 | `history` | Show batch execution history |
-| `phase done` | Mark current phase as complete |
+| `iteration done` | Mark current iteration as complete |
 | `milestone` | Bump MAJOR version |
 
 ## Context Management
@@ -158,17 +158,12 @@ These are shortcuts the user can type during an active gig session:
 Long sessions consume the context window. gig state files persist everything,
 so clearing and resuming is safe and encouraged.
 
-**Proactive checkpoint:** After each govern cycle (phase complete), suggest:
-> "Phase archived. Good point to `/clear` if the conversation is long.
-> Run `/gig:status` after clearing to resume."
+**Proactive checkpoint:** After each govern cycle (iteration complete), suggest:
+> "Iteration archived. Run `/gig:status` after clearing to resume where you left off."
 
 **After `/clear`:** Running any gig command auto-loads STATE.md and resumes.
 The recommended resume command is `/gig:status` — it shows where you are
 and what to do next.
-
-**Hard rule:** If the conversation has completed 2+ full gather→implement→govern
-cycles without clearing, proactively recommend clearing before starting
-the next phase.
 
 ## Skills
 
