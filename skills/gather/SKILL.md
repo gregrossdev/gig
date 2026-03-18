@@ -10,9 +10,9 @@ argument-hint: "[goal or topic]"
 ## Step 0 — Auto-Load Context
 
 Read `.gig/STATE.md` and display:
-`Version: {version} | Phase: {phase} | Status: {status}`
+`Version: {version} | Iteration: {iteration} | Status: {status}`
 
-If status is "GATHERED" or later, warn: "Gathering already complete for current phase. Running `/gig:gather` will start a new round. Continue?"
+If status is "GATHERED" or later, warn: "Gathering already complete for current iteration. Running `/gig:gather` will start a new round. Continue?"
 
 ## Step 1 — Guard Check
 
@@ -26,38 +26,38 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 2. Read `.gig/DECISIONS.md` for existing decisions.
 3. Read `.gig/ARCHITECTURE.md` for structural context.
 4. Read `.gig/ROADMAP.md` for milestone context.
-5. Read `.gig/ISSUES.md` for open issues from prior phases.
+5. Read `.gig/ISSUES.md` for open issues from prior iterations.
 
 ---
 
-## PHASE A — Decide
+## PART A — Decide
 
 ### Step 2 — Gather Intent
 
-Check `.gig/ROADMAP.md` for an Upcoming Phases section with entries.
+Check `.gig/ROADMAP.md` for an Upcoming Iterations section with entries.
 
-**If user provided args:** Check if the args match an entry name in the Upcoming Phases table (case-insensitive). If matched, consume that entry (see "Consuming an Upcoming Phase" below). If no match, use the args as a freeform goal and skip to "After intent is set".
+**If user provided args:** Check if the args match an entry name in the Upcoming Iterations table (case-insensitive). If matched, consume that entry (see "Consuming an Upcoming Iteration" below). If no match, use the args as a freeform goal and skip to "After intent is set".
 
-**If user did NOT provide args and the Upcoming Phases table has entries:** Take the **first row** of the table.
-1. Present: "Next planned phase: **{name}** — {description}. Starting research on this. Say `skip` to choose something else."
+**If user did NOT provide args and the Upcoming Iterations table has entries:** Take the **first row** of the table.
+1. Present: "Next planned iteration: **{name}** — {description}. Starting research on this. Say `skip` to choose something else."
 2. If user says `skip`, ask: "What do you want to build or accomplish?"
 3. Otherwise, consume that entry (see below).
 
-**If no upcoming phases and no user goal:** Ask the user ONE open-ended question: "What do you want to build or accomplish?"
+**If no upcoming iterations and no user goal:** Ask the user ONE open-ended question: "What do you want to build or accomplish?"
 
 If the user already stated their goal (same message or prior context), skip and proceed.
 
-#### Consuming an Upcoming Phase
+#### Consuming an Upcoming Iteration
 
-When a phase is selected from the Upcoming Phases table:
-1. **Remove** the entry's row from the Upcoming Phases table in `.gig/ROADMAP.md`.
-2. **Add** it to the Phases table with status `planned`: `| {N} | {Name} | v0.{N}.x | planned |`
-3. Use the phase name and description as the goal for Steps 3-4.
+When an iteration is selected from the Upcoming Iterations table:
+1. **Remove** the entry's row from the Upcoming Iterations table in `.gig/ROADMAP.md`.
+2. **Add** it to the Iterations table with status `planned`: `| {N} | {Name} | v0.{N}.x | planned |`
+3. Use the iteration name and description as the goal for Steps 3-4.
 
 #### After intent is set
 
-If there are open issues from `.gig/ISSUES.md` (deferred from prior phases), surface them:
-"Open issues from prior phases: {list}. Want to address any of these?"
+If there are open issues from `.gig/ISSUES.md` (deferred from prior iterations), surface them:
+"Open issues from prior iterations: {list}. Want to address any of these?"
 
 Do NOT ask follow-up questions — Claude researches and decides in Steps 3-4.
 
@@ -103,7 +103,7 @@ Entry format:
 ### Step 6 — Update State
 
 Update `.gig/STATE.md`:
-- Set **Phase** to the goal/topic being decided on.
+- Set **Iteration** to the goal/topic being decided on.
 - Set **Status** to `GATHERING`.
 
 ### APPROVAL GATE 1 — Decisions
@@ -140,20 +140,20 @@ Once approved (with or without redlines):
 
 ---
 
-## PHASE B — Plan
+## PART B — Plan
 
-### Step 7 — Determine Phase
+### Step 7 — Determine Iteration
 
-Look at `.gig/ROADMAP.md` phases table and `.gig/phases/` directory.
-- If no phases exist: phase number = `1`.
+Look at `.gig/ROADMAP.md` iterations table and `.gig/iterations/` directory.
+- If no iterations exist: iteration number = `1`.
 - Otherwise: increment from highest existing.
 
-The phase version follows the batch versioning rule: **MINOR = phase number**.
-- Phase 1 → version `0.1.x`
-- Phase 2 → version `0.2.x`
-- Phase N → version `0.N.x`
+The iteration version follows the batch versioning rule: **MINOR = iteration number**.
+- Iteration 1 → version `0.1.x`
+- Iteration 2 → version `0.2.x`
+- Iteration N → version `0.N.x`
 
-Derive phase name from the decisions context. Format: `v0.{N}-{kebab-case}`.
+Derive iteration name from the decisions context. Format: `v0.{N}-{kebab-case}`.
 
 ### Step 8 — Decompose Into Batches
 
@@ -165,7 +165,7 @@ Each batch is a small, coherent unit:
 
 For each batch:
 ```
-### Batch {phase}.{N} — {Title}
+### Batch {iteration}.{N} — {Title}
 
 **Delegation:** {team | subagent | in-session}
 **Decisions:** {Decision IDs this implements, e.g., D-1.1, D-2.3}
@@ -186,16 +186,16 @@ Tag dependencies explicitly: "Depends on Batch X.Y".
 
 ### Step 9 — Write the Plan
 
-Write the phase to `.gig/PLAN.md`, replacing the "Active Phase" section:
+Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 
 ```markdown
-## Active Phase
+## Active Iteration
 
-### Phase {N} — {Name} (v0.{N}.x)
+### Iteration {N} — {Name} (v0.{N}.x)
 
 > {One-paragraph goal derived from decisions}
 
-**Decisions:** {list all ACTIVE decision IDs this phase implements}
+**Decisions:** {list all ACTIVE decision IDs this iteration implements}
 
 | Batch | Version | Title | Delegation | Status |
 |-------|---------|-------|------------|--------|
@@ -205,31 +205,31 @@ Write the phase to `.gig/PLAN.md`, replacing the "Active Phase" section:
 
 {Full batch details from Step 8}
 
-**Phase Acceptance Criteria:**
+**Iteration Acceptance Criteria:**
 - [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] ...
 
-**Completion triggers Phase {N+1} -> version `0.{N+1}.0`**
+**Completion triggers Iteration {N+1} -> version `0.{N+1}.0`**
 ```
 
 ### Step 10 — Update State & Roadmap
 
 Update `.gig/STATE.md`:
 - **Version:** `0.{N}.0`
-- **Phase:** {N} — {Name}
+- **Iteration:** {N} — {Name}
 - **Status:** `GATHERED`
 - **Last Batch:** — (not started)
 - **Working Memory:** key context from the plan (file paths, naming, patterns)
 
-Update `.gig/ROADMAP.md` phases table:
-- If the phase was consumed from Upcoming Phases in Step 2, it's already in the Phases table — skip adding.
+Update `.gig/ROADMAP.md` iterations table:
+- If the iteration was consumed from Upcoming Iterations in Step 2, it's already in the Iterations table — skip adding.
 - Otherwise (freeform goal), add row: `| {N} | {Name} | v0.{N}.x | planned |`
 
 ### APPROVAL GATE 2 — Plan
 
 Present the plan:
-1. Phase name and goal
+1. Iteration name and goal
 2. Batch table with versions and delegation modes
 3. Dependencies between batches
 4. Which batches will run in parallel (team mode)
