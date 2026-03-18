@@ -21,7 +21,7 @@ If user chooses reinitialize, delete `.gig/` and proceed.
 ## Step 1 — Scaffold .gig/
 
 1. Create `.gig/` directory.
-2. Create `.gig/phases/` directory (for completed phase archives).
+2. Create `.gig/iterations/` directory (for completed iteration archives).
 3. Copy templates into `.gig/`:
    - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/` (plugin install), then `~/.claude/templates/gig/` (script install).
    - If templates are not found at either location, say: "Error: gig templates not found. Reinstall gig or check your installation." STOP.
@@ -113,11 +113,11 @@ Based on discovery, propose the first milestone:
 
 1. Update `.gig/ROADMAP.md`:
    - Set Current Milestone with name, version, status "in-progress", description.
-   - Clear the Phases table.
+   - Clear the Iterations table.
 
 2. Update `.gig/STATE.md`:
    - Version: `0.0.1`
-   - Phase: 0 — Bootstrap
+   - Iteration: 0 — Bootstrap
    - Status: `IDLE`
    - Last Batch: "Project discovery & scaffold"
    - Last Updated: today's date
@@ -161,11 +161,11 @@ Then say:
 > - **Adjust milestone** — change the name or description.
 > - **Review architecture** — I'll show the full ARCHITECTURE.md for review.
 >
-> After approval, run `/gig:gather` to start the first phase.
+> After approval, run `/gig:gather` to start the first iteration.
 
-**STOP. Do not create phases. Do not make decisions. Wait for approval.**
+**STOP. Do not create iterations. Do not make decisions. Wait for approval.**
 
 ## After Approval
 
 1. If user adjusted version/name/description, update ROADMAP.md and STATE.md.
-2. Say: "Project initialized. Run `/gig:gather` to start the first phase."
+2. Say: "Project initialized. Run `/gig:gather` to start the first iteration."
