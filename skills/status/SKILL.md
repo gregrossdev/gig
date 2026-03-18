@@ -8,7 +8,10 @@ user-invocable: true
 
 ## Step 0 — Command Routing
 
-If the user's message matches a natural language command, handle it directly:
+If the user's message matches a natural language command, handle it directly.
+
+For all routed commands below, first read `.gig/STATE.md` and display a context header:
+`Version: {version} | Iteration: {iteration} | Status: {status}`
 
 **"decisions"** — Read `.gig/DECISIONS.md` and display all ACTIVE entries as a summary table:
 | ID | Decision | Status |
@@ -19,6 +22,8 @@ Then STOP.
 If none, say "No open issues." Then STOP.
 
 **"history"** — Read `.gig/STATE.md` Batch History section and display the table as-is. Then STOP.
+
+**"iteration done"** — Update `.gig/STATE.md`: set **Status** to `IMPLEMENTED`. Say: "Iteration marked done. Run `/gig:govern` to validate." Then STOP.
 
 If no command match, proceed to Step 1.
 
@@ -60,7 +65,7 @@ Based on current status, suggest exactly ONE next action:
 
 | Status | Suggestion |
 |--------|-----------|
-| `IDLE` (no milestone) | "Run `/gig:init` to initialize." |
+| `IDLE` (no milestone) | "Run `/gig:milestone` to create a milestone." |
 | `IDLE` (has milestone) | "Run `/gig:gather` to start the next iteration." |
 | `GATHERING` | "Gathering in progress. Continue with `/gig:gather`." |
 | `GATHERED` | "Run `/gig:implement` to start implementing." |
