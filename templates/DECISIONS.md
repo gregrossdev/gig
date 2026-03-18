@@ -1,8 +1,8 @@
 # Decisions
 
 > Append-only log. Never delete entries — amend or revise instead.
-> Active decisions for the current phase live here.
-> When a phase completes, its decisions are archived to `phases/`.
+> Active decisions for the current iteration live here.
+> When an iteration completes, its decisions are archived to `iterations/`.
 
 <!-- Decision statuses:
   PROPOSED  — Claude's recommendation, awaiting user approval
