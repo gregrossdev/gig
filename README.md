@@ -23,10 +23,10 @@ cd your-project
 /gig:init       →  scaffolds .gig/, discovers your stack, proposes first milestone
 /gig:gather     →  researches, makes decisions, builds the plan
 /gig:implement  →  executes batches with checkpoints
-/gig:govern     →  validates, tracks issues, archives phase
+/gig:govern     →  validates, tracks issues, archives iteration
 ```
 
-That's it. Repeat `gather → implement → govern` for each phase.
+That's it. Repeat `gather → implement → govern` for each iteration.
 
 ## What actually happens
 
@@ -93,11 +93,11 @@ Decision Audit: 4/4 match implementation
 
 Issues: 0 blockers, 0 majors
 
-→ "approve" to archive phase and merge to main
+→ "approve" to archive iteration and merge to main
 ```
 
-Blockers and majors loop back to implement. Minor issues defer to future phases.
-After approval, the phase archives to `.gig/phases/` and govern suggests what's next.
+Blockers and majors loop back to implement. Minor issues defer to future iterations.
+After approval, the iteration archives to `.gig/iterations/` and govern suggests what's next.
 
 ## The only question Claude asks
 
@@ -135,7 +135,7 @@ cd gig && ./install.sh
 | `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
 | `/gig:gather` | Research → decisions → plan (two approval gates) |
 | `/gig:implement` | Execute batches, checkpoints, parallel when possible |
-| `/gig:govern` | Test, validate, track issues, archive phase |
+| `/gig:govern` | Test, validate, track issues, archive iteration |
 | `/gig:status` | Where am I? What's next? |
 | `/gig:milestone` | Create or complete milestones |
 | `/gig:research` | Deep-dive a topic with subagents |
@@ -143,7 +143,7 @@ cd gig && ./install.sh
 
 **Natural language shortcuts:**
 
-`next` · `status` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `phase done`
+`next` · `status` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
 
 ## Hooks
 
@@ -163,17 +163,17 @@ Uninstall (`./install.sh --uninstall`) cleanly removes all hooks and their setti
 
 ## Versioning
 
-Every batch gets a version. Every phase gets a tag.
+Every batch gets a version. Every iteration gets a tag.
 
 ```mermaid
 graph LR
-    subgraph "Phase 1"
+    subgraph "Iteration 1"
         A["v0.1.1"] --> B["v0.1.2"] --> C["v0.1.3"]
     end
-    subgraph "Phase 2"
+    subgraph "Iteration 2"
         D["v0.2.1"] --> E["v0.2.2"]
     end
-    C -->|"phase complete"| D
+    C -->|"iteration complete"| D
 
     style A fill:#16213e,stroke:#0f3460,color:#fff
     style B fill:#16213e,stroke:#0f3460,color:#fff
@@ -183,7 +183,7 @@ graph LR
 ```
 
 - **PATCH** — increments per executed batch
-- **MINOR** — always equals the phase number
+- **MINOR** — always equals the iteration number
 - **MAJOR** — milestone completion (you declare v1.0, never Claude)
 
 ## How gig differs
@@ -200,14 +200,14 @@ graph LR
 
 ```
 .gig/
-├── STATE.md             # Current version, phase, progress
-├── PLAN.md              # Active phase — batches and acceptance criteria
+├── STATE.md             # Current version, iteration, progress
+├── PLAN.md              # Active iteration — batches and acceptance criteria
 ├── DECISIONS.md         # Why things are the way they are
 ├── ISSUES.md            # Problems found, tracked by severity
 ├── ARCHITECTURE.md      # Your stack, structure, patterns
-├── ROADMAP.md           # Milestones, phases, what's next
+├── ROADMAP.md           # Milestones, iterations, what's next
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
-└── phases/              # Completed phase archives (full history)
+└── iterations/          # Completed iteration archives (full history)
 ```
 
 ## Learn more

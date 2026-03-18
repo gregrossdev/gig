@@ -107,28 +107,28 @@ gig will:
 - Audit decisions (did they hold up?)
 - Track issues by severity (blocker, major, minor, cosmetic)
 - Blockers and majors loop back to implement for fixing
-- Archive the completed phase to `.gig/phases/`
-- Summarize what was built and suggest 2-3 next phase ideas
+- Archive the completed iteration to `.gig/iterations/`
+- Summarize what was built and suggest 2-3 next iteration ideas
 
 ## Repeat
 
-After governance approves the phase, just say `gather` to start the next one.
+After governance approves the iteration, just say `gather` to start the next one.
 
-If your roadmap has pre-planned phases (in the Upcoming Phases section of ROADMAP.md), gig auto-flows:
+If your roadmap has pre-planned iterations (in the Upcoming Iterations section of ROADMAP.md), gig auto-flows:
 
-- **Govern** finishes with: `> Next up: Phase Name — description. Run gather to start.`
-- **Gather** auto-pulls the next planned phase — no need to specify what to build
+- **Govern** finishes with: `> Next up: Iteration Name — description. Run gather to start.`
+- **Gather** auto-pulls the next planned iteration — no need to specify what to build
 - You can still say `skip` to choose something different
 
-If no upcoming phases are planned, gather asks what you want to build next.
+If no upcoming iterations are planned, gather asks what you want to build next.
 
 ```
-/gig:gather    # auto-pulls next phase, or asks if none planned
+/gig:gather    # auto-pulls next iteration, or asks if none planned
 /gig:implement # execute batches
-/gig:govern    # validate, archive, surface next phase
+/gig:govern    # validate, archive, surface next iteration
 ```
 
-Each phase increments the MINOR version. Phases build toward the milestone.
+Each iteration increments the MINOR version. Iterations build toward the milestone.
 
 ## Useful commands during a session
 
@@ -156,10 +156,10 @@ Each phase increments the MINOR version. Phases build toward the milestone.
 
 | File | Purpose | When it changes |
 |------|---------|----------------|
-| `STATE.md` | Current version, phase, batch history | Every batch |
-| `PLAN.md` | Active phase batches and acceptance criteria | During gather, updated during implement |
+| `STATE.md` | Current version, iteration, batch history | Every batch |
+| `PLAN.md` | Active iteration batches and acceptance criteria | During gather, updated during implement |
 | `DECISIONS.md` | All decisions with rationale | During gather, can be revised anytime |
 | `ISSUES.md` | Issues found during governance | During govern |
 | `ARCHITECTURE.md` | Project structure and stack | During init, updated as project evolves |
-| `ROADMAP.md` | Milestones and phases | Phase start/end, milestone completion |
+| `ROADMAP.md` | Milestones and iterations | Iteration start/end, milestone completion |
 | `GIT-STRATEGY.md` | Branch, commit, tag conventions | Reference only |

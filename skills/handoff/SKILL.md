@@ -10,7 +10,7 @@ argument-hint: "[create | restore]"
 ## Step 0 — Auto-Load Context
 
 Read `.gig/STATE.md` and display:
-`Version: {version} | Phase: {phase} | Status: {status}`
+`Version: {version} | Iteration: {iteration} | Status: {status}`
 
 ## Step 1 — Guard Check
 
@@ -42,7 +42,7 @@ If ambiguous, ask: "Create a handoff or restore one?"
 
 **Created:** {today's date and time}
 **Version:** {current version}
-**Phase:** {current phase}
+**Iteration:** {current iteration}
 **Status:** {current status}
 
 ## What Was Done This Session
@@ -86,7 +86,7 @@ If ambiguous, ask: "Create a handoff or restore one?"
    Restored from handoff ({date}).
 
    Version: {version}
-   Phase: {phase} — {name}
+   Iteration: {iteration} — {name}
    Status: {status}
 
    Last session: {what was done}

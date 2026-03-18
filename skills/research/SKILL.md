@@ -10,7 +10,7 @@ argument-hint: "[topic to research]"
 ## Step 0 — Auto-Load Context
 
 If `.gig/STATE.md` exists, read it and display:
-`Version: {version} | Phase: {phase} | Status: {status}`
+`Version: {version} | Iteration: {iteration} | Status: {status}`
 
 ## Step 1 — Guard Check
 
@@ -74,7 +74,7 @@ Present a concise research report:
 
 Skip if no gig context (Step 1 noted absence).
 
-If `.gig/STATE.md` exists and has an active phase:
+If `.gig/STATE.md` exists and has an active iteration:
 - Ask: "Want me to save these findings to working memory?"
 - If yes: append key findings to STATE.md Working Memory section.
 - If findings suggest a decision should change, flag it:

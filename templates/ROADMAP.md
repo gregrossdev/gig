@@ -9,17 +9,17 @@
 | **Status** | not started |
 | **Description** | — |
 
-## Phases
+## Iterations
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
-<!-- Phases added by gig:gather, archived by gig:govern -->
+<!-- Iterations added by gig:gather, archived by gig:govern -->
 
-## Upcoming Phases
+## Upcoming Iterations
 
-<!-- Pre-planned phases for the current milestone. Populated during milestone
+<!-- Pre-planned iterations for the current milestone. Populated during milestone
      creation or added manually. Gather auto-pulls the next entry when no args
-     are provided. Entries move to the Phases table when gather starts them. -->
+     are provided. Entries move to the Iterations table when gather starts them. -->
 
 | # | Name | Description |
 |---|------|-------------|

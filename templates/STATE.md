@@ -5,7 +5,7 @@
 | Field | Value |
 |-------|-------|
 | **Version** | `0.0.0` |
-| **Phase** | — |
+| **Iteration** | — |
 | **Status** | `IDLE` |
 | **Last Batch** | — |
 | **Last Updated** | — |
@@ -16,7 +16,7 @@
 
 <!-- Newest first. Type: PLANNED or UNPLANNED -->
 
-| Version | Phase | Batch Title | Type | Status | Timestamp |
+| Version | Iteration | Batch Title | Type | Status | Timestamp |
 |---------|-------|-------------|------|--------|-----------|
 | — | — | — | — | — | — |
 

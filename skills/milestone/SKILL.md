@@ -17,8 +17,8 @@ Display: `Version: {version} | Milestone: {name} v{target}`
 Use AskUserQuestion to present options:
 
 1. **Create new milestone** — set up a new milestone.
-2. **Complete current milestone** — verify all phases done, tag, and archive.
-3. **View roadmap** — show milestone/phase overview.
+2. **Complete current milestone** — verify all iterations done, tag, and archive.
+3. **View roadmap** — show milestone/iteration overview.
 
 ## Step 2a — Create New Milestone
 
@@ -37,20 +37,20 @@ Use AskUserQuestion to present options:
 
 3. Update `.gig/ROADMAP.md`:
    - Set Current Milestone with name, version, status "in-progress", description.
-   - Clear Phases table.
+   - Clear Iterations table.
 
 4. Update `.gig/STATE.md` Working Memory with milestone context.
 
-5. Say: "Milestone created. Run `/gig:gather` to start the first phase."
+5. Say: "Milestone created. Run `/gig:gather` to start the first iteration."
 
 ## Step 2b — Complete Current Milestone
 
 1. **Verify completion:**
-   - Read ROADMAP.md phases table.
-   - All phases must be "complete" or "verified".
+   - Read ROADMAP.md iterations table.
+   - All iterations must be "complete" or "verified".
    - If incomplete, list them and STOP.
 
-2. **If all phases complete:**
+2. **If all iterations complete:**
    - Ask user to confirm: "Ready to complete milestone {name} v{version}?"
 
 3. **After confirmation:**
@@ -63,26 +63,26 @@ Use AskUserQuestion to present options:
      ```
      ### v{version} — {Name} (completed {TODAY'S DATE})
      {Description}
-     Phases: {list of phase names from phases/ directory}
+     Iterations: {list of iteration names from iterations/ directory}
      ```
    - Clear Current Milestone section.
-   - Update STATE.md: set status to `IDLE`, clear phase/batch.
+   - Update STATE.md: set status to `IDLE`, clear iteration/batch.
 
 4. Say: "Milestone v{version} complete. Run `/gig:milestone` to create the next one."
 
 ## Step 2c — View Roadmap
 
 1. Read `.gig/ROADMAP.md`.
-2. Also list `.gig/phases/` directory for archived phase history.
+2. Also list `.gig/iterations/` directory for archived iteration history.
 3. Present formatted summary:
    ```
    Current Milestone: {name} v{version} ({status})
 
-   Phases:
+   Iterations:
      {list from roadmap table}
 
    Archived:
-     {list from .gig/phases/ directory}
+     {list from .gig/iterations/ directory}
 
    Completed Milestones:
      v{X.Y} — {name} ({date})
