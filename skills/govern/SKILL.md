@@ -287,18 +287,22 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
 
+### Show Existing Queue
+
 Check `.gig/ROADMAP.md` for an Upcoming Iterations section.
 
-**If an upcoming iteration exists**, show it prominently:
+If upcoming iterations exist, show them:
 
 ```
 > **Next up:** {name} — {description}
 > Run `gather` to start.
+
+Also queued: {list any other upcoming iteration names}
 ```
 
-Then suggest 1-2 additional alternatives below it.
+### Generate New Suggestions
 
-**If no upcoming iterations**, suggest 2-3 potential next iterations:
+**Always** generate 2-3 new iteration suggestions, regardless of whether the queue has entries.
 
 ```
 ### Suggested Next Iterations
@@ -316,24 +320,22 @@ Derive suggestions from:
 - **Natural extensions** — what logically follows from what was just built
 - **Quality improvements** — testing, refactoring, documentation, performance
 
+Do not duplicate iterations already in the Upcoming Iterations table.
+
 ### Write Suggestions to Roadmap
 
-After presenting suggestions (whether from existing upcoming iterations or newly generated), write them to `.gig/ROADMAP.md` so they persist across context clears.
+Present the new suggestions with:
+> "I'll add these to your roadmap as upcoming iterations. Edit or remove any you don't want."
 
-**If suggestions were newly generated (no existing upcoming iterations):**
+**If user edits:** Apply their changes and write the edited versions.
+**Otherwise:** Write all suggestions to ROADMAP.md.
 
-1. Present the suggestions with:
-   > "I'll add these to your roadmap as upcoming iterations. Edit or remove any you don't want."
+Append each accepted suggestion as a row in the Upcoming Iterations table:
+```
+| {next iteration #} | {Iteration Name} | {One-line description} |
+```
 
-2. **If user edits:** Apply their changes and write the edited versions.
-3. **Otherwise:** Write all suggestions to ROADMAP.md.
-
-4. Add each accepted suggestion as a row in the Upcoming Iterations table:
-   ```
-   | {next iteration #} | {Iteration Name} | {One-line description} |
-   ```
-
-**If upcoming iterations already existed:** No write needed — they're already in ROADMAP.md.
+Number new suggestions starting after the highest existing iteration number (from both the Iterations table and Upcoming Iterations table).
 
 Then say:
 
