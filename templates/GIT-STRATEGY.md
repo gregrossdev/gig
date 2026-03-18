@@ -8,9 +8,9 @@
 
 ```
 main                          ← stable, verified, tagged
-  └── feature/v0.1-auth       ← phase 1 work
-  └── feature/v0.2-crud       ← phase 2 work
-  └── feature/v0.3-tests      ← phase 3 work
+  └── feature/v0.1-auth       ← iteration 1 work
+  └── feature/v0.2-crud       ← iteration 2 work
+  └── feature/v0.3-tests      ← iteration 3 work
 ```
 
 ### Branch Naming
@@ -18,14 +18,14 @@ main                          ← stable, verified, tagged
 | Branch | Pattern | Created By | Lifecycle |
 |--------|---------|-----------|-----------|
 | **main** | `main` | — | Permanent. Always deployable. |
-| **phase** | `feature/v0.{N}-{phase-name}` | `gig:apply` | Created at phase start, deleted after merge. |
-| **team task** | `feature/v0.{N}-{phase-name}/batch-{P}` | `gig:apply` (team mode) | Created per parallel batch, merged into phase branch. |
+| **iteration** | `feature/v0.{N}-{iteration-name}` | `gig:apply` | Created at iteration start, deleted after merge. |
+| **team task** | `feature/v0.{N}-{iteration-name}/batch-{P}` | `gig:apply` (team mode) | Created per parallel batch, merged into iteration branch. |
 
 ### Rules
 
-- One phase branch at a time. No long-lived feature branches.
-- Phase branches are created from `main` HEAD at phase start.
-- Team task branches are created from the phase branch.
+- One iteration branch at a time. No long-lived feature branches.
+- Iteration branches are created from `main` HEAD at iteration start.
+- Team task branches are created from the iteration branch.
 - Never work directly on `main`.
 
 ---
@@ -34,7 +34,7 @@ main                          ← stable, verified, tagged
 
 ### Per-Batch Commits
 
-Every completed batch gets one commit on the phase branch.
+Every completed batch gets one commit on the iteration branch.
 
 **Format:**
 ```
@@ -74,33 +74,33 @@ Unplanned batches (`fix [thing]`) follow the same commit format with `[UNPLANNED
 ```
 fix(v0.2.4): fix auth redirect on expired tokens
 
-[UNPLANNED] — inserted during phase 2 apply.
+[UNPLANNED] — inserted during iteration 2 apply.
 ```
 
 ---
 
 ## Merge Strategy
 
-### Phase → Main
+### Iteration → Main
 
-When `gig:verify` approves a phase:
+When `gig:verify` approves an iteration:
 
 1. **Switch to main:** `git checkout main`
-2. **Merge the phase branch** using regular merge (default):
+2. **Merge the iteration branch** using regular merge (default):
    ```
-   git merge --no-ff feature/v0.{N}-{phase-name}
+   git merge --no-ff feature/v0.{N}-{iteration-name}
    ```
    This preserves batch-level commit history on main.
-3. **Delete the phase branch:** `git branch -d feature/v0.{N}-{phase-name}`
+3. **Delete the iteration branch:** `git branch -d feature/v0.{N}-{iteration-name}`
 
 > **Note:** Do not prompt for merge strategy. Regular merge (`--no-ff`) is the default.
-> The user can explicitly request squash if they prefer it for a specific phase.
+> The user can explicitly request squash if they prefer it for a specific iteration.
 
-### Team Task → Phase Branch
+### Team Task → Iteration Branch
 
 When parallel batches complete in team mode:
 
-1. **Merge each task branch** into the phase branch (regular merge).
+1. **Merge each task branch** into the iteration branch (regular merge).
 2. **Resolve conflicts** if any — flag to user.
 3. **Delete task branches** after merge.
 
@@ -110,19 +110,19 @@ When parallel batches complete in team mode:
 
 Tags mark significant points aligned with the version timeline.
 
-### Phase Tags
+### Iteration Tags
 
-Created automatically when a phase merges to main. The tag is the **actual last batch version** — not a reset.
+Created automatically when an iteration merges to main. The tag is the **actual last batch version** — not a reset.
 
 ```
-git tag -a v0.{N}.{last-P} -m "Phase {N}: {phase name}"
+git tag -a v0.{N}.{last-P} -m "Iteration {N}: {iteration name}"
 ```
 
 **Examples:**
 ```
-v0.1.3  — Phase 1: Database & Schema (3 batches)
-v0.2.6  — Phase 2: Task CRUD Routes (3 batches, including unplanned)
-v0.3.2  — Phase 3: Validation & Error Handling (2 batches)
+v0.1.3  — Iteration 1: Database & Schema (3 batches)
+v0.2.6  — Iteration 2: Task CRUD Routes (3 batches, including unplanned)
+v0.3.2  — Iteration 3: Validation & Error Handling (2 batches)
 ```
 
 ### Milestone Tags
@@ -142,7 +142,7 @@ v2.0.0  — Milestone: Multi-tenant Support
 ### Tag Rules
 
 - Tags are created on `main` after merge.
-- Phase tags use the `v0.{N}.{last-P}` format (actual last batch version).
+- Iteration tags use the `v0.{N}.{last-P}` format (actual last batch version).
 - Milestone tags use the `v{MAJOR}.0.0` format.
 - Never move or delete tags.
 
@@ -163,8 +163,8 @@ feature/v0.1:   ──●──●──●──●                       ─�
 **Reading the graph:**
 - Each `●` on a feature branch = one batch commit
 - Each batch commit is versioned `v0.{N}.{P}`
-- Phase merges back to main tagged with the **last batch version** (e.g., `v0.1.4`)
-- The next phase starts at `v0.{N+1}.1` (first batch of next phase)
+- Iteration merges back to main tagged with the **last batch version** (e.g., `v0.1.4`)
+- The next iteration starts at `v0.{N+1}.1` (first batch of next iteration)
 - Main always has clean, verified, tagged code
 
 ---
@@ -182,9 +182,9 @@ When `gig:init` runs in a directory without `.git/`:
 
 ## Recovery
 
-If a phase branch gets messy:
+If an iteration branch gets messy:
 - **Soft reset:** `gig:verify` can flag issues and send back to `gig:apply`.
-- **Hard reset:** Abandon the phase branch, create a new one from main, re-apply.
+- **Hard reset:** Abandon the iteration branch, create a new one from main, re-apply.
 - **Cherry-pick:** Pull specific batch commits from an abandoned branch.
 
 Never force-push. Never rewrite history on main.
