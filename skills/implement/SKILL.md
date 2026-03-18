@@ -14,7 +14,7 @@ Read `.gig/STATE.md` and display:
 
 ## Step 1 — Guard Check
 
-Read `.gig/STATE.md` and `.gig/PLAN.md`.
+Read `.gig/STATE.md`, `.gig/PLAN.md`, and `.gig/DECISIONS.md`.
 
 **If status is NOT "GATHERED" and NOT "IMPLEMENTING":**
 Say: "No approved plan found. Run `/gig:gather` first." STOP.
@@ -27,7 +27,8 @@ Say: "All batches complete. Run `/gig:govern` to validate." STOP.
 Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 
 If in a git repository and no feature branch exists for this iteration:
-1. Ensure `main` is clean (`git status` — no uncommitted changes).
+1. Check `git status` for uncommitted changes.
+   - **If dirty:** Say: "Working directory has uncommitted changes. Stash or commit them before proceeding." STOP.
 2. Create branch from main: `git checkout -b feature/v0.{N}-{iteration-name}`
 3. If not a git repo, skip git operations but continue with state tracking.
 
@@ -55,10 +56,21 @@ When 2+ independent batches are ready:
    - The batch description and work items from PLAN.md
    - Relevant ACTIVE decisions from DECISIONS.md
    - Working memory from STATE.md
+   - Structural context from ARCHITECTURE.md (project stack, patterns, conventions)
+   - Reference: `.gig/GIT-STRATEGY.md` for commit and branch conventions
 2. Each agent works on an isolated branch: `feature/v0.{N}-{iteration-name}/batch-{P}`
 3. After all agents complete, merge each task branch into the iteration branch:
    `git merge feature/v0.{N}-{iteration-name}/batch-{P}` — resolve conflicts if any.
-4. Delete task branches after merge.
+4. Clean up after each merge:
+   - Remove the worktree: `git worktree remove {worktree-path}`
+   - Delete the task branch: `git branch -D feature/v0.{N}-{iteration-name}/batch-{P}`
+
+**If a team agent fails:**
+- Report the error and which batch failed.
+- Ask the user:
+  - **Retry** — relaunch the agent for that batch.
+  - **Fix in-session** — execute the failed batch directly in the current session.
+  - **Skip** — mark batch as skipped and continue (must address in governance).
 
 If only 1 batch is ready, execute it in-session instead.
 
