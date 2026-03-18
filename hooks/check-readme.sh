@@ -45,4 +45,4 @@ if [ -z "$NON_DOC" ]; then
   exit 0
 fi
 
-echo "{\"additionalContext\": \"[README CHECK] Non-doc files changed this phase but README.md was not updated. Consider updating if user-facing features changed.\"}"
+echo "{\"additionalContext\": \"[README CHECK] Non-doc files changed this iteration but README.md was not updated. Consider updating if user-facing features changed.\"}"
