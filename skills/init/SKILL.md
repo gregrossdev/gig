@@ -40,7 +40,10 @@ If user chooses reinitialize, delete `.gig/` and proceed.
    - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/` (plugin install), then `~/.claude/templates/gig/` (script install).
    - If templates are not found at either location, say: "Error: gig templates not found. Reinstall gig or check your installation." STOP.
    - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, ARTICLE.md
-4. Say: "Initialized `.gig/` from templates."
+4. Write `.gig/.gig-version` with the current gig version:
+   - **Plugin install:** Read version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` (`"version"` field).
+   - **Script install:** Read version from `~/.claude/templates/gig/.gig-version` if it exists, otherwise write `0.0.0` as a placeholder.
+5. Say: "Initialized `.gig/` from templates."
 
 ## Step 2 — Detect Project Type
 
