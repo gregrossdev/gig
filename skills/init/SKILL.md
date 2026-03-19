@@ -93,19 +93,43 @@ Mark uncertain sections with `[needs confirmation]`.
 
 If `.git/` does NOT exist and the project is new:
 1. Run `git init`.
-2. Create `.gitignore` if not present — include `.gig/` and common ignores for the detected stack
+2. Create `.gitignore` if not present — include `.gig/`, `.claude/`, and common ignores for the detected stack
    (e.g., `node_modules/`, `dist/`, `.env`, `*.sqlite` for Node; `target/` for Rust; etc.).
 3. Add `.gig/` files and `.gitignore`.
 4. Initial commit: `chore: initialize project`
 
 If `.git/` already exists:
 - Skip git init.
-- Ensure `.gig/` is in `.gitignore` — if not present, append `.gig/` to the file (create `.gitignore` if it doesn't exist).
-- Do NOT commit `.gig/` files — they are local session state.
+- Ensure `.gig/` and `.claude/` are in `.gitignore` — if not present, append them to the file (create `.gitignore` if it doesn't exist).
+- Do NOT commit `.gig/` or `.claude/` files — they are local session state.
 
 Reference: `.gig/GIT-STRATEGY.md` for full branch/commit/tag conventions.
 
-## Step 6 — Propose First Milestone
+## Step 6 — Set Up Project Rules
+
+Add gig workflow rules to the project's `.claude/CLAUDE.md` so they apply when Claude Code runs in this project.
+
+1. **Locate RULES.md:**
+   - Plugin install: `${CLAUDE_PLUGIN_ROOT}/docs/RULES.md`
+   - Script install: `~/.claude/templates/gig/RULES.md`
+   - If not found at either location, say: "Warning: RULES.md not found. Skipping project rules setup. You can manually copy docs/RULES.md to `.claude/CLAUDE.md`." and skip this step.
+
+2. **Create `.claude/` directory** in the project root if not present.
+
+3. **Check for existing gig rules:** If `.claude/CLAUDE.md` exists and contains `# --- gig workflow rules ---`, remove the section between the markers (inclusive) first. This ensures idempotent updates.
+
+4. **Append gig rules** to `.claude/CLAUDE.md` (create the file if it doesn't exist):
+   ```
+   # --- gig workflow rules ---
+
+   {contents of RULES.md}
+
+   # --- end gig workflow rules ---
+   ```
+
+5. Say: "Added gig workflow rules to `.claude/CLAUDE.md`."
+
+## Step 7 — Propose First Milestone
 
 Based on discovery, propose the first milestone:
 
@@ -123,7 +147,7 @@ Based on discovery, propose the first milestone:
 
 **Hard rule:** NEVER propose v1.0.0 or higher. Stays 0.x.y until user explicitly declares v1.0.
 
-## Step 7 — Write State
+## Step 8 — Write State
 
 1. Update `.gig/ROADMAP.md`:
    - Set Current Milestone with name, version, status "in-progress", description.

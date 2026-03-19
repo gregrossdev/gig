@@ -167,6 +167,10 @@ else
         echo "  Installed template: $(basename "$tmpl")"
     done
 
+    # Copy RULES.md for use by /gig:init project-level setup
+    cp "$SCRIPT_DIR/docs/RULES.md" "$TEMPLATES_DEST/RULES.md"
+    echo "  Installed template: RULES.md"
+
     if [ "$SKIP_HOOKS" = false ]; then
         mkdir -p "$HOOKS_DEST"
         for hook in "$SCRIPT_DIR"/hooks/*; do
