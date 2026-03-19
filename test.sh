@@ -436,9 +436,18 @@ assert "init has dual-path upgrade (plugin)" grep -q 'CLAUDE_PLUGIN_ROOT.*upgrad
 assert "init has dual-path upgrade (script)" grep -q '~/.claude/upgrade\.sh' "$INIT_SKILL"
 assert_not "init no longer has top-level Phase migration marker" grep -q '^First, check for stale "phase"' "$INIT_SKILL"
 
-# --- Test 16: Govern plugin version instruction ---
+# --- Test 16: Implement plugin awareness ---
 
-echo "[16] Govern plugin version instruction"
+echo "[16] Implement plugin awareness"
+IMPL_SKILL="$SCRIPT_DIR/skills/implement/SKILL.md"
+assert "implement references plugin.json" grep -q 'plugin\.json' "$IMPL_SKILL"
+assert "implement has plugin version in Step 0" grep -q 'Plugin:.*{name}.*v{version}' "$IMPL_SKILL"
+assert "implement has plugin version in checkpoint" grep -q 'Plugin:.*{name}.*v{version}.*manifest' "$IMPL_SKILL"
+assert "implement skips silently when no plugin.json" grep -q 'does not exist, skip silently' "$IMPL_SKILL"
+
+# --- Test 17: Govern plugin version instruction ---
+
+echo "[17] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
