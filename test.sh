@@ -369,6 +369,14 @@ for skill in $SKILLS; do
     assert "$skill name matches gig:$skill" grep -q "^name: gig:$skill$" "$SKILL_FILE"
 done
 
+# --- Test 14: Govern plugin version instruction ---
+
+echo "[14] Govern plugin version instruction"
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
+assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
+assert "govern has plugin version commit format" grep -q 'chore(v0.{N}.{last-P}): update plugin.json version' "$GOVERN_SKILL"
+
 # --- Summary ---
 
 echo ""
