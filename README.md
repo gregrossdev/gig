@@ -128,6 +128,27 @@ cd gig && ./install.sh
 ./install.sh --uninstall
 ```
 
+## Upgrading
+
+Existing projects get upgraded automatically when you run `/gig:init` — it detects an outdated `.gig/` and applies changes silently.
+
+To upgrade manually (e.g., multiple projects at once):
+
+```bash
+# Upgrade a project's .gig/ to the current gig version
+./upgrade.sh /path/to/project
+
+# Preview what would change
+./upgrade.sh /path/to/project --dry-run
+```
+
+What it does:
+1. Runs terminology migration (if needed)
+2. Adds missing template files (e.g., `GOVERNANCE.md`)
+3. Sets `.gig/.gig-version` to track the installed version
+
+Safe to run multiple times — idempotent.
+
 ## Commands
 
 | Skill | What it does |
@@ -204,6 +225,7 @@ graph LR
 ├── PLAN.md              # Active iteration — batches and acceptance criteria
 ├── DECISIONS.md         # Why things are the way they are
 ├── ISSUES.md            # Problems found, tracked by severity
+├── GOVERNANCE.md        # Iteration closure report (test results, audit, verdict)
 ├── ARCHITECTURE.md      # Your stack, structure, patterns
 ├── ROADMAP.md           # Milestones, iterations, what's next
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
