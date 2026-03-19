@@ -194,7 +194,7 @@ graph LR
 | **Workflow** | gather → implement → govern | discuss → plan → execute → verify | plan → apply → unify |
 | **Issue tracking** | Built-in (severity, fix cycles) | External | External |
 | **Parallel execution** | Agent Teams + worktrees | Sequential | Sequential |
-| **Versioning** | Batch-level (MAJOR.MINOR.PATCH) | Phase-based | Phase-based |
+| **Versioning** | Iteration-based (MAJOR.MINOR.PATCH) | Phase-based | Phase-based |
 
 ## What `.gig/` looks like
 
