@@ -114,23 +114,29 @@ Entry format:
 
 ## Step 8 — Governance Report
 
-Present a complete report:
+Present a complete report AND write it to `.gig/GOVERNANCE.md`:
 
-```
-### Test Results
+```markdown
+# Governance Report
+
+> Iteration {N} — {Name}
+> Date: {today's date}
+> Version: v0.{N}.{last-P}
+
+## Test Results
 Automated: {passed}/{total} tests  {PASS|FAIL}
 Lint: {PASS|FAIL|N/A}
 
-### Acceptance Criteria
+## Acceptance Criteria
 {Each criterion with PASS or FAIL}
 
-### Decision Audit
-{Table from Step 4 — highlight deviations}
+## Decision Audit
+{Table from Step 5 — highlight deviations}
 
-### UAT Results
+## UAT Results
 {Summary: N passed, N failed, N skipped}
 
-### Issues Found
+## Issues Found
 | ID | Title | Severity | Status |
 |----|-------|----------|--------|
 {All issues from this governance round}
@@ -138,7 +144,12 @@ Lint: {PASS|FAIL|N/A}
 Blockers: {count}
 Majors: {count}
 Deferred (Minor/Cosmetic): {count}
+
+## Verdict
+{APPROVED | APPROVED WITH DEFERRALS | BLOCKED}
 ```
+
+Write this report to `.gig/GOVERNANCE.md` (overwrite any existing content). This file will be archived with the iteration.
 
 ## Step 9 — Update State
 
@@ -194,12 +205,14 @@ Copy into the archive:
 - `.gig/PLAN.md` → `.gig/iterations/v0.{N}-{iteration-name}/PLAN.md` (frozen snapshot)
 - Extract this iteration's decisions from `.gig/DECISIONS.md` → `.gig/iterations/v0.{N}-{iteration-name}/DECISIONS.md`
 - Extract this iteration's resolved issues from `.gig/ISSUES.md` → `.gig/iterations/v0.{N}-{iteration-name}/ISSUES.md`
+- `.gig/GOVERNANCE.md` → `.gig/iterations/v0.{N}-{iteration-name}/GOVERNANCE.md` (frozen snapshot)
 
 ### 2. Clear Active Files
 
 - Reset `.gig/PLAN.md` to template state (no active iteration).
 - Remove archived decisions from `.gig/DECISIONS.md` (keep the header/format comments).
 - Remove RESOLVED issues from `.gig/ISSUES.md` (DEFERRED issues stay — they carry forward).
+- Reset `.gig/GOVERNANCE.md` to template state (header and format comments only).
 
 ### 3. Git Merge & Tag (if in a git repo)
 
