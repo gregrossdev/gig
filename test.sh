@@ -273,6 +273,90 @@ echo '{}' > "$TEMP_HOME/.claude/settings.json"
 echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
 assert "GOVERNANCE.md installed to templates" test -f "$TEMP_HOME/.claude/templates/gig/GOVERNANCE.md"
 
+# --- Test 12: Hook behavioral tests ---
+
+echo "[12] Hook behavioral tests"
+
+# Ensure hooks are installed for behavioral tests
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
+echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
+HOOK_DIR="$TEMP_HOME/.claude/hooks/gig"
+
+# -- block-git-add.sh --
+
+# Deny cases
+assert "block-git-add denies 'git add -A'" \
+  sh -c "echo '{\"tool_input\":{\"command\":\"git add -A\"}}' | bash '$HOOK_DIR/block-git-add.sh' | grep -q '\"permissionDecision\"'"
+
+assert "block-git-add denies 'git add --all'" \
+  sh -c "echo '{\"tool_input\":{\"command\":\"git add --all\"}}' | bash '$HOOK_DIR/block-git-add.sh' | grep -q '\"permissionDecision\"'"
+
+assert "block-git-add denies 'git add .'" \
+  sh -c "echo '{\"tool_input\":{\"command\":\"git add .\"}}' | bash '$HOOK_DIR/block-git-add.sh' | grep -q '\"permissionDecision\"'"
+
+assert "block-git-add denies chained 'git add -A && git commit'" \
+  sh -c "echo '{\"tool_input\":{\"command\":\"git add -A && git commit -m test\"}}' | bash '$HOOK_DIR/block-git-add.sh' | grep -q '\"permissionDecision\"'"
+
+# Allow cases (should produce no output)
+assert "block-git-add allows 'git add specific-file.txt'" \
+  sh -c "OUTPUT=\$(echo '{\"tool_input\":{\"command\":\"git add specific-file.txt\"}}' | bash '$HOOK_DIR/block-git-add.sh'); [ -z \"\$OUTPUT\" ]"
+
+assert "block-git-add allows 'git add .gitignore'" \
+  sh -c "OUTPUT=\$(echo '{\"tool_input\":{\"command\":\"git add .gitignore\"}}' | bash '$HOOK_DIR/block-git-add.sh'); [ -z \"\$OUTPUT\" ]"
+
+# -- load-gig-state.sh --
+
+# Present case: temp dir with .gig/STATE.md
+LOAD_DIR="$(mktemp -d)"
+mkdir -p "$LOAD_DIR/.gig"
+echo "| **Version** | 0.1.0 |" > "$LOAD_DIR/.gig/STATE.md"
+
+assert "load-gig-state outputs context when STATE.md present" \
+  sh -c "echo '{\"cwd\":\"$LOAD_DIR\"}' | bash '$HOOK_DIR/load-gig-state.sh' | grep -q 'GIG STATE auto-loaded'"
+
+assert "load-gig-state includes state content" \
+  sh -c "echo '{\"cwd\":\"$LOAD_DIR\"}' | bash '$HOOK_DIR/load-gig-state.sh' | grep -q '0.1.0'"
+
+# Absent case: nonexistent path
+assert "load-gig-state silent when no STATE.md" \
+  sh -c "OUTPUT=\$(echo '{\"cwd\":\"/nonexistent/path\"}' | bash '$HOOK_DIR/load-gig-state.sh'); [ -z \"\$OUTPUT\" ]"
+
+rm -rf "$LOAD_DIR"
+
+# -- govern-context-check.sh --
+
+# Small transcript file
+TRANSCRIPT_DIR="$(mktemp -d)"
+echo '{"type":"message"}' > "$TRANSCRIPT_DIR/transcript.jsonl"
+
+assert "govern-context-check outputs context for transcript" \
+  sh -c "echo '{\"transcript_path\":\"$TRANSCRIPT_DIR/transcript.jsonl\"}' | bash '$HOOK_DIR/govern-context-check.sh' | grep -q 'additionalContext'"
+
+assert "govern-context-check shows low usage for small file" \
+  sh -c "echo '{\"transcript_path\":\"$TRANSCRIPT_DIR/transcript.jsonl\"}' | bash '$HOOK_DIR/govern-context-check.sh' | grep -q 'CONTEXT CHECK'"
+
+# Missing transcript_path
+assert "govern-context-check silent when no transcript_path" \
+  sh -c "OUTPUT=\$(echo '{}' | bash '$HOOK_DIR/govern-context-check.sh'); [ -z \"\$OUTPUT\" ]"
+
+rm -rf "$TRANSCRIPT_DIR"
+
+# -- check-readme.sh --
+
+# Not a git repo
+assert "check-readme silent when not in git repo" \
+  sh -c "OUTPUT=\$(echo '{\"cwd\":\"/tmp\"}' | bash '$HOOK_DIR/check-readme.sh'); [ -z \"\$OUTPUT\" ]"
+
+# On main branch
+README_DIR="$(mktemp -d)"
+git -C "$README_DIR" init -b main > /dev/null 2>&1
+git -C "$README_DIR" -c user.name=test -c user.email=test@test commit --allow-empty -m "init" > /dev/null 2>&1
+
+assert "check-readme silent on main branch" \
+  sh -c "OUTPUT=\$(echo '{\"cwd\":\"$README_DIR\"}' | bash '$HOOK_DIR/check-readme.sh'); [ -z \"\$OUTPUT\" ]"
+
+rm -rf "$README_DIR"
+
 # --- Summary ---
 
 echo ""
