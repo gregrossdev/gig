@@ -426,9 +426,19 @@ assert_not "dry-run does not create .gig-version" test -f "$DRYRUN_DIR/.gig/.gig
 
 rm -rf "$UPGRADE_DIR" "$DRYRUN_DIR"
 
-# --- Test 15: Govern plugin version instruction ---
+# --- Test 15: Init upgrade integration ---
 
-echo "[15] Govern plugin version instruction"
+echo "[15] Init upgrade integration"
+INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init references upgrade.sh" grep -q 'upgrade\.sh' "$INIT_SKILL"
+assert "init references .gig-version in Step 0" grep -q '\.gig-version' "$INIT_SKILL"
+assert "init has dual-path upgrade (plugin)" grep -q 'CLAUDE_PLUGIN_ROOT.*upgrade\.sh' "$INIT_SKILL"
+assert "init has dual-path upgrade (script)" grep -q '~/.claude/upgrade\.sh' "$INIT_SKILL"
+assert_not "init no longer has top-level Phase migration marker" grep -q '^First, check for stale "phase"' "$INIT_SKILL"
+
+# --- Test 16: Govern plugin version instruction ---
+
+echo "[16] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
