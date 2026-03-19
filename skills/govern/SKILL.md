@@ -282,6 +282,8 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
    - Mark iteration as `complete` in the iterations table.
    - Update version range with actual final version.
 
+3. Update `.gig/.gig-version` with the current version (`0.{N}.{last-P}`). This tracks which gig version last touched this project's `.gig/` directory.
+
 ---
 
 ## Step 10 — Iteration Summary & Next Suggestions

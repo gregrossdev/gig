@@ -369,9 +369,66 @@ for skill in $SKILLS; do
     assert "$skill name matches gig:$skill" grep -q "^name: gig:$skill$" "$SKILL_FILE"
 done
 
-# --- Test 14: Govern plugin version instruction ---
+# --- Test 14: upgrade.sh ---
 
-echo "[14] Govern plugin version instruction"
+echo "[14] upgrade.sh"
+
+# --help flag
+assert "upgrade.sh --help exits 0" sh "$SCRIPT_DIR/upgrade.sh" --help
+
+# Fails without .gig/ directory
+NOGIG_DIR="$(mktemp -d)"
+assert_not "upgrade.sh fails without .gig/" sh "$SCRIPT_DIR/upgrade.sh" "$NOGIG_DIR"
+
+# Fails with nonexistent path
+assert_not "upgrade.sh fails with nonexistent path" sh "$SCRIPT_DIR/upgrade.sh" "/tmp/nonexistent-$$/nope"
+
+rm -rf "$NOGIG_DIR"
+
+# Adds missing template files
+UPGRADE_DIR="$(mktemp -d)"
+mkdir -p "$UPGRADE_DIR/.gig"
+echo "# State" > "$UPGRADE_DIR/.gig/STATE.md"
+
+# Reinstall so templates are available
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
+echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
+
+sh "$SCRIPT_DIR/upgrade.sh" "$UPGRADE_DIR" > /dev/null 2>&1
+assert "upgrade adds PLAN.md" test -f "$UPGRADE_DIR/.gig/PLAN.md"
+assert "upgrade adds DECISIONS.md" test -f "$UPGRADE_DIR/.gig/DECISIONS.md"
+assert "upgrade adds ISSUES.md" test -f "$UPGRADE_DIR/.gig/ISSUES.md"
+assert "upgrade adds GOVERNANCE.md" test -f "$UPGRADE_DIR/.gig/GOVERNANCE.md"
+assert "upgrade adds ARCHITECTURE.md" test -f "$UPGRADE_DIR/.gig/ARCHITECTURE.md"
+assert "upgrade adds ROADMAP.md" test -f "$UPGRADE_DIR/.gig/ROADMAP.md"
+assert "upgrade adds GIT-STRATEGY.md" test -f "$UPGRADE_DIR/.gig/GIT-STRATEGY.md"
+assert "upgrade adds ARTICLE.md" test -f "$UPGRADE_DIR/.gig/ARTICLE.md"
+assert "upgrade creates iterations/ dir" test -d "$UPGRADE_DIR/.gig/iterations"
+assert "upgrade preserves existing STATE.md" grep -q "# State" "$UPGRADE_DIR/.gig/STATE.md"
+
+# Sets .gig-version
+assert "upgrade sets .gig-version" test -f "$UPGRADE_DIR/.gig/.gig-version"
+assert "upgrade .gig-version has content" test -s "$UPGRADE_DIR/.gig/.gig-version"
+
+# Idempotency — second run reports no changes
+assert "upgrade idempotent" sh -c "sh '$SCRIPT_DIR/upgrade.sh' '$UPGRADE_DIR' 2>&1 | grep -q 'No changes needed'"
+
+# Dry-run — does not modify files
+DRYRUN_DIR="$(mktemp -d)"
+mkdir -p "$DRYRUN_DIR/.gig"
+echo "# State" > "$DRYRUN_DIR/.gig/STATE.md"
+
+sh "$SCRIPT_DIR/upgrade.sh" "$DRYRUN_DIR" --dry-run > "$TEMP_HOME/dryrun_output.txt" 2>&1
+assert "dry-run says dry run" grep -q "dry run" "$TEMP_HOME/dryrun_output.txt"
+assert "dry-run mentions missing files" grep -q "Would add missing file" "$TEMP_HOME/dryrun_output.txt"
+assert_not "dry-run does not create PLAN.md" test -f "$DRYRUN_DIR/.gig/PLAN.md"
+assert_not "dry-run does not create .gig-version" test -f "$DRYRUN_DIR/.gig/.gig-version"
+
+rm -rf "$UPGRADE_DIR" "$DRYRUN_DIR"
+
+# --- Test 15: Govern plugin version instruction ---
+
+echo "[15] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
