@@ -44,7 +44,7 @@ cleanup() {
 trap cleanup EXIT
 
 SKILLS="init gather implement govern status milestone research handoff"
-TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md ARTICLE.md"
+TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md ARTICLE.md"
 
 echo ""
 echo "=== gig e2e tests ==="
@@ -258,6 +258,20 @@ assert "partial — STATE.md still migrated" grep -q 'Iteration' "$PARTIAL_DIR/.
 rm -rf "$PARTIAL_DIR"
 
 rm -rf "$MIGRATE_DIR"
+
+# --- Test 11: GOVERNANCE.md template and skill references ---
+
+echo "[11] GOVERNANCE.md template and govern skill"
+assert "GOVERNANCE.md template exists in repo" test -f "$SCRIPT_DIR/templates/GOVERNANCE.md"
+assert "init skill references GOVERNANCE.md" grep -q "GOVERNANCE.md" "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "govern skill writes GOVERNANCE.md" grep -q '\.gig/GOVERNANCE\.md' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern skill archives GOVERNANCE.md" grep -q 'GOVERNANCE\.md.*frozen snapshot' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern skill clears GOVERNANCE.md" grep -q 'Reset.*GOVERNANCE\.md.*template state' "$SCRIPT_DIR/skills/govern/SKILL.md"
+
+# Verify install copies GOVERNANCE.md
+echo '{}' > "$TEMP_HOME/.claude/settings.json"
+echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
+assert "GOVERNANCE.md installed to templates" test -f "$TEMP_HOME/.claude/templates/gig/GOVERNANCE.md"
 
 # --- Summary ---
 
