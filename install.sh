@@ -8,8 +8,6 @@ SKILLS_DEST="$CLAUDE_DIR/skills/gig"
 TEMPLATES_DEST="$CLAUDE_DIR/templates/gig"
 HOOKS_DEST="$CLAUDE_DIR/hooks/gig"
 SETTINGS="$CLAUDE_DIR/settings.json"
-RULES_SRC="$SCRIPT_DIR/docs/RULES.md"
-CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
 
 SKILLS="init gather implement govern status milestone research handoff"
 HAS_JQ=false
@@ -108,15 +106,6 @@ if [ "$MODE" = "uninstall" ]; then
         fi
     fi
 
-    if [ -f "$CLAUDE_MD" ]; then
-        if grep -q "# --- gig workflow rules ---" "$CLAUDE_MD" 2>/dev/null; then
-            cp "$CLAUDE_MD" "$CLAUDE_MD.bak"
-            # Remove everything between the gig markers (inclusive)
-            sed '/^# --- gig workflow rules ---$/,/^# --- end gig workflow rules ---$/d' "$CLAUDE_MD.bak" > "$CLAUDE_MD"
-            echo "  Removed gig rules from CLAUDE.md (backup: CLAUDE.md.bak)"
-        fi
-    fi
-
     echo ""
     echo "Uninstall complete."
     exit 0
@@ -178,6 +167,10 @@ else
         echo "  Installed template: $(basename "$tmpl")"
     done
 
+    # Copy RULES.md for use by /gig:init project-level setup
+    cp "$SCRIPT_DIR/docs/RULES.md" "$TEMPLATES_DEST/RULES.md"
+    echo "  Installed template: RULES.md"
+
     if [ "$SKIP_HOOKS" = false ]; then
         mkdir -p "$HOOKS_DEST"
         for hook in "$SCRIPT_DIR"/hooks/*; do
@@ -187,42 +180,6 @@ else
         done
     fi
 fi
-
-# --- Offer to append workflow rules to CLAUDE.md ---
-
-echo ""
-printf "Append gig workflow rules to %s? [y/N] " "$CLAUDE_MD"
-read -r answer || answer="n"
-
-case "$answer" in
-    [yY]|[yY][eE][sS])
-        if [ -f "$CLAUDE_MD" ]; then
-            # Remove existing gig section if present (update, not duplicate)
-            if grep -q "# --- gig workflow rules ---" "$CLAUDE_MD" 2>/dev/null; then
-                cp "$CLAUDE_MD" "$CLAUDE_MD.bak"
-                sed '/^# --- gig workflow rules ---$/,/^# --- end gig workflow rules ---$/d' "$CLAUDE_MD.bak" > "$CLAUDE_MD"
-                echo "  Removed old gig rules section"
-            else
-                cp "$CLAUDE_MD" "$CLAUDE_MD.bak"
-            fi
-            echo "  Backed up CLAUDE.md to CLAUDE.md.bak"
-        fi
-
-        {
-            echo ""
-            echo "# --- gig workflow rules ---"
-            echo ""
-            cat "$RULES_SRC"
-            echo ""
-            echo "# --- end gig workflow rules ---"
-        } >> "$CLAUDE_MD"
-
-        echo "  Appended gig workflow rules to CLAUDE.md"
-        ;;
-    *)
-        echo "  Skipped. You can find the rules in docs/RULES.md"
-        ;;
-esac
 
 # --- Register hooks in settings.json ---
 

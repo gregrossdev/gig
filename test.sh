@@ -83,20 +83,9 @@ assert "block-git-add.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/blo
 assert "load-gig-state.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
 assert "check-readme.sh syntax valid" bash -n "$TEMP_HOME/.claude/hooks/gig/check-readme.sh"
 
-# --- Test 3: CLAUDE.md append ---
+# --- Test 3: Symlink install ---
 
-echo "[3] CLAUDE.md append"
-# Uninstall first, then reinstall with y
-rm -rf "$TEMP_HOME/.claude/skills/gig" "$TEMP_HOME/.claude/templates/gig"
-echo "y" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
-
-assert "CLAUDE.md has start marker" grep -q "# --- gig workflow rules ---" "$TEMP_HOME/.claude/CLAUDE.md"
-assert "CLAUDE.md has end marker" grep -q "# --- end gig workflow rules ---" "$TEMP_HOME/.claude/CLAUDE.md"
-assert "CLAUDE.md has gig content" grep -q "gig:init" "$TEMP_HOME/.claude/CLAUDE.md"
-
-# --- Test 4: Symlink install ---
-
-echo "[4] Symlink install"
+echo "[3] Symlink install"
 echo "n" | sh "$SCRIPT_DIR/install.sh" --symlink > /dev/null 2>&1
 
 assert "skills is a symlink" test -L "$TEMP_HOME/.claude/skills/gig"
@@ -106,25 +95,24 @@ assert "templates symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/t
 assert "hooks is a symlink" test -L "$TEMP_HOME/.claude/hooks/gig"
 assert "hooks symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/hooks/gig")" = "$SCRIPT_DIR/hooks"
 
-# --- Test 5: Default install detects symlinks ---
+# --- Test 4: Default install detects symlinks ---
 
-echo "[5] Symlink detection"
+echo "[4] Symlink detection"
 sh "$SCRIPT_DIR/install.sh" < /dev/null > "$TEMP_HOME/detect_output.txt" 2>&1 || true
 assert "warns about symlinks" grep -q "installed via symlinks" "$TEMP_HOME/detect_output.txt"
 
-# --- Test 6: Uninstall ---
+# --- Test 5: Uninstall ---
 
-echo "[6] Uninstall"
+echo "[5] Uninstall"
 sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 
 assert_not "skills dir removed" test -e "$TEMP_HOME/.claude/skills/gig"
 assert_not "templates dir removed" test -e "$TEMP_HOME/.claude/templates/gig"
 assert_not "hooks dir removed" test -e "$TEMP_HOME/.claude/hooks/gig"
-assert_not "CLAUDE.md markers removed" grep -q "# --- gig workflow rules ---" "$TEMP_HOME/.claude/CLAUDE.md"
 
-# --- Test 7: Hook settings.json registration ---
+# --- Test 6: Hook settings.json registration ---
 
-echo "[7] Hook settings.json registration"
+echo "[6] Hook settings.json registration"
 echo '{}' > "$TEMP_HOME/.claude/settings.json"
 echo "n" | sh "$SCRIPT_DIR/install.sh" > /dev/null 2>&1
 
@@ -164,9 +152,9 @@ sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 assert "uninstall preserves non-gig hooks" jq -e '.hooks.PreToolUse[] | select(.matcher == "Write")' "$TEMP_HOME/.claude/settings.json"
 assert_not "uninstall removes gig hooks" jq -e '[.hooks.PreToolUse // [] | .[] | .hooks[]? | .command] | any(test("block-git-add"))' "$TEMP_HOME/.claude/settings.json"
 
-# --- Test 8: --no-hooks flag ---
+# --- Test 7: --no-hooks flag ---
 
-echo "[8] --no-hooks flag"
+echo "[7] --no-hooks flag"
 sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 echo '{}' > "$TEMP_HOME/.claude/settings.json"
 echo "n" | sh "$SCRIPT_DIR/install.sh" --no-hooks > /dev/null 2>&1
@@ -187,18 +175,18 @@ assert_not "hooks symlink skipped with --no-hooks" test -e "$TEMP_HOME/.claude/h
 # Cleanup for next test
 sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 
-# --- Test 9: Plugin manifest ---
+# --- Test 8: Plugin manifest ---
 
-echo "[9] Plugin manifest"
+echo "[8] Plugin manifest"
 assert "plugin.json exists" test -f "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin.json is valid JSON" python3 -m json.tool "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin name is gig" grep -q '"name": "gig"' "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin.json has hooks field" jq -e '.hooks' "$SCRIPT_DIR/.claude-plugin/plugin.json"
 assert "plugin.json has homepage" jq -e '.homepage' "$SCRIPT_DIR/.claude-plugin/plugin.json"
 
-# --- Test 10: Plugin hooks.json ---
+# --- Test 9: Plugin hooks.json ---
 
-echo "[10] Plugin hooks.json"
+echo "[9] Plugin hooks.json"
 assert "hooks.json exists" test -f "$SCRIPT_DIR/hooks/hooks.json"
 assert "hooks.json is valid JSON" python3 -m json.tool "$SCRIPT_DIR/hooks/hooks.json"
 assert "hooks.json has UserPromptSubmit" jq -e '.UserPromptSubmit' "$SCRIPT_DIR/hooks/hooks.json"
@@ -210,9 +198,9 @@ assert "hooks.json declares block-git-add" jq -e '[.. | .command? // empty] | an
 assert "hooks.json declares load-gig-state" jq -e '[.. | .command? // empty] | any(test("load-gig-state"))' "$SCRIPT_DIR/hooks/hooks.json"
 assert "hooks.json declares check-readme" jq -e '[.. | .command? // empty] | any(test("check-readme"))' "$SCRIPT_DIR/hooks/hooks.json"
 
-# --- Test 11: migrate.sh ---
+# --- Test 10: migrate.sh ---
 
-echo "[11] migrate.sh"
+echo "[10] migrate.sh"
 
 # Setup: create old-style .gig/ in a temp directory
 MIGRATE_DIR="$(mktemp -d)"
