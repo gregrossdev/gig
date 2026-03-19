@@ -12,18 +12,24 @@ Check if `.gig/` already exists in the current project root.
 
 **If present:**
 
-First, check for stale "phase" terminology and auto-migrate:
-1. Read `.gig/STATE.md` — look for `| **Phase**`.
-2. Read `.gig/ROADMAP.md` — look for `## Phases`.
-3. If either marker is found, migrate:
-   - **Plugin install:** Run `${CLAUDE_PLUGIN_ROOT}/migrate.sh` via Bash.
-   - **Script install (or migrate.sh not found):** Use the Edit tool to perform these replacements in `.gig/`:
-     - `STATE.md`: `| **Phase**` → `| **Iteration**`; `| Phase |` → `| Iteration |`
-     - `ROADMAP.md`: `## Phases` → `## Iterations`; `## Upcoming Phases` → `## Upcoming Iterations`; `Pre-planned phases` → `Pre-planned iterations`
-     - `ISSUES.md`: `archived with their phase` → `archived with their iteration`; `future phases` → `future iterations`; `future phase` → `future iteration`; `**Phase:**` → `**Iteration:**`
-     - `ARCHITECTURE.md`: `Phase-based versioning` → `Iteration-based versioning`; `MINOR = phase number` → `MINOR = iteration number`; `milestone/phase hierarchy` → `milestone/iteration hierarchy`
-   - Say: "Migrated .gig/ from 'phase' to 'iteration' terminology."
-4. If neither marker is found, skip silently.
+First, check if `.gig/` needs upgrading:
+1. Read `.gig/.gig-version` (if missing, treat as `0.0.0`).
+2. Compare against the current gig version:
+   - **Plugin install:** Read version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` (`"version"` field).
+   - **Script install:** Read version from `~/.claude/templates/gig/.gig-version` if it exists, otherwise use `0.0.0`.
+3. If `.gig-version` is missing or older than current:
+   - **Plugin install:** Run `${CLAUDE_PLUGIN_ROOT}/upgrade.sh` via Bash.
+   - **Script install:** If `~/.claude/upgrade.sh` exists, run it via Bash. Otherwise, fall back to inline upgrade logic:
+     - Check each expected template file (STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, ARTICLE.md) — copy any missing ones from `~/.claude/templates/gig/`.
+     - Create `.gig/iterations/` directory if missing.
+     - Check for stale "phase" terminology and apply fixes via Edit tool:
+       - `STATE.md`: `| **Phase**` → `| **Iteration**`; `| Phase |` → `| Iteration |`
+       - `ROADMAP.md`: `## Phases` → `## Iterations`; `## Upcoming Phases` → `## Upcoming Iterations`
+       - `ISSUES.md`: `archived with their phase` → `archived with their iteration`; `**Phase:**` → `**Iteration:**`
+       - `ARCHITECTURE.md`: `Phase-based versioning` → `Iteration-based versioning`; `MINOR = phase number` → `MINOR = iteration number`
+     - Write current gig version to `.gig/.gig-version`.
+   - Say: "Upgraded .gig/ to version {version}."
+4. If `.gig-version` matches current version, skip silently.
 
 Then present choices via AskUserQuestion:
 1. **Reinitialize** — wipe `.gig/` and start fresh (destructive).
