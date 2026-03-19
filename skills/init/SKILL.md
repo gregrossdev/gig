@@ -11,7 +11,21 @@ user-invocable: true
 Check if `.gig/` already exists in the current project root.
 
 **If present:**
-Use AskUserQuestion:
+
+First, check for stale "phase" terminology and auto-migrate:
+1. Read `.gig/STATE.md` — look for `| **Phase**`.
+2. Read `.gig/ROADMAP.md` — look for `## Phases`.
+3. If either marker is found, migrate:
+   - **Plugin install:** Run `${CLAUDE_PLUGIN_ROOT}/migrate.sh` via Bash.
+   - **Script install (or migrate.sh not found):** Use the Edit tool to perform these replacements in `.gig/`:
+     - `STATE.md`: `| **Phase**` → `| **Iteration**`; `| Phase |` → `| Iteration |`
+     - `ROADMAP.md`: `## Phases` → `## Iterations`; `## Upcoming Phases` → `## Upcoming Iterations`; `Pre-planned phases` → `Pre-planned iterations`
+     - `ISSUES.md`: `archived with their phase` → `archived with their iteration`; `future phases` → `future iterations`; `future phase` → `future iteration`; `**Phase:**` → `**Iteration:**`
+     - `ARCHITECTURE.md`: `Phase-based versioning` → `Iteration-based versioning`; `MINOR = phase number` → `MINOR = iteration number`; `milestone/phase hierarchy` → `milestone/iteration hierarchy`
+   - Say: "Migrated .gig/ from 'phase' to 'iteration' terminology."
+4. If neither marker is found, skip silently.
+
+Then present choices via AskUserQuestion:
 1. **Reinitialize** — wipe `.gig/` and start fresh (destructive).
 2. **Abort** — keep existing context.
 
