@@ -12,6 +12,11 @@ argument-hint: "[batch number]"
 Read `.gig/STATE.md` and display:
 `Version: {version} | Iteration: {iteration} | Status: {status}`
 
+If `.claude-plugin/plugin.json` exists, read the `name` and `version` fields and append to the header:
+`| Plugin: {name} v{version}`
+
+If `.claude-plugin/plugin.json` does not exist, skip silently.
+
 ## Step 1 — Guard Check
 
 Read `.gig/STATE.md`, `.gig/PLAN.md`, and `.gig/DECISIONS.md`.
@@ -130,6 +135,7 @@ Present a checkpoint to the user:
 - What was done
 - Test criteria results
 - What's next
+- If `.claude-plugin/plugin.json` exists: `Plugin: {name} v{version}` (current manifest version — will be synced by govern)
 
 Then say:
 
