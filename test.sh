@@ -357,6 +357,18 @@ assert "check-readme silent on main branch" \
 
 rm -rf "$README_DIR"
 
+# --- Test 13: Skill frontmatter validation ---
+
+echo "[13] Skill frontmatter validation"
+
+for skill in $SKILLS; do
+    SKILL_FILE="$SCRIPT_DIR/skills/$skill/SKILL.md"
+    assert "$skill has name field" grep -q '^name:' "$SKILL_FILE"
+    assert "$skill has description field" grep -q '^description:' "$SKILL_FILE"
+    assert "$skill has user-invocable field" grep -q '^user-invocable:' "$SKILL_FILE"
+    assert "$skill name matches gig:$skill" grep -q "^name: gig:$skill$" "$SKILL_FILE"
+done
+
 # --- Summary ---
 
 echo ""
