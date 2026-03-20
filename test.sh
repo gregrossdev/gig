@@ -453,9 +453,18 @@ assert "govern skill references Plugin Version" grep -q 'Plugin Version' "$SCRIP
 assert "implement skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/implement/SKILL.md"
 assert "init skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/init/SKILL.md"
 
-# --- Test 18: Govern plugin version instruction ---
+# --- Test 18: Iteration queue cap ---
 
-echo "[18] Govern plugin version instruction"
+echo "[18] Iteration queue cap"
+assert "govern says exactly 3 suggestions" grep -q 'exactly 3' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern says replace never append" grep -q 'replace, never append' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern says clear upcoming table" grep -q 'Clear.*Upcoming Iterations table' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern mentions freeform option" grep -q 'gather \[your idea\]' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/ROADMAP.md"
+
+# --- Test 19: Govern plugin version instruction ---
+
+echo "[19] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"

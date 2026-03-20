@@ -313,55 +313,40 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
 
-### Show Existing Queue
+### Generate 3 Suggestions
 
-Check `.gig/ROADMAP.md` for an Upcoming Iterations section.
-
-If upcoming iterations exist, show them:
-
-```
-> **Next up:** {name} — {description}
-> Run `gather` to start.
-
-Also queued: {list any other upcoming iteration names}
-```
-
-### Generate New Suggestions
-
-**Always** generate 2-3 new iteration suggestions, regardless of whether the queue has entries.
-
-```
-### Suggested Next Iterations
-
-Based on the current state, open issues, and roadmap:
-
-1. **{Iteration idea 1}** — {Why: addresses deferred issues, natural next step, etc.}
-2. **{Iteration idea 2}** — {Why: extends what was built, fills a gap, etc.}
-3. **{Iteration idea 3}** — {Why: improves quality, adds tests, refactors, etc.}
-```
-
-Derive suggestions from:
+Generate exactly 3 fresh iteration suggestions based on:
 - **Open/deferred issues** in ISSUES.md (highest priority)
 - **Roadmap gaps** — what the milestone needs that hasn't been built
 - **Natural extensions** — what logically follows from what was just built
 - **Quality improvements** — testing, refactoring, documentation, performance
 
-Do not duplicate iterations already in the Upcoming Iterations table.
+```
+### What's Next?
+
+1. **{Iteration idea 1}** — {Why}
+2. **{Iteration idea 2}** — {Why}
+3. **{Iteration idea 3}** — {Why}
+
+Or run `gather [your idea]` to start something else entirely.
+```
 
 ### Write Suggestions to Roadmap
 
-Present the new suggestions with:
-> "I'll add these to your roadmap as upcoming iterations. Edit or remove any you don't want."
+Present the 3 suggestions, then:
+> "These will replace your upcoming iterations queue. Edit or remove any you don't want."
 
 **If user edits:** Apply their changes and write the edited versions.
-**Otherwise:** Write all suggestions to ROADMAP.md.
+**Otherwise:** Write all 3 to ROADMAP.md.
 
-Append each accepted suggestion as a row in the Upcoming Iterations table:
+**Clear** the entire Upcoming Iterations table in `.gig/ROADMAP.md`, then write the 3 new entries:
 ```
 | {next iteration #} | {Iteration Name} | {One-line description} |
 ```
 
 Number new suggestions starting after the highest existing iteration number (from both the Iterations table and Upcoming Iterations table).
+
+**Hard rule:** The Upcoming Iterations table holds a maximum of 3 entries. Always replace, never append.
 
 Then say:
 
