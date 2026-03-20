@@ -442,7 +442,7 @@ echo "[16] Implement plugin awareness"
 IMPL_SKILL="$SCRIPT_DIR/skills/implement/SKILL.md"
 assert "implement references plugin.json" grep -q 'plugin\.json' "$IMPL_SKILL"
 assert "implement has plugin version in Step 0" grep -q 'Plugin:.*{name}.*v{version}' "$IMPL_SKILL"
-assert "implement has plugin version in checkpoint" grep -q 'Plugin:.*{name}.*v{version}.*manifest' "$IMPL_SKILL"
+assert "implement has plugin version in header" grep -q 'Plugin:.*{name}.*v{version}' "$IMPL_SKILL"
 assert "implement skips silently when no plugin.json" grep -q 'does not exist, skip silently' "$IMPL_SKILL"
 
 # --- Test 17: Plugin Version field in STATE.md template and skills ---
@@ -462,9 +462,18 @@ assert "govern says clear upcoming table" grep -q 'Clear.*Upcoming Iterations ta
 assert "govern mentions freeform option" grep -q 'gather \[your idea\]' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/ROADMAP.md"
 
-# --- Test 19: Govern plugin version instruction ---
+# --- Test 19: Implement auto-continue ---
 
-echo "[19] Govern plugin version instruction"
+echo "[19] Implement auto-continue"
+assert "implement has auto-continue step" grep -q 'Auto-Continue' "$SCRIPT_DIR/skills/implement/SKILL.md"
+assert "implement has brief status line" grep -q 'Continuing\.\.\.' "$SCRIPT_DIR/skills/implement/SKILL.md"
+assert_not "implement no longer has 'next to proceed'" grep -q 'next.*to proceed' "$SCRIPT_DIR/skills/implement/SKILL.md"
+assert "implement stops on failure" grep -q 'failed verification' "$SCRIPT_DIR/skills/implement/SKILL.md"
+assert "implement has Do NOT stop instruction" grep -q 'Do NOT stop.*Do NOT prompt' "$SCRIPT_DIR/skills/implement/SKILL.md"
+
+# --- Test 20: Govern plugin version instruction ---
+
+echo "[20] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
