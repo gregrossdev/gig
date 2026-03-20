@@ -276,6 +276,7 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 1. Update `.gig/STATE.md`:
    - **Status:** `GOVERNED`
    - Version stays at the last batch version (e.g., `0.7.4`)
+   - **Plugin Version:** if `.claude-plugin/plugin.json` was updated, set to the new version (e.g., `0.{N}.{last-P}`). Otherwise leave as `—`.
    - Next iteration will start at `0.{N+1}.1` when the first batch of that iteration completes
 
 2. Update `.gig/ROADMAP.md`:

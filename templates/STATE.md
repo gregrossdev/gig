@@ -9,6 +9,7 @@
 | **Status** | `IDLE` |
 | **Last Batch** | — |
 | **Last Updated** | — |
+| **Plugin Version** | — |
 
 ---
 
