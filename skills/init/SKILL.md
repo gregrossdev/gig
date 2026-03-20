@@ -168,6 +168,7 @@ Based on discovery, propose the first milestone:
    - Status: `IDLE`
    - Last Batch: "Project discovery & scaffold"
    - Last Updated: today's date
+   - Plugin Version: if `.claude-plugin/plugin.json` exists in the project, read its `version` field. Otherwise set to `—`.
    - Working Memory (the Working Memory section of STATE.md — key context like file paths, patterns, and conventions discovered during work): leave empty for now; populated during implement.
 
 3. Add bootstrap entry to Batch History:

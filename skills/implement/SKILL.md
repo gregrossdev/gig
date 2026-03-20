@@ -124,6 +124,7 @@ After each batch:
    - **Status:** `IMPLEMENTING`
    - **Last Batch:** batch title
    - **Last Updated:** today's date
+   - **Plugin Version:** if `.claude-plugin/plugin.json` exists, read its `version` field and update this row. Otherwise leave as `—`.
    - Add to **Batch History**
    - Update **Working Memory** with discoveries
 
