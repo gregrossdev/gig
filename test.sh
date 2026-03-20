@@ -445,9 +445,17 @@ assert "implement has plugin version in Step 0" grep -q 'Plugin:.*{name}.*v{vers
 assert "implement has plugin version in checkpoint" grep -q 'Plugin:.*{name}.*v{version}.*manifest' "$IMPL_SKILL"
 assert "implement skips silently when no plugin.json" grep -q 'does not exist, skip silently' "$IMPL_SKILL"
 
-# --- Test 17: Govern plugin version instruction ---
+# --- Test 17: Plugin Version field in STATE.md template and skills ---
 
-echo "[17] Govern plugin version instruction"
+echo "[17] Plugin Version field"
+assert "STATE.md template has Plugin Version field" grep -q 'Plugin Version' "$SCRIPT_DIR/templates/STATE.md"
+assert "govern skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "implement skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/implement/SKILL.md"
+assert "init skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/init/SKILL.md"
+
+# --- Test 18: Govern plugin version instruction ---
+
+echo "[18] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
