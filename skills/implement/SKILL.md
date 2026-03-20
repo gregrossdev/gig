@@ -130,37 +130,29 @@ After each batch:
 
 2. Update batch status in `.gig/PLAN.md` from `pending` to `done`.
 
-## Step 8 — Batch Checkpoint
+## Step 8 — Auto-Continue
 
-Present a checkpoint to the user:
-- What was done
-- Test criteria results
-- What's next
-- If `.claude-plugin/plugin.json` exists: `Plugin: {name} v{version}` (current manifest version — will be synced by govern)
+After a batch passes verification, show a brief status line and auto-continue to the next batch:
 
-Then say:
+> `Batch {N}.{P} done — {batch title}. Continuing...`
 
-> **Checkpoint.** Batch {N}.{P} complete — version `0.{N}.{P}`.
+**Do NOT stop. Do NOT prompt. Proceed directly to Step 3 for the next batch.**
+
+The user can interrupt at any time by typing. If they do:
+- **`fix [thing]`** — Increment PATCH, tag `[UNPLANNED]`, execute the fix, insert into PLAN.md, shift subsequent versions, resume.
+- **`revise [decision ID]`** — Update DECISIONS.md (mark old AMENDED, append new as ACTIVE), assess impact on remaining batches.
+- **`pause`** — Update STATE and stop.
+
+**If verification FAILS (Step 5):** STOP and present the error:
+
+> **Batch {N}.{P} failed verification.**
+> {What failed and why}
 >
-> - **Continue** — `next` to proceed to next batch.
-> - **Pause** — save state and stop here.
-> - **Fix [thing]** — insert unplanned work as next batch.
-> - **Revise decision** — reference by ID if something needs to change.
+> - **Fix** — attempt to fix the issue and re-verify.
+> - **Skip** — mark batch as skipped (must address in governance).
+> - **Stop** — save state and halt implementation.
 
-**If user says `fix [thing]`:**
-1. Increment PATCH version.
-2. Tag as `[UNPLANNED]` in batch history and PLAN.md.
-3. Execute the fix.
-4. Insert retroactively into PLAN.md so the plan reflects reality.
-5. Shift subsequent planned batch versions forward.
-6. Resume normal flow.
-
-**If user revises a decision:**
-- Update `.gig/DECISIONS.md`: mark old entry AMENDED, append new as ACTIVE.
-- Assess impact on remaining batches and adjust if needed.
-
-**If user says continue:** go back to Step 3 for next batch.
-**If user says pause:** update STATE and stop.
+Wait for user direction before proceeding.
 
 ## Step 9 — Iteration Complete
 
