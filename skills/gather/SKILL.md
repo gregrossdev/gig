@@ -72,7 +72,7 @@ Before making ANY decisions, research thoroughly:
 
 Do NOT skip this step. Do NOT guess. Decision quality depends on thorough research.
 
-### Step 4 — Generate Decision Batch
+### Step 4 — Present Decisions
 
 Ask yourself every question that needs answering. For each, make a decision.
 Organize into a single batch of 3-7 decisions.
@@ -85,26 +85,11 @@ Organize into a single batch of 3-7 decisions.
 
 If more than 7 decisions are needed, split into multiple batches and present sequentially.
 
-### Step 5 — Write Decisions
-
-Write batch to `.gig/DECISIONS.md` (preserve existing entries).
-
-Entry format:
-```
-## {TODAY'S DATE} — {Domain}: {Question}
-
-**Decision:** {What was decided}
-**Rationale:** {Why — reference research findings}
-**Alternatives considered:** {What else was viable and why rejected}
-**Status:** PROPOSED
-**ID:** D-{batch}.{num}
-```
-
-### Step 6 — Update State
-
 Update `.gig/STATE.md`:
 - Set **Iteration** to the goal/topic being decided on.
 - Set **Status** to `GATHERING`.
+
+**Do NOT write to DECISIONS.md yet.** Present decisions in chat only.
 
 ### APPROVAL GATE 1 — Decisions
 
@@ -123,20 +108,26 @@ Then say:
 
 **STOP. Do not create a plan. Do not write code. Wait for approval.**
 
-### After Gate 1 Approval
+### After Gate 1 Approval — Write Decisions
 
-Once approved (with or without redlines):
+Once approved (with or without redlines), write all decisions to `.gig/DECISIONS.md` directly as **ACTIVE** entries:
 
-1. For redlined decisions:
-   - Change original entry's status from PROPOSED to AMENDED.
-   - Append NEW entry with user's choice, status ACTIVE, note: "Overridden by user — original: {original choice}"
+```
+## {TODAY'S DATE} — {Domain}: {Question}
 
-2. Change all remaining PROPOSED to ACTIVE.
+**Decision:** {What was decided}
+**Rationale:** {Why — reference research findings}
+**Alternatives considered:** {What else was viable and why rejected}
+**Status:** ACTIVE
+**ID:** D-{batch}.{num}
+```
 
-3. Update `.gig/STATE.md`:
-   - Active Decisions: list all ACTIVE decision IDs with one-line summaries.
+For redlined decisions: write only the user's final choice as ACTIVE. Do not write the original proposal.
 
-4. Say: "Decisions locked. Building the plan..."
+Update `.gig/STATE.md`:
+- Active Decisions: list all ACTIVE decision IDs with one-line summaries.
+
+Say: "Decisions locked. Building the plan..."
 
 ---
 
