@@ -488,9 +488,17 @@ assert "gather writes directly as ACTIVE" grep -q 'directly as.*ACTIVE' "$GATHER
 assert_not "gather no longer has pre-approval write step" grep -q '^### Step 5 — Write Decisions' "$GATHER_SKILL"
 assert "gather defers DECISIONS.md write" grep -q 'Do NOT write to DECISIONS.md yet' "$GATHER_SKILL"
 
-# --- Test 22: Govern plugin version instruction ---
+# --- Test 22: FUTURE.md backlog ---
 
-echo "[22] Govern plugin version instruction"
+echo "[22] FUTURE.md backlog"
+assert "FUTURE.md template exists" test -f "$SCRIPT_DIR/templates/FUTURE.md"
+assert "init skill references FUTURE.md" grep -q 'FUTURE\.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "govern skill references FUTURE.md" grep -q 'FUTURE\.md' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "status skill references Backlog" grep -q 'Backlog' "$SCRIPT_DIR/skills/status/SKILL.md"
+
+# --- Test 23: Govern plugin version instruction ---
+
+echo "[23] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
