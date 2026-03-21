@@ -480,9 +480,17 @@ assert "gather references ExitPlanMode" grep -q 'ExitPlanMode' "$GATHER_SKILL"
 assert_not "gather no longer has old Gate 2 STOP" grep -q 'STOP\. Do not implement\.' "$GATHER_SKILL"
 assert "gather writes after plan approval" grep -q 'After Plan Approval.*Write State' "$GATHER_SKILL"
 
-# --- Test 21: Govern plugin version instruction ---
+# --- Test 21: Gather decision batching UX ---
 
-echo "[21] Govern plugin version instruction"
+echo "[21] Gather decision batching UX"
+assert "gather writes decisions after approval" grep -q 'After Gate 1 Approval.*Write Decisions' "$GATHER_SKILL"
+assert "gather writes directly as ACTIVE" grep -q 'directly as.*ACTIVE' "$GATHER_SKILL"
+assert_not "gather no longer has pre-approval write step" grep -q '^### Step 5 — Write Decisions' "$GATHER_SKILL"
+assert "gather defers DECISIONS.md write" grep -q 'Do NOT write to DECISIONS.md yet' "$GATHER_SKILL"
+
+# --- Test 22: Govern plugin version instruction ---
+
+echo "[22] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
