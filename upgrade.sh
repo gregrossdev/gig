@@ -18,7 +18,7 @@ DRY_RUN=false
 if [ -f "$SCRIPT_DIR/.claude-plugin/plugin.json" ] && command -v jq >/dev/null 2>&1; then
     GIG_VERSION=$(jq -r '.version' "$SCRIPT_DIR/.claude-plugin/plugin.json")
 else
-    GIG_VERSION="0.57.1"
+    GIG_VERSION="0.50.2"
 fi
 
 # --- Argument parsing ---
@@ -128,20 +128,17 @@ fi
 if [ -z "$TEMPLATE_DIR" ]; then
     echo "  Warning: No template source found. Skipping missing file check."
 else
-    # Expected template files in .gig/
-    TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md ARTICLE.md"
-
-    for tmpl in $TEMPLATES; do
+    # Scan template directory for all .md files
+    for tmpl_path in "$TEMPLATE_DIR"/*.md; do
+        tmpl=$(basename "$tmpl_path")
         if [ ! -f "$GIG_DIR/$tmpl" ]; then
-            if [ -f "$TEMPLATE_DIR/$tmpl" ]; then
-                if [ "$DRY_RUN" = true ]; then
-                    echo "  [dry-run] Would add missing file: $tmpl"
-                else
-                    cp "$TEMPLATE_DIR/$tmpl" "$GIG_DIR/$tmpl"
-                    echo "  Added missing file: $tmpl"
-                fi
-                CHANGED=$((CHANGED + 1))
+            if [ "$DRY_RUN" = true ]; then
+                echo "  [dry-run] Would add missing file: $tmpl"
+            else
+                cp "$tmpl_path" "$GIG_DIR/$tmpl"
+                echo "  Added missing file: $tmpl"
             fi
+            CHANGED=$((CHANGED + 1))
         fi
     done
 
