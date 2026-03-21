@@ -142,6 +142,10 @@ Once approved (with or without redlines):
 
 ## PART B — Plan
 
+### Enter Plan Mode
+
+After decisions are locked, call `EnterPlanMode` to design the iteration plan. In plan mode, Claude explores the codebase and designs the batch breakdown — no writes to `.gig/` files yet.
+
 ### Step 7 — Determine Iteration
 
 Look at `.gig/ROADMAP.md` iterations table and `.gig/iterations/` directory.
@@ -184,7 +188,25 @@ For each batch:
 
 Tag dependencies explicitly: "Depends on Batch X.Y".
 
-### Step 9 — Write the Plan
+### APPROVAL GATE 2 — Plan (via Plan Mode)
+
+Present the plan in plan mode:
+1. Iteration name and goal
+2. Batch table with versions and delegation modes
+3. Dependencies between batches
+4. Which batches will run in parallel (team mode)
+5. Test criteria summary
+6. Total batch count
+
+Then call `ExitPlanMode` for user approval.
+
+**Do not write any `.gig/` files while in plan mode. Wait for approval.**
+
+### After Plan Approval — Write State
+
+Once the user approves the plan (exits plan mode):
+
+**Step 9 — Write the Plan**
 
 Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 
@@ -213,7 +235,7 @@ Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 **Completion triggers Iteration {N+1} -> version `0.{N+1}.0`**
 ```
 
-### Step 10 — Update State & Roadmap
+**Step 10 — Update State & Roadmap**
 
 Update `.gig/STATE.md`:
 - **Version:** `0.{N}.0`
@@ -225,23 +247,3 @@ Update `.gig/STATE.md`:
 Update `.gig/ROADMAP.md` iterations table:
 - If the iteration was consumed from Upcoming Iterations in Step 2, it's already in the Iterations table — skip adding.
 - Otherwise (freeform goal), add row: `| {N} | {Name} | v0.{N}.x | planned |`
-
-### APPROVAL GATE 2 — Plan
-
-Present the plan:
-1. Iteration name and goal
-2. Batch table with versions and delegation modes
-3. Dependencies between batches
-4. Which batches will run in parallel (team mode)
-5. Test criteria summary
-6. Total batch count
-
-Then say:
-
-> **Does this batch look good?**
->
-> - **Approve** — reply "approve" to proceed to `/gig:implement`.
-> - **Adjust** — suggest changes to batch breakdown or ordering.
-> - **Revise decisions** — reference by ID if something needs to change.
-
-**STOP. Do not implement. Do not create worktrees. Wait for approval.**
