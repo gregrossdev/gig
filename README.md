@@ -9,95 +9,92 @@
 A structured workflow system for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 Gather. Implement. Govern. Zero decision fatigue.
 
-## Quick start
+## How it works
 
-```bash
-# Install
-git clone https://github.com/gregrossdev/gig.git && cd gig && ./install.sh
+You tell Claude what you want. Claude does the rest — research, decisions, implementation, testing — and checks in with you at two gates before writing any code.
 
-# Then in any project:
-cd your-project
-```
+Each iteration is one loop — **decide, build, verify**:
 
 ```
-/gig:init       →  scaffolds .gig/, discovers your stack, proposes first milestone
-/gig:gather     →  researches, makes decisions, builds the plan
-/gig:implement  →  executes batches with checkpoints
-/gig:govern     →  validates, tracks issues, archives iteration
+/gig:gather     →  decide: research, make decisions, build the plan
+/gig:implement  →  build:  execute batches with checkpoints
+/gig:govern     →  verify: test, validate, track issues, archive
 ```
 
-That's it. Repeat `gather → implement → govern` for each iteration.
+Repeat for the next iteration. That's the whole system.
 
-## What actually happens
+## Gather — decide what to build
 
-### `/gig:gather` — Claude does the thinking
-
-You say what you want. Claude researches your codebase, makes every decision, and presents them for approval:
+You say what you want. Claude researches your codebase, makes every decision, and presents them in a batch:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│ Does this batch look good?                              │
-│                                                         │
-│ | ID    | Decision        | Choice          |           │
-│ |-------|-----------------|-----------------|           │
-│ | D-1.1 | Database        | SQLite + Drizzle|           │
-│ | D-1.2 | API pattern     | REST with Hono  |           │
-│ | D-1.3 | Auth            | Better Auth     |           │
-│ | D-1.4 | Validation      | Zod schemas     |           │
-│                                                         │
-│ → "approve" / "D-1.2: use tRPC instead" / "no"         │
-└─────────────────────────────────────────────────────────┘
+| ID    | Decision              | Choice                                    |
+|-------|-----------------------|-------------------------------------------|
+| D-1.1 | Directory structure   | Split templates into gig/ and project/    |
+| D-1.2 | Initial templates     | ARTICLE.md, README.md, RESEARCH.md        |
+| D-1.3 | Copy destination      | Project root, skip if exists              |
+| D-1.4 | Selection UX          | Opt-in at init, user picks templates      |
+| D-1.5 | ARTICLE.md migration  | Move out of .gig/ state files             |
+| D-1.6 | Upgrade behavior      | upgrade.sh ignores project templates      |
+
+Does this batch look good?
+
+→ "approve" / "D-1.3: copy to docs/ instead" / "no"
 ```
 
 After you approve decisions, Claude builds the plan — small batches, one concern each:
 
 ```
-| Batch | Version | Title                    | Status  |
-|-------|---------|--------------------------|---------|
-| 1.1   | 0.1.1   | Database schema & config | pending |
-| 1.2   | 0.1.2   | Auth setup               | pending |
-| 1.3   | 0.1.3   | API routes               | pending |
-| 1.4   | 0.1.4   | Input validation         | pending |
+Iteration 65 — Project Templates (v0.65.x)
+
+| Batch | Version | Title                                    | Status  |
+|-------|---------|------------------------------------------|---------|
+| 65.1  | 0.65.1  | Restructure templates directory           | pending |
+| 65.2  | 0.65.2  | Create README.md and RESEARCH.md templates| pending |
+| 65.3  | 0.65.3  | Update init skill for project templates   | pending |
+| 65.4  | 0.65.4  | Update tests                              | pending |
 ```
 
-You approve again, then run `/gig:implement`.
+You approve again, then build.
 
-### `/gig:implement` — Claude does the work
+## Implement — build it batch by batch
 
-Batches execute one at a time with checkpoints after each:
+Batches execute with auto-continue. Claude reports progress after each:
 
 ```
-Checkpoint. Batch 1.2 complete — version 0.1.2.
+Batch 65.1 done — Restructure templates directory. Continuing...
+Batch 65.2 done — Create README.md and RESEARCH.md templates. Continuing...
+Batch 65.3 done — Update init skill for project templates. Continuing...
+Batch 65.4 done — Update tests. Continuing...
 
-  Auth setup done: Better Auth configured, login/register routes,
-  session middleware, protected route wrapper.
-
-  → "next" to continue
-  → "fix [thing]" to insert unplanned work
-  → "pause" to stop here
+All batches implemented. Run /gig:govern to validate.
 ```
+
+You can interrupt anytime:
+- `fix [thing]` — insert unplanned work as the next batch
+- `pause` — save state and stop
+- `revise D-1.3` — change a decision mid-build
 
 Independent batches run in parallel using Agent Teams with git worktrees.
-Decisions can be revised mid-build if reality disagrees with the plan.
 
-### `/gig:govern` — Claude validates the work
+## Govern — verify before you ship
 
-Governance runs tests, checks acceptance criteria, audits decisions, and tracks issues:
+Governance runs tests, checks acceptance criteria, audits every decision, and produces a report:
 
 ```
-### Governance Report
+Governance Report — Iteration 65
 
-Test Results: 24/24 passed
-Acceptance Criteria: 4/4 met
-Decision Audit: 4/4 match implementation
+Tests: 212/212 PASS
+Acceptance Criteria: 5/5 PASS
+Decision Audit: 6/6 match
+Issues: 0
 
-Issues: 0 blockers, 0 majors
+Verdict: APPROVED
 
 → "approve" to archive iteration and merge to main
 ```
 
-Blockers and majors loop back to implement. Minor issues defer to future iterations.
-After approval, the iteration archives to `.gig/iterations/` and govern suggests what's next.
+Blockers and majors loop back to build. Minor issues defer to future iterations. After approval, the iteration archives to `.gig/iterations/` and Claude suggests what's next.
 
 ## The only question Claude asks
 
@@ -107,12 +104,6 @@ After approval, the iteration archives to `.gig/iterations/` and govern suggests
 
 ## Install
 
-**Plugin:**
-```bash
-/plugin install gig
-```
-
-**Shell script:**
 ```bash
 git clone https://github.com/gregrossdev/gig.git
 cd gig && ./install.sh
@@ -207,16 +198,6 @@ graph LR
 - **MINOR** — always equals the iteration number
 - **MAJOR** — milestone completion (you declare v1.0, never Claude)
 
-## How gig differs
-
-| | gig | GSD | PAUL |
-|---|---|---|---|
-| **Approach** | Claude decides everything, you approve | Interactive discussion | Interactive planning |
-| **Workflow** | gather → implement → govern | discuss → plan → execute → verify | plan → apply → unify |
-| **Issue tracking** | Built-in (severity, fix cycles) | External | External |
-| **Parallel execution** | Agent Teams + worktrees | Sequential | Sequential |
-| **Versioning** | Iteration-based (MAJOR.MINOR.PATCH) | Phase-based | Phase-based |
-
 ## What `.gig/` looks like
 
 ```
@@ -228,6 +209,7 @@ graph LR
 ├── GOVERNANCE.md        # Iteration closure report (test results, audit, verdict)
 ├── ARCHITECTURE.md      # Your stack, structure, patterns
 ├── ROADMAP.md           # Milestones, iterations, what's next
+├── FUTURE.md            # Backlog ideas — no commitment, no priority
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
 └── iterations/          # Completed iteration archives (full history)
 ```
