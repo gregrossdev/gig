@@ -81,7 +81,22 @@ Independent batches run in parallel using Agent Teams with git worktrees.
 
 ## Govern — verify before you ship
 
-Governance runs tests, checks acceptance criteria, audits every decision, and produces a report:
+First, a quick manual verification step:
+
+```
+Quick Verify
+
+The latest batch implemented: 65.4 — Update tests (all 4 batches complete)
+
+Try these to confirm it works:
+- ls templates/gig/ templates/project/ — should show split directory structure
+- grep 'project templates' skills/init/SKILL.md — should match Step 1b
+- ./test.sh — all 212 tests should pass
+
+Reply "verified" or "skip" to continue with governance.
+```
+
+Then governance runs tests, checks acceptance criteria, audits every decision, and produces a report:
 
 ```
 Acceptance Criteria
