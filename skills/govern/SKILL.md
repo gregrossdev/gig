@@ -256,11 +256,14 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
    - Remove worktrees if any were created for team tasks.
    - Verify clean state: `git status`
 
-6. **Push (if remote exists):**
-   - Check: `git remote` — if output is non-empty, a remote is configured.
-   - Push main and tags: `git push origin main --tags`
-   - Report: "Pushed to origin." or note if push fails.
-   - If no remote, skip silently.
+6. **Push (if remotes exist):**
+   - Check: `git remote` — if output is non-empty, remotes are configured.
+   - Push main and tags to **every** configured remote:
+     ```
+     git remote | while read remote; do git push "$remote" main --tags; done
+     ```
+   - Report each: "Pushed to {remote}." or note if push fails.
+   - If no remotes, skip silently.
 
 7. **Never:**
    - Force-push
