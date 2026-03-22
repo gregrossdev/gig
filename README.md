@@ -84,13 +84,29 @@ Independent batches run in parallel using Agent Teams with git worktrees.
 Governance runs tests, checks acceptance criteria, audits every decision, and produces a report:
 
 ```
-Governance Report — Iteration 65
+Acceptance Criteria
 
-Tests: 212/212 PASS
-Acceptance Criteria: 5/5 PASS
-Decision Audit: 6/6 match
-Issues: 0
+| Criterion                                     | Status | Evidence                                          |
+|-----------------------------------------------|--------|---------------------------------------------------|
+| templates/ split into gig/ and project/       | PASS   | Directory structure confirmed, test [23] passes   |
+| ARTICLE.md moved, README.md and RESEARCH.md   | PASS   | All 3 in templates/project/, tests [2] [23]       |
+| Init skill offers project templates as opt-in | PASS   | Test [23]: init has project templates step         |
+| install.sh and upgrade.sh work with structure | PASS   | Tests [2], [14]: install copies, upgrade skips    |
+| All tests pass                                | PASS   | 212/212 passed                                    |
 
+Decision Audit
+
+| Decision ID | Decision                              | Matches? | Notes                              |
+|-------------|---------------------------------------|----------|------------------------------------|
+| D-1.1       | Split templates into gig/ and project | Yes      | Directory structure confirmed      |
+| D-1.2       | ARTICLE, README, RESEARCH templates   | Yes      | All 3 in templates/project/        |
+| D-1.3       | Copy to project root, skip if exists  | Yes      | Init skill behavior                |
+| D-1.4       | Opt-in at init, user picks            | Yes      | Init skill has project templates   |
+| D-1.5       | Move ARTICLE.md out of .gig/          | Yes      | Removed from init file list        |
+| D-1.6       | upgrade.sh ignores project templates  | Yes      | Confirmed by tests                 |
+
+UAT: 3/3 passed, 0 failed.
+Issues: 0 blockers, 0 majors.
 Verdict: APPROVED
 
 → "approve" to archive iteration and merge to main
