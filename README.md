@@ -28,18 +28,20 @@ Repeat for the next iteration. That's the whole system.
 You say what you want. Claude researches your codebase, makes every decision, and presents them in a batch:
 
 ```
-| ID    | Decision              | Choice                                    |
-|-------|-----------------------|-------------------------------------------|
-| D-1.1 | Directory structure   | Split templates into gig/ and project/    |
-| D-1.2 | Initial templates     | ARTICLE.md, README.md, RESEARCH.md        |
-| D-1.3 | Copy destination      | Project root, skip if exists              |
-| D-1.4 | Selection UX          | Opt-in at init, user picks templates      |
-| D-1.5 | ARTICLE.md migration  | Move out of .gig/ state files             |
-| D-1.6 | Upgrade behavior      | upgrade.sh ignores project templates      |
+| ID    | Decision             | Choice                                 | Rationale (1-line)                                    |
+|-------|----------------------|----------------------------------------|-------------------------------------------------------|
+| D-1.1 | Directory structure  | Split templates into gig/ and project/ | Clean separation — state files vs user-facing output  |
+| D-1.2 | Initial templates    | ARTICLE.md, README.md, RESEARCH.md     | Three templates the user requested                    |
+| D-1.3 | Copy destination     | Project root, skip if exists           | Respects user customization, not hidden in .gig/      |
+| D-1.4 | Selection UX         | Opt-in at init, user picks templates   | Not every project needs an article or research doc    |
+| D-1.5 | ARTICLE.md migration | Move out of .gig/ state files          | It was never a state file — clean break               |
+| D-1.6 | Upgrade behavior     | upgrade.sh ignores project templates   | Upgrade is for .gig/ state files, not project output  |
 
 Does this batch look good?
 
-→ "approve" / "D-1.3: copy to docs/ instead" / "no"
+→ Approve — reply "approve" or "looks good" to lock these in.
+→ Redline — reference by ID (e.g., "D-1.3: copy to docs/ instead").
+→ Ask questions — about any decision before committing.
 ```
 
 After you approve decisions, Claude builds the plan — small batches, one concern each:
