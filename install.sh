@@ -78,6 +78,11 @@ if [ "$MODE" = "uninstall" ]; then
         echo "  Removed $TEMPLATES_DEST"
     fi
 
+    if [ -e "$CLAUDE_DIR/templates/project" ]; then
+        rm -rf "$CLAUDE_DIR/templates/project"
+        echo "  Removed $CLAUDE_DIR/templates/project"
+    fi
+
     if [ -e "$HOOKS_DEST" ]; then
         rm -rf "$HOOKS_DEST"
         echo "  Removed $HOOKS_DEST"
@@ -162,7 +167,7 @@ else
     done
 
     mkdir -p "$TEMPLATES_DEST"
-    for tmpl in "$SCRIPT_DIR"/templates/*.md; do
+    for tmpl in "$SCRIPT_DIR"/templates/gig/*.md; do
         cp "$tmpl" "$TEMPLATES_DEST/"
         echo "  Installed template: $(basename "$tmpl")"
     done
@@ -170,6 +175,13 @@ else
     # Copy RULES.md for use by /gig:init project-level setup
     cp "$SCRIPT_DIR/docs/RULES.md" "$TEMPLATES_DEST/RULES.md"
     echo "  Installed template: RULES.md"
+
+    PROJECT_TEMPLATES_DEST="$CLAUDE_DIR/templates/project"
+    mkdir -p "$PROJECT_TEMPLATES_DEST"
+    for tmpl in "$SCRIPT_DIR"/templates/project/*.md; do
+        cp "$tmpl" "$PROJECT_TEMPLATES_DEST/"
+        echo "  Installed project template: $(basename "$tmpl")"
+    done
 
     if [ "$SKIP_HOOKS" = false ]; then
         mkdir -p "$HOOKS_DEST"

@@ -117,10 +117,10 @@ fi
 
 # --- Step 2: Add missing template files ---
 
-# Determine template source: repo templates/ or installed ~/.claude/templates/gig/
+# Determine template source: repo templates/gig/ or installed ~/.claude/templates/gig/
 TEMPLATE_DIR=""
-if [ -d "$SCRIPT_DIR/templates" ]; then
-    TEMPLATE_DIR="$SCRIPT_DIR/templates"
+if [ -d "$SCRIPT_DIR/templates/gig" ]; then
+    TEMPLATE_DIR="$SCRIPT_DIR/templates/gig"
 elif [ -d "$HOME/.claude/templates/gig" ]; then
     TEMPLATE_DIR="$HOME/.claude/templates/gig"
 fi

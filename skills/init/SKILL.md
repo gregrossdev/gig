@@ -22,7 +22,7 @@ Otherwise, check if `.gig/` needs upgrading:
 3. If `.gig-version` is missing or older than current:
    - **Plugin install:** Run `${CLAUDE_PLUGIN_ROOT}/upgrade.sh` via Bash.
    - **Script install:** If `~/.claude/upgrade.sh` exists, run it via Bash. Otherwise, fall back to inline upgrade logic:
-     - Check each expected template file (STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, ARTICLE.md) — copy any missing ones from `~/.claude/templates/gig/`.
+     - Check each expected template file (STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, FUTURE.md) — copy any missing ones from `~/.claude/templates/gig/`.
      - Create `.gig/iterations/` directory if missing.
      - Check for stale "phase" terminology and apply fixes via Edit tool:
        - `STATE.md`: `| **Phase**` → `| **Iteration**`; `| Phase |` → `| Iteration |`
@@ -40,14 +40,33 @@ Otherwise, check if `.gig/` needs upgrading:
 
 1. Create `.gig/` directory.
 2. Create `.gig/iterations/` directory (for completed iteration archives).
-3. Copy templates into `.gig/`:
-   - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/` (plugin install), then `~/.claude/templates/gig/` (script install).
+3. Copy gig templates into `.gig/`:
+   - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/gig/` (plugin install), then `~/.claude/templates/gig/` (script install).
    - If templates are not found at either location, say: "Error: gig templates not found. Reinstall gig or check your installation." STOP.
-   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, ARTICLE.md, FUTURE.md
+   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, FUTURE.md
 4. Write `.gig/.gig-version` with the current gig version:
    - **Plugin install:** Read version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` (`"version"` field).
    - **Script install:** Read version from `~/.claude/templates/gig/.gig-version` if it exists, otherwise write `0.0.0` as a placeholder.
 5. Say: "Initialized `.gig/` from templates."
+
+## Step 1b — Project Templates (optional)
+
+Look for project templates at: `${CLAUDE_PLUGIN_ROOT}/templates/project/` (plugin install), then `~/.claude/templates/project/` (script install).
+
+If project templates are found, list them and ask the user:
+
+> **Project templates available:** {list of .md files found, e.g., ARTICLE.md, README.md, RESEARCH.md}
+>
+> Which would you like copied to your project root?
+> - **all** — copy all templates
+> - **none** — skip project templates
+> - **list specific** — e.g., "README RESEARCH"
+
+For each selected template:
+- If the file already exists in the project root, say: "Skipped {file} — already exists."
+- Otherwise, copy it to the project root.
+
+If no project templates directory is found, skip silently.
 
 ## Step 2 — Detect Project Type
 
