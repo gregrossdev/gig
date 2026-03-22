@@ -526,6 +526,11 @@ assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin 
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
 assert "govern has plugin version commit format" grep -q 'chore(v0.{N}.{last-P}): update plugin.json version' "$GOVERN_SKILL"
 
+# --- Test 25: Govern .gig-version exclusion ---
+
+echo "[25] Govern .gig-version exclusion"
+assert "govern does not reference .gig-version" test "$(grep -c '\.gig-version' "$GOVERN_SKILL")" = "0"
+
 # --- Summary ---
 
 echo ""
