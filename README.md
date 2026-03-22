@@ -7,7 +7,7 @@
 ```
 
 A structured workflow system for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
-Gather. Implement. Govern. Zero decision fatigue.
+Gather decisions, implement in batches, govern quality. Two approval gates, zero decision fatigue. It's how I turn AI into reliable, governed output instead of vibe coding.
 
 ## How it works
 
