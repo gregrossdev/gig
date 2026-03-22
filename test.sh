@@ -540,6 +540,19 @@ assert "init has numbered selection UX" grep -q 'numbers' "$INIT_SKILL"
 assert "init has skip-existing message" grep -q 'already exists in project root' "$INIT_SKILL"
 assert "init has copied message" grep -q 'Copied {file} to project root' "$INIT_SKILL"
 
+# --- Test 27: Handoff state file coverage ---
+
+echo "[27] Handoff state file coverage"
+HANDOFF_SKILL="$SCRIPT_DIR/skills/handoff/SKILL.md"
+assert "handoff references STATE.md" grep -q 'STATE\.md' "$HANDOFF_SKILL"
+assert "handoff references PLAN.md" grep -q 'PLAN\.md' "$HANDOFF_SKILL"
+assert "handoff references DECISIONS.md" grep -q 'DECISIONS\.md' "$HANDOFF_SKILL"
+assert "handoff references ISSUES.md" grep -q 'ISSUES\.md' "$HANDOFF_SKILL"
+assert "handoff references ARCHITECTURE.md" grep -q 'ARCHITECTURE\.md' "$HANDOFF_SKILL"
+assert "handoff references FUTURE.md" grep -q 'FUTURE\.md' "$HANDOFF_SKILL"
+assert "handoff has Open Issues section" grep -q 'Open Issues' "$HANDOFF_SKILL"
+assert "handoff has Backlog section" grep -q 'Backlog' "$HANDOFF_SKILL"
+
 # --- Summary ---
 
 echo ""
