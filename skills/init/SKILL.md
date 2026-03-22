@@ -53,18 +53,24 @@ Otherwise, check if `.gig/` needs upgrading:
 
 Look for project templates at: `${CLAUDE_PLUGIN_ROOT}/templates/project/` (plugin install), then `~/.claude/templates/project/` (script install).
 
-If project templates are found, list them and ask the user:
+If project templates are found, present a numbered preview table:
 
-> **Project templates available:** {list of .md files found, e.g., ARTICLE.md, README.md, RESEARCH.md}
+> **Project templates available:**
+>
+> | # | Template | Purpose |
+> |---|----------|---------|
+> | 1 | ARTICLE.md | Technical article/blog post outline |
+> | 2 | README.md | Standard project documentation |
+> | 3 | RESEARCH.md | Research spike with findings and decisions |
 >
 > Which would you like copied to your project root?
 > - **all** — copy all templates
 > - **none** — skip project templates
-> - **list specific** — e.g., "README RESEARCH"
+> - **numbers** — e.g., "1 3" to select specific templates
 
 For each selected template:
-- If the file already exists in the project root, say: "Skipped {file} — already exists."
-- Otherwise, copy it to the project root.
+- If the file already exists in the project root, say: "Skipped {file} — already exists in project root."
+- Otherwise, copy it and say: "Copied {file} to project root."
 
 If no project templates directory is found, skip silently.
 
