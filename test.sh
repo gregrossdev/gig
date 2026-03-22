@@ -435,6 +435,10 @@ assert "init references .gig-version in Step 0" grep -q '\.gig-version' "$INIT_S
 assert "init has dual-path upgrade (plugin)" grep -q 'CLAUDE_PLUGIN_ROOT.*upgrade\.sh' "$INIT_SKILL"
 assert "init has dual-path upgrade (script)" grep -q '~/.claude/upgrade\.sh' "$INIT_SKILL"
 assert_not "init no longer has top-level Phase migration marker" grep -q '^First, check for stale "phase"' "$INIT_SKILL"
+assert "init has reinit keyword check" grep -q 'reinitialize.*or.*reinit' "$INIT_SKILL"
+assert "init stops after upgrade" grep -q 'Upgraded .gig/.*STOP' "$INIT_SKILL"
+assert "init has already-up-to-date path" grep -q 'Already up to date' "$INIT_SKILL"
+assert_not "init no longer has AskUserQuestion reinit prompt" grep -q 'AskUserQuestion' "$INIT_SKILL"
 
 # --- Test 16: Implement plugin awareness ---
 
