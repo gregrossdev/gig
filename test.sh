@@ -44,7 +44,8 @@ cleanup() {
 trap cleanup EXIT
 
 SKILLS="init gather implement govern status milestone research handoff"
-TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md ARTICLE.md"
+TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md FUTURE.md"
+PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
 echo ""
 echo "=== gig e2e tests ==="
@@ -67,6 +68,10 @@ done
 
 for tmpl in $TEMPLATES; do
     assert "template $tmpl exists" test -f "$TEMP_HOME/.claude/templates/gig/$tmpl"
+done
+
+for tmpl in $PROJECT_TEMPLATES; do
+    assert "project template $tmpl exists" test -f "$TEMP_HOME/.claude/templates/project/$tmpl"
 done
 
 assert "skills dir is not a symlink" test ! -L "$TEMP_HOME/.claude/skills/gig"
@@ -108,6 +113,7 @@ sh "$SCRIPT_DIR/install.sh" --uninstall > /dev/null 2>&1
 
 assert_not "skills dir removed" test -e "$TEMP_HOME/.claude/skills/gig"
 assert_not "templates dir removed" test -e "$TEMP_HOME/.claude/templates/gig"
+assert_not "project templates dir removed" test -e "$TEMP_HOME/.claude/templates/project"
 assert_not "hooks dir removed" test -e "$TEMP_HOME/.claude/hooks/gig"
 
 # --- Test 6: Hook settings.json registration ---
@@ -262,7 +268,7 @@ rm -rf "$MIGRATE_DIR"
 # --- Test 11: GOVERNANCE.md template and skill references ---
 
 echo "[11] GOVERNANCE.md template and govern skill"
-assert "GOVERNANCE.md template exists in repo" test -f "$SCRIPT_DIR/templates/GOVERNANCE.md"
+assert "GOVERNANCE.md template exists in repo" test -f "$SCRIPT_DIR/templates/gig/GOVERNANCE.md"
 assert "init skill references GOVERNANCE.md" grep -q "GOVERNANCE.md" "$SCRIPT_DIR/skills/init/SKILL.md"
 assert "govern skill writes GOVERNANCE.md" grep -q '\.gig/GOVERNANCE\.md' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern skill archives GOVERNANCE.md" grep -q 'GOVERNANCE\.md.*frozen snapshot' "$SCRIPT_DIR/skills/govern/SKILL.md"
@@ -402,7 +408,8 @@ assert "upgrade adds GOVERNANCE.md" test -f "$UPGRADE_DIR/.gig/GOVERNANCE.md"
 assert "upgrade adds ARCHITECTURE.md" test -f "$UPGRADE_DIR/.gig/ARCHITECTURE.md"
 assert "upgrade adds ROADMAP.md" test -f "$UPGRADE_DIR/.gig/ROADMAP.md"
 assert "upgrade adds GIT-STRATEGY.md" test -f "$UPGRADE_DIR/.gig/GIT-STRATEGY.md"
-assert "upgrade adds ARTICLE.md" test -f "$UPGRADE_DIR/.gig/ARTICLE.md"
+assert "upgrade adds FUTURE.md" test -f "$UPGRADE_DIR/.gig/FUTURE.md"
+assert_not "upgrade does not add ARTICLE.md to .gig/" test -f "$UPGRADE_DIR/.gig/ARTICLE.md"
 assert "upgrade creates iterations/ dir" test -d "$UPGRADE_DIR/.gig/iterations"
 assert "upgrade preserves existing STATE.md" grep -q "# State" "$UPGRADE_DIR/.gig/STATE.md"
 
@@ -452,7 +459,7 @@ assert "implement skips silently when no plugin.json" grep -q 'does not exist, s
 # --- Test 17: Plugin Version field in STATE.md template and skills ---
 
 echo "[17] Plugin Version field"
-assert "STATE.md template has Plugin Version field" grep -q 'Plugin Version' "$SCRIPT_DIR/templates/STATE.md"
+assert "STATE.md template has Plugin Version field" grep -q 'Plugin Version' "$SCRIPT_DIR/templates/gig/STATE.md"
 assert "govern skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "implement skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/implement/SKILL.md"
 assert "init skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/init/SKILL.md"
@@ -464,7 +471,7 @@ assert "govern says exactly 3 suggestions" grep -q 'exactly 3' "$SCRIPT_DIR/skil
 assert "govern says replace never append" grep -q 'replace, never append' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern says clear upcoming table" grep -q 'Clear.*Upcoming Iterations table' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern mentions freeform option" grep -q 'gather \[your idea\]' "$SCRIPT_DIR/skills/govern/SKILL.md"
-assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/ROADMAP.md"
+assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
 
 # --- Test 19: Implement auto-continue ---
 
@@ -495,14 +502,25 @@ assert "gather defers DECISIONS.md write" grep -q 'Do NOT write to DECISIONS.md 
 # --- Test 22: FUTURE.md backlog ---
 
 echo "[22] FUTURE.md backlog"
-assert "FUTURE.md template exists" test -f "$SCRIPT_DIR/templates/FUTURE.md"
+assert "FUTURE.md template exists" test -f "$SCRIPT_DIR/templates/gig/FUTURE.md"
 assert "init skill references FUTURE.md" grep -q 'FUTURE\.md' "$SCRIPT_DIR/skills/init/SKILL.md"
 assert "govern skill references FUTURE.md" grep -q 'FUTURE\.md' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "status skill references Backlog" grep -q 'Backlog' "$SCRIPT_DIR/skills/status/SKILL.md"
 
-# --- Test 23: Govern plugin version instruction ---
+# --- Test 23: Project templates ---
 
-echo "[23] Govern plugin version instruction"
+echo "[23] Project templates"
+assert "project template ARTICLE.md exists" test -f "$SCRIPT_DIR/templates/project/ARTICLE.md"
+assert "project template README.md exists" test -f "$SCRIPT_DIR/templates/project/README.md"
+assert "project template RESEARCH.md exists" test -f "$SCRIPT_DIR/templates/project/RESEARCH.md"
+assert "init skill has project templates step" grep -q 'Project Templates' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init skill references templates/gig/" grep -q 'templates/gig/' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init skill references templates/project/" grep -q 'templates/project/' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert_not "init .gig/ file list no longer includes ARTICLE.md" grep -q 'GIT-STRATEGY.md, ARTICLE.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+
+# --- Test 24: Govern plugin version instruction ---
+
+echo "[24] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
