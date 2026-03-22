@@ -531,6 +531,15 @@ assert "govern has plugin version commit format" grep -q 'chore(v0.{N}.{last-P})
 echo "[25] Govern .gig-version exclusion"
 assert "govern does not reference .gig-version" test "$(grep -c '\.gig-version' "$GOVERN_SKILL")" = "0"
 
+# --- Test 26: Init template preview UX ---
+
+echo "[26] Init template preview UX"
+INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init has template preview table with Purpose column" grep -q '| # | Template | Purpose |' "$INIT_SKILL"
+assert "init has numbered selection UX" grep -q 'numbers' "$INIT_SKILL"
+assert "init has skip-existing message" grep -q 'already exists in project root' "$INIT_SKILL"
+assert "init has copied message" grep -q 'Copied {file} to project root' "$INIT_SKILL"
+
 # --- Summary ---
 
 echo ""
