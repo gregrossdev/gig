@@ -28,7 +28,7 @@ If ambiguous, ask: "Create a handoff or restore one?"
 
 ## Step 3a — Create Handoff
 
-1. Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`.
+1. Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`, `.gig/ISSUES.md`, `.gig/ARCHITECTURE.md`, `.gig/FUTURE.md`.
 
 2. Gather changed files from git (if in a git repo):
    - If on a feature branch: `git diff main..HEAD --name-only`
@@ -52,6 +52,14 @@ If ambiguous, ask: "Create a handoff or restore one?"
 ## Current State
 
 {Key context — what's in progress, what's next}
+
+## Open Issues
+
+{OPEN and DEFERRED issues from ISSUES.md, or "None."}
+
+## Backlog
+
+{Count of items in FUTURE.md, or "Empty."}
 
 ## Open Items
 
@@ -79,7 +87,7 @@ If ambiguous, ask: "Create a handoff or restore one?"
 1. Check if `.gig/HANDOFF.md` exists.
    - If not: "No handoff file found. Run `/gig:status` to see current state." STOP.
 
-2. Read `.gig/HANDOFF.md`, `.gig/STATE.md`, `.gig/PLAN.md`.
+2. Read `.gig/HANDOFF.md`, `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/ISSUES.md`.
 
 3. Present a recovery summary:
    ```
