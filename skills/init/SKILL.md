@@ -12,7 +12,9 @@ Check if `.gig/` already exists in the current project root.
 
 **If present:**
 
-First, check if `.gig/` needs upgrading:
+**Reinitialize check:** If user args contain "reinitialize" or "reinit", delete `.gig/` and proceed to Step 1.
+
+Otherwise, check if `.gig/` needs upgrading:
 1. Read `.gig/.gig-version` (if missing, treat as `0.0.0`).
 2. Compare against the current gig version:
    - **Plugin install:** Read version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` (`"version"` field).
@@ -28,15 +30,11 @@ First, check if `.gig/` needs upgrading:
        - `ISSUES.md`: `archived with their phase` → `archived with their iteration`; `**Phase:**` → `**Iteration:**`
        - `ARCHITECTURE.md`: `Phase-based versioning` → `Iteration-based versioning`; `MINOR = phase number` → `MINOR = iteration number`
      - Write current gig version to `.gig/.gig-version`.
-   - Say: "Upgraded .gig/ to version {version}."
-4. If `.gig-version` matches current version, skip silently.
+   - Say: "Upgraded .gig/ to version {version}. Run `/gig:status` to see current state." STOP.
+4. If `.gig-version` matches current version:
+   - Say: "Already up to date (v{version}). Run `/gig:status` to see current state." STOP.
 
-Then present choices via AskUserQuestion:
-1. **Reinitialize** — wipe `.gig/` and start fresh (destructive).
-2. **Abort** — keep existing context.
-
-If user chooses abort, STOP.
-If user chooses reinitialize, delete `.gig/` and proceed.
+**If NOT present:** Proceed to Step 1.
 
 ## Step 1 — Scaffold .gig/
 
