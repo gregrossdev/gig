@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init gather implement govern status milestone research handoff"
+SKILLS="init gather implement govern status milestone research handoff triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md FUTURE.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
