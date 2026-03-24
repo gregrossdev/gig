@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init gather implement govern status milestone research handoff"
+SKILLS="init gather implement govern status milestone research handoff triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md FUTURE.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
@@ -552,6 +552,18 @@ assert "handoff references ARCHITECTURE.md" grep -q 'ARCHITECTURE\.md' "$HANDOFF
 assert "handoff references FUTURE.md" grep -q 'FUTURE\.md' "$HANDOFF_SKILL"
 assert "handoff has Open Issues section" grep -q 'Open Issues' "$HANDOFF_SKILL"
 assert "handoff has Backlog section" grep -q 'Backlog' "$HANDOFF_SKILL"
+
+# --- Test 28: Triage skill ---
+
+echo "[28] Triage skill"
+TRIAGE_SKILL="$SCRIPT_DIR/skills/triage/SKILL.md"
+assert "triage references ROADMAP.md" grep -q 'ROADMAP\.md' "$TRIAGE_SKILL"
+assert "triage references FUTURE.md" grep -q 'FUTURE\.md' "$TRIAGE_SKILL"
+assert "triage has Knowledge Gaps in output" grep -q 'Knowledge Gaps' "$TRIAGE_SKILL"
+assert "triage has Value in output" grep -q 'Value' "$TRIAGE_SKILL"
+assert "triage has Risk in output" grep -q 'Risk' "$TRIAGE_SKILL"
+assert "triage has recommendation step" grep -q 'Recommend' "$TRIAGE_SKILL"
+assert "triage has parallel subagent research" grep -q 'parallel' "$TRIAGE_SKILL"
 
 # --- Summary ---
 

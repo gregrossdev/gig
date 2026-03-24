@@ -9,7 +9,7 @@ TEMPLATES_DEST="$CLAUDE_DIR/templates/gig"
 HOOKS_DEST="$CLAUDE_DIR/hooks/gig"
 SETTINGS="$CLAUDE_DIR/settings.json"
 
-SKILLS="init gather implement govern status milestone research handoff"
+SKILLS="init gather implement govern status milestone research handoff triage"
 HAS_JQ=false
 SKIP_HOOKS=false
 
