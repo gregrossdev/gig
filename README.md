@@ -185,6 +185,7 @@ Safe to run multiple times — idempotent.
 | `/gig:milestone` | Create or complete milestones |
 | `/gig:research` | Deep-dive a topic with subagents |
 | `/gig:handoff` | Save/restore session context across sessions |
+| `/gig:triage` | Evaluate upcoming iterations, surface knowledge gaps, recommend priority |
 
 **Natural language shortcuts:**
 

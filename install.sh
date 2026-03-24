@@ -7,6 +7,7 @@ CLAUDE_DIR="$HOME/.claude"
 SKILLS_DEST="$CLAUDE_DIR/skills/gig"
 TEMPLATES_DEST="$CLAUDE_DIR/templates/gig"
 HOOKS_DEST="$CLAUDE_DIR/hooks/gig"
+COMMANDS_DEST="$CLAUDE_DIR/commands/gig"
 SETTINGS="$CLAUDE_DIR/settings.json"
 
 SKILLS="init gather implement govern status milestone research handoff triage"
@@ -28,7 +29,7 @@ while [ $# -gt 0 ]; do
             echo "  -u, --uninstall   Remove gig from ~/.claude/"
             echo "      --no-hooks    Skip hook installation and registration"
             echo ""
-            echo "Default: copies skills, templates, and hooks to ~/.claude/"
+            echo "Default: copies skills, commands, templates, and hooks to ~/.claude/"
             exit 0
             ;;
         -s|--symlink)
@@ -88,6 +89,11 @@ if [ "$MODE" = "uninstall" ]; then
         echo "  Removed $HOOKS_DEST"
     fi
 
+    if [ -e "$COMMANDS_DEST" ]; then
+        rm -rf "$COMMANDS_DEST"
+        echo "  Removed $COMMANDS_DEST"
+    fi
+
     # Remove all gig hook entries from settings.json
     if [ "$HAS_JQ" = true ] && [ -f "$SETTINGS" ]; then
         if jq -e '.hooks' "$SETTINGS" >/dev/null 2>&1; then
@@ -118,7 +124,7 @@ fi
 
 # --- Update detection ---
 
-if [ -L "$SKILLS_DEST" ] && [ "$MODE" = "copy" ]; then
+if { [ -L "$SKILLS_DEST" ] || [ -L "$COMMANDS_DEST" ]; } && [ "$MODE" = "copy" ]; then
     echo "gig is installed via symlinks."
     echo "Use --symlink to update, or --uninstall first to switch to copy mode."
     exit 0
@@ -137,11 +143,13 @@ if [ "$MODE" = "symlink" ]; then
     [ -e "$SKILLS_DEST" ] && rm -rf "$SKILLS_DEST"
     [ -e "$TEMPLATES_DEST" ] && rm -rf "$TEMPLATES_DEST"
     [ -e "$HOOKS_DEST" ] && rm -rf "$HOOKS_DEST"
+    [ -e "$COMMANDS_DEST" ] && rm -rf "$COMMANDS_DEST"
 
     # Ensure parent directories exist
     mkdir -p "$(dirname "$SKILLS_DEST")"
     mkdir -p "$(dirname "$TEMPLATES_DEST")"
     mkdir -p "$(dirname "$HOOKS_DEST")"
+    mkdir -p "$(dirname "$COMMANDS_DEST")"
 
     ln -s "$SCRIPT_DIR/skills" "$SKILLS_DEST"
     echo "  Linked skills: $SKILLS_DEST -> $SCRIPT_DIR/skills"
@@ -153,6 +161,9 @@ if [ "$MODE" = "symlink" ]; then
         ln -s "$SCRIPT_DIR/hooks" "$HOOKS_DEST"
         echo "  Linked hooks: $HOOKS_DEST -> $SCRIPT_DIR/hooks"
     fi
+
+    ln -s "$SCRIPT_DIR/commands" "$COMMANDS_DEST"
+    echo "  Linked commands: $COMMANDS_DEST -> $SCRIPT_DIR/commands"
 
 # --- Copy mode (default) ---
 
@@ -191,6 +202,12 @@ else
             echo "  Installed hook: $(basename "$hook")"
         done
     fi
+
+    mkdir -p "$COMMANDS_DEST"
+    for skill in $SKILLS; do
+        cp "$SCRIPT_DIR/commands/$skill.md" "$COMMANDS_DEST/$skill.md"
+        echo "  Installed command: $skill"
+    done
 fi
 
 # --- Register hooks in settings.json ---

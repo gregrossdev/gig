@@ -74,7 +74,12 @@ for tmpl in $PROJECT_TEMPLATES; do
     assert "project template $tmpl exists" test -f "$TEMP_HOME/.claude/templates/project/$tmpl"
 done
 
+for skill in $SKILLS; do
+    assert "command $skill.md exists" test -f "$TEMP_HOME/.claude/commands/gig/$skill.md"
+done
+
 assert "skills dir is not a symlink" test ! -L "$TEMP_HOME/.claude/skills/gig"
+assert "commands dir is not a symlink" test ! -L "$TEMP_HOME/.claude/commands/gig"
 assert "hook govern-context-check.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/govern-context-check.sh"
 assert "hook block-git-add.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/block-git-add.sh"
 assert "hook load-gig-state.sh exists" test -f "$TEMP_HOME/.claude/hooks/gig/load-gig-state.sh"
@@ -99,6 +104,8 @@ assert "skills symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/skil
 assert "templates symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/templates/gig")" = "$SCRIPT_DIR/templates"
 assert "hooks is a symlink" test -L "$TEMP_HOME/.claude/hooks/gig"
 assert "hooks symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/hooks/gig")" = "$SCRIPT_DIR/hooks"
+assert "commands is a symlink" test -L "$TEMP_HOME/.claude/commands/gig"
+assert "commands symlink target is repo" test "$(readlink "$TEMP_HOME/.claude/commands/gig")" = "$SCRIPT_DIR/commands"
 
 # --- Test 4: Default install detects symlinks ---
 
@@ -115,6 +122,7 @@ assert_not "skills dir removed" test -e "$TEMP_HOME/.claude/skills/gig"
 assert_not "templates dir removed" test -e "$TEMP_HOME/.claude/templates/gig"
 assert_not "project templates dir removed" test -e "$TEMP_HOME/.claude/templates/project"
 assert_not "hooks dir removed" test -e "$TEMP_HOME/.claude/hooks/gig"
+assert_not "commands dir removed" test -e "$TEMP_HOME/.claude/commands/gig"
 
 # --- Test 6: Hook settings.json registration ---
 
@@ -564,6 +572,17 @@ assert "triage has Value in output" grep -q 'Value' "$TRIAGE_SKILL"
 assert "triage has Risk in output" grep -q 'Risk' "$TRIAGE_SKILL"
 assert "triage has recommendation step" grep -q 'Recommend' "$TRIAGE_SKILL"
 assert "triage has parallel subagent research" grep -q 'parallel' "$TRIAGE_SKILL"
+
+# --- Test 29: Command stub validation ---
+
+echo "[29] Command stub validation"
+
+for skill in $SKILLS; do
+    CMD_FILE="$SCRIPT_DIR/commands/$skill.md"
+    assert "command $skill has name field" grep -q "^name: gig:$skill$" "$CMD_FILE"
+    assert "command $skill has description field" grep -q "^description:" "$CMD_FILE"
+    assert "command $skill references skill" grep -q "@~/.claude/skills/gig/$skill/SKILL.md" "$CMD_FILE"
+done
 
 # --- Summary ---
 
