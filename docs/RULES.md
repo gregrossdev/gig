@@ -76,7 +76,7 @@ When an iteration completes (`/gig:govern` approved):
 - Deferred issues remain in ISSUES.md
 - A summary of what was built + 3 next iteration suggestions are presented
 - Upcoming Iterations queue holds max 3 entries — always replaced, never appended
-- Ideas beyond the 3-cap go to `.gig/FUTURE.md` as backlog (no commitment, no priority)
+- Ideas beyond the 3-cap go to `.gig/BACKLOG.md` as backlog (no commitment, no priority)
 - `ls .gig/iterations/` shows the full linear project history
 
 ## Delegation Policy

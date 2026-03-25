@@ -44,7 +44,7 @@ cleanup() {
 trap cleanup EXIT
 
 SKILLS="init gather implement govern status milestone research handoff triage"
-TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md FUTURE.md"
+TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
 echo ""
@@ -416,7 +416,7 @@ assert "upgrade adds GOVERNANCE.md" test -f "$UPGRADE_DIR/.gig/GOVERNANCE.md"
 assert "upgrade adds ARCHITECTURE.md" test -f "$UPGRADE_DIR/.gig/ARCHITECTURE.md"
 assert "upgrade adds ROADMAP.md" test -f "$UPGRADE_DIR/.gig/ROADMAP.md"
 assert "upgrade adds GIT-STRATEGY.md" test -f "$UPGRADE_DIR/.gig/GIT-STRATEGY.md"
-assert "upgrade adds FUTURE.md" test -f "$UPGRADE_DIR/.gig/FUTURE.md"
+assert "upgrade adds BACKLOG.md" test -f "$UPGRADE_DIR/.gig/BACKLOG.md"
 assert_not "upgrade does not add ARTICLE.md to .gig/" test -f "$UPGRADE_DIR/.gig/ARTICLE.md"
 assert "upgrade creates iterations/ dir" test -d "$UPGRADE_DIR/.gig/iterations"
 assert "upgrade preserves existing STATE.md" grep -q "# State" "$UPGRADE_DIR/.gig/STATE.md"
@@ -507,12 +507,12 @@ assert "gather writes directly as ACTIVE" grep -q 'directly as.*ACTIVE' "$GATHER
 assert_not "gather no longer has pre-approval write step" grep -q '^### Step 5 — Write Decisions' "$GATHER_SKILL"
 assert "gather defers DECISIONS.md write" grep -q 'Do NOT write to DECISIONS.md yet' "$GATHER_SKILL"
 
-# --- Test 22: FUTURE.md backlog ---
+# --- Test 22: BACKLOG.md backlog ---
 
-echo "[22] FUTURE.md backlog"
-assert "FUTURE.md template exists" test -f "$SCRIPT_DIR/templates/gig/FUTURE.md"
-assert "init skill references FUTURE.md" grep -q 'FUTURE\.md' "$SCRIPT_DIR/skills/init/SKILL.md"
-assert "govern skill references FUTURE.md" grep -q 'FUTURE\.md' "$SCRIPT_DIR/skills/govern/SKILL.md"
+echo "[22] BACKLOG.md backlog"
+assert "BACKLOG.md template exists" test -f "$SCRIPT_DIR/templates/gig/BACKLOG.md"
+assert "init skill references BACKLOG.md" grep -q 'BACKLOG\.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "govern skill references BACKLOG.md" grep -q 'BACKLOG\.md' "$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "status skill references Backlog" grep -q 'Backlog' "$SCRIPT_DIR/skills/status/SKILL.md"
 
 # --- Test 23: Project templates ---
@@ -557,7 +557,7 @@ assert "handoff references PLAN.md" grep -q 'PLAN\.md' "$HANDOFF_SKILL"
 assert "handoff references DECISIONS.md" grep -q 'DECISIONS\.md' "$HANDOFF_SKILL"
 assert "handoff references ISSUES.md" grep -q 'ISSUES\.md' "$HANDOFF_SKILL"
 assert "handoff references ARCHITECTURE.md" grep -q 'ARCHITECTURE\.md' "$HANDOFF_SKILL"
-assert "handoff references FUTURE.md" grep -q 'FUTURE\.md' "$HANDOFF_SKILL"
+assert "handoff references BACKLOG.md" grep -q 'BACKLOG\.md' "$HANDOFF_SKILL"
 assert "handoff has Open Issues section" grep -q 'Open Issues' "$HANDOFF_SKILL"
 assert "handoff has Backlog section" grep -q 'Backlog' "$HANDOFF_SKILL"
 
@@ -566,7 +566,7 @@ assert "handoff has Backlog section" grep -q 'Backlog' "$HANDOFF_SKILL"
 echo "[28] Triage skill"
 TRIAGE_SKILL="$SCRIPT_DIR/skills/triage/SKILL.md"
 assert "triage references ROADMAP.md" grep -q 'ROADMAP\.md' "$TRIAGE_SKILL"
-assert "triage references FUTURE.md" grep -q 'FUTURE\.md' "$TRIAGE_SKILL"
+assert "triage references BACKLOG.md" grep -q 'BACKLOG\.md' "$TRIAGE_SKILL"
 assert "triage has codebase research step" grep -q 'Research the Codebase' "$TRIAGE_SKILL"
 assert "triage has quality research focus" grep -q 'Quality & Coverage' "$TRIAGE_SKILL"
 assert "triage has consistency research focus" grep -q 'Consistency & Docs' "$TRIAGE_SKILL"
