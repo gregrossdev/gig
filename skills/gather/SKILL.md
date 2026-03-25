@@ -93,7 +93,7 @@ Update `.gig/STATE.md`:
 
 ### APPROVAL GATE 1 — Decisions
 
-Present decisions as a clean summary table:
+**Present the following table in full. Do not abbreviate, inline, or collapse into prose.**
 
 | ID | Decision | Choice | Rationale (1-line) |
 |----|----------|--------|-------------------|
@@ -181,7 +181,7 @@ Tag dependencies explicitly: "Depends on Batch X.Y".
 
 ### APPROVAL GATE 2 — Plan (via Plan Mode)
 
-Present the plan in plan mode:
+**Present the following plan in full with the batch table. Do not abbreviate or collapse into prose.**
 1. Iteration name and goal
 2. Batch table with versions and delegation modes
 3. Dependencies between batches
