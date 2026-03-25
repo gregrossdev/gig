@@ -12,11 +12,12 @@ steps in one.
    create first milestone. Run once per project.
 1. **Gather** (`/gig:gather`) — Claude researches the problem, asks itself
    every question, makes all decisions with rationale, presents a batch for
-   approval, then builds the implementation plan for a second approval.
-   Two gates, one command. No decision fatigue.
+   approval, then enters plan mode to design the implementation plan for
+   a second approval. Two gates, one command. No decision fatigue.
 2. **Implement** (`/gig:implement`) — Execute batches. Team-first parallel
-   execution via worktrees when independent batches exist. Human-in-the-loop
-   checkpoints after each batch. Decisions can be revised if reality disagrees.
+   execution via worktrees when independent batches exist. Auto-continues
+   to the next batch after verification passes. Decisions can be revised
+   if reality disagrees.
 3. **Govern** (`/gig:govern`) — Run tests, validate acceptance criteria, audit
    decisions, track issues in ISSUES.md. Fix blockers/majors before archiving.
    After archiving, summarize what was built and suggest next iteration ideas.
@@ -31,8 +32,8 @@ steps in one.
 
 > "Does this batch look good?"
 >
-> - "yes" / "looks good" / "go" → Claude executes
-> - "change X" → Claude adjusts and re-presents
+> - "approve" / "looks good" / "go" → Claude executes
+> - "change X" / "redline" → Claude adjusts and re-presents
 > - "no" / "scrap it" → Claude re-evaluates
 
 ## Batch Versioning
@@ -73,7 +74,9 @@ When an iteration completes (`/gig:govern` approved):
 - Iteration plan, decisions, and resolved issues are archived to `.gig/iterations/v0.{N}-{iteration-name}/`
 - Active PLAN.md and DECISIONS.md are cleared for the next iteration
 - Deferred issues remain in ISSUES.md
-- A summary of what was built + 2-3 next iteration suggestions are presented
+- A summary of what was built + 3 next iteration suggestions are presented
+- Upcoming Iterations queue holds max 3 entries — always replaced, never appended
+- Ideas beyond the 3-cap go to `.gig/FUTURE.md` as backlog (no commitment, no priority)
 - `ls .gig/iterations/` shows the full linear project history
 
 ## Delegation Policy
@@ -132,7 +135,8 @@ On session start in any project directory:
 ## Templates
 
 Reusable project scaffolding is included with gig. The `/gig:init` skill
-copies templates into `.gig/` on first use.
+copies gig state templates into `.gig/` and offers a choice of project
+templates (Article, README, Research) on first use.
 
 ## Natural Language Commands
 
@@ -150,6 +154,7 @@ These are shortcuts the user can type during an active gig session:
 | `amend [change]` | Propose plan modification |
 | `decisions` | Show recent decisions |
 | `history` | Show batch execution history |
+| `triage` | Evaluate upcoming iterations — surface gaps, assess value, recommend order |
 | `iteration done` | Mark current iteration as complete |
 | `milestone` | Bump MAJOR version |
 
@@ -168,4 +173,5 @@ and what to do next.
 ## Skills
 
 **Workflow skills (gig):** `/gig:init`, `/gig:gather`, `/gig:implement`,
-`/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`, `/gig:handoff`.
+`/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`, `/gig:handoff`,
+`/gig:triage`.
