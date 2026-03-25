@@ -39,8 +39,9 @@ while [ $# -gt 0 ]; do
             echo ""
             echo "What it does:"
             echo "  1. Runs terminology migration (phase -> iteration)"
-            echo "  2. Adds missing template files to .gig/"
-            echo "  3. Sets .gig/.gig-version to track the gig version"
+            echo "  2. Renames FUTURE.md to BACKLOG.md (if present)"
+            echo "  3. Adds missing template files to .gig/"
+            echo "  4. Sets .gig/.gig-version to track the gig version"
             exit 0
             ;;
         --dry-run)
@@ -115,7 +116,20 @@ if [ -f "$SCRIPT_DIR/migrate.sh" ]; then
     fi
 fi
 
-# --- Step 2: Add missing template files ---
+# --- Step 2: Rename FUTURE.md to BACKLOG.md ---
+
+if [ -f "$GIG_DIR/FUTURE.md" ] && [ ! -f "$GIG_DIR/BACKLOG.md" ]; then
+    if [ "$DRY_RUN" = true ]; then
+        echo "  [dry-run] Would rename FUTURE.md to BACKLOG.md"
+    else
+        mv "$GIG_DIR/FUTURE.md" "$GIG_DIR/BACKLOG.md"
+        sed -i.bak 's/^# Future Ideas$/# Backlog/' "$GIG_DIR/BACKLOG.md" && rm -f "$GIG_DIR/BACKLOG.md.bak"
+        echo "  Renamed FUTURE.md to BACKLOG.md"
+    fi
+    CHANGED=$((CHANGED + 1))
+fi
+
+# --- Step 3: Add missing template files ---
 
 # Determine template source: repo templates/gig/ or installed ~/.claude/templates/gig/
 TEMPLATE_DIR=""
@@ -154,7 +168,7 @@ else
     fi
 fi
 
-# --- Step 3: Set .gig-version ---
+# --- Step 4: Set .gig-version ---
 
 CURRENT_VERSION=""
 if [ -f "$GIG_DIR/.gig-version" ]; then
