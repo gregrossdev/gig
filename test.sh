@@ -428,6 +428,23 @@ assert "upgrade .gig-version has content" test -s "$UPGRADE_DIR/.gig/.gig-versio
 # Idempotency — second run reports no changes
 assert "upgrade idempotent" sh -c "sh '$SCRIPT_DIR/upgrade.sh' '$UPGRADE_DIR' 2>&1 | grep -q 'No changes needed'"
 
+# FUTURE.md → BACKLOG.md rename
+RENAME_DIR="$(mktemp -d)"
+mkdir -p "$RENAME_DIR/.gig"
+echo "# State" > "$RENAME_DIR/.gig/STATE.md"
+printf '# Future Ideas\n\n- My backlog idea\n' > "$RENAME_DIR/.gig/FUTURE.md"
+
+sh "$SCRIPT_DIR/upgrade.sh" "$RENAME_DIR" > /dev/null 2>&1
+assert "upgrade renames FUTURE.md to BACKLOG.md" test -f "$RENAME_DIR/.gig/BACKLOG.md"
+assert_not "upgrade removes old FUTURE.md" test -f "$RENAME_DIR/.gig/FUTURE.md"
+assert "upgrade preserves backlog content" grep -q "My backlog idea" "$RENAME_DIR/.gig/BACKLOG.md"
+assert "upgrade updates heading to Backlog" grep -q "^# Backlog$" "$RENAME_DIR/.gig/BACKLOG.md"
+
+# Idempotent — rename doesn't re-trigger
+assert "upgrade rename idempotent" sh -c "sh '$SCRIPT_DIR/upgrade.sh' '$RENAME_DIR' 2>&1 | grep -q 'No changes needed'"
+
+rm -rf "$RENAME_DIR"
+
 # Dry-run — does not modify files
 DRYRUN_DIR="$(mktemp -d)"
 mkdir -p "$DRYRUN_DIR/.gig"
@@ -438,6 +455,16 @@ assert "dry-run says dry run" grep -q "dry run" "$TEMP_HOME/dryrun_output.txt"
 assert "dry-run mentions missing files" grep -q "Would add missing file" "$TEMP_HOME/dryrun_output.txt"
 assert_not "dry-run does not create PLAN.md" test -f "$DRYRUN_DIR/.gig/PLAN.md"
 assert_not "dry-run does not create .gig-version" test -f "$DRYRUN_DIR/.gig/.gig-version"
+
+# Dry-run with FUTURE.md rename
+DRYRUN_RENAME_DIR="$(mktemp -d)"
+mkdir -p "$DRYRUN_RENAME_DIR/.gig"
+echo "# State" > "$DRYRUN_RENAME_DIR/.gig/STATE.md"
+echo "# Future Ideas" > "$DRYRUN_RENAME_DIR/.gig/FUTURE.md"
+sh "$SCRIPT_DIR/upgrade.sh" "$DRYRUN_RENAME_DIR" --dry-run > "$TEMP_HOME/dryrun_rename_output.txt" 2>&1
+assert "dry-run mentions FUTURE.md rename" grep -q "Would rename FUTURE.md" "$TEMP_HOME/dryrun_rename_output.txt"
+assert_not "dry-run does not rename FUTURE.md" test -f "$DRYRUN_RENAME_DIR/.gig/BACKLOG.md"
+rm -rf "$DRYRUN_RENAME_DIR"
 
 rm -rf "$UPGRADE_DIR" "$DRYRUN_DIR"
 
