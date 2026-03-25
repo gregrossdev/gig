@@ -41,7 +41,7 @@ Reply **"verified"** or **"skip"** to continue with governance.
 **If user says "verified":** Note it in the governance report and proceed.
 **If user says "skip":** Proceed without manual verification.
 
-Do NOT block on this — it's optional. If the user has already confirmed or the batch is trivial (docs, config), skip automatically and proceed.
+**Always present this checklist.** Do not skip it automatically. The user decides whether to verify or skip.
 
 ## Step 3 — Run Automated Tests
 
@@ -159,6 +159,8 @@ Update `.gig/STATE.md`:
 
 ## APPROVAL GATE
 
+**Present the governance report as a complete formatted table. Do not abbreviate, inline, or omit any section.**
+
 **If Blockers or Majors exist:**
 
 Present the governance report, then:
@@ -186,7 +188,7 @@ After user chooses:
 
 **If NO Blockers or Majors (or all resolved):**
 
-Present the governance report, then:
+Present the governance report in full, then:
 
 > **Does this look good?**
 >
