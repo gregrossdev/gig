@@ -351,7 +351,7 @@ Number new suggestions starting after the highest existing iteration number (fro
 
 **Hard rule:** The Upcoming Iterations table holds a maximum of 3 entries. Always replace, never append.
 
-If additional ideas are worth noting but not immediately actionable, append them to `.gig/FUTURE.md` as bullet points. These are backlog items — no commitment, no priority.
+If additional ideas are worth noting but not immediately actionable, append them to `.gig/BACKLOG.md` as bullet points. These are backlog items — no commitment, no priority.
 
 Then say:
 

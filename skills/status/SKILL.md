@@ -51,7 +51,7 @@ Milestone: {name} v{target} ({status})
 Iterations: {completed}/{total} complete
 
 Open Issues: {count from ISSUES.md — OPEN or DEFERRED}
-Backlog: {count of bullet points in FUTURE.md, or omit line if empty/no file}
+Backlog: {count of bullet points in BACKLOG.md, or omit line if empty/no file}
 
 Upcoming:
   {list iteration names from ROADMAP.md Upcoming Iterations table, or "None"}

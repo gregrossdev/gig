@@ -243,7 +243,7 @@ graph LR
 ├── GOVERNANCE.md        # Iteration closure report (test results, audit, verdict)
 ├── ARCHITECTURE.md      # Your stack, structure, patterns
 ├── ROADMAP.md           # Milestones, iterations, what's next
-├── FUTURE.md            # Backlog ideas — no commitment, no priority
+├── BACKLOG.md            # Backlog ideas — no commitment, no priority
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
 └── iterations/          # Completed iteration archives (full history)
 ```

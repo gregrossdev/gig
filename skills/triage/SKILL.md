@@ -19,7 +19,7 @@ Check if `.gig/` exists in the current project root.
 Say: "No gig context found. Run `/gig:init` first." STOP.
 
 **If present:**
-Read `.gig/STATE.md`, `.gig/ROADMAP.md`, `.gig/ARCHITECTURE.md`, `.gig/ISSUES.md`, `.gig/FUTURE.md`.
+Read `.gig/STATE.md`, `.gig/ROADMAP.md`, `.gig/ARCHITECTURE.md`, `.gig/ISSUES.md`, `.gig/BACKLOG.md`.
 
 ## Step 2 — Research the Codebase
 
@@ -56,7 +56,7 @@ Collect all findings and present: "Research complete. Analyzing {N} findings..."
 
 ## Step 3 — Read Current Queue + Backlog
 
-Read the Upcoming Iterations table from `.gig/ROADMAP.md` and `.gig/FUTURE.md` backlog items.
+Read the Upcoming Iterations table from `.gig/ROADMAP.md` and `.gig/BACKLOG.md` backlog items.
 
 These are **context for comparison**, not the primary source of proposals. Note which queue items are supported or contradicted by research findings.
 
@@ -107,7 +107,7 @@ If the Upcoming Iterations table has entries, compare each against research find
 
 ### In the Backlog
 
-If `.gig/FUTURE.md` has items relevant to the research findings, surface them:
+If `.gig/BACKLOG.md` has items relevant to the research findings, surface them:
 
 ```
 ### In the Backlog

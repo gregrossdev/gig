@@ -28,7 +28,7 @@ If ambiguous, ask: "Create a handoff or restore one?"
 
 ## Step 3a — Create Handoff
 
-1. Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`, `.gig/ISSUES.md`, `.gig/ARCHITECTURE.md`, `.gig/FUTURE.md`.
+1. Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`, `.gig/ISSUES.md`, `.gig/ARCHITECTURE.md`, `.gig/BACKLOG.md`.
 
 2. Gather changed files from git (if in a git repo):
    - If on a feature branch: `git diff main..HEAD --name-only`
@@ -59,7 +59,7 @@ If ambiguous, ask: "Create a handoff or restore one?"
 
 ## Backlog
 
-{Count of items in FUTURE.md, or "Empty."}
+{Count of items in BACKLOG.md, or "Empty."}
 
 ## Open Items
 
