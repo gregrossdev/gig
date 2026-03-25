@@ -133,7 +133,7 @@ Blockers and majors loop back to build. Minor issues defer to future iterations.
 
 > "Does this batch look good?"
 >
-> **"yes"** → Claude executes  |  **"change X"** → Claude adjusts  |  **"no"** → Claude re-evaluates
+> **"approve"** → Claude executes  |  **"change X"** → Claude adjusts  |  **"no"** → Claude re-evaluates
 
 ## Install
 
@@ -189,7 +189,7 @@ Safe to run multiple times — idempotent.
 
 **Natural language shortcuts:**
 
-`next` · `status` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
+`next` · `status` · `triage` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
 
 ## Hooks
 
