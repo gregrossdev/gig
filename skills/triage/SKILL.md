@@ -1,6 +1,6 @@
 ---
 name: gig:triage
-description: Evaluate upcoming iterations — surface knowledge gaps, assess value, recommend priority order.
+description: Research the codebase independently and propose what to work on next — a specialized analysis tool.
 user-invocable: true
 ---
 
@@ -21,52 +21,67 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 **If present:**
 Read `.gig/STATE.md`, `.gig/ROADMAP.md`, `.gig/ARCHITECTURE.md`, `.gig/ISSUES.md`, `.gig/FUTURE.md`.
 
-## Step 2 — Read the Queue
+## Step 2 — Research the Codebase
 
-Extract the upcoming iterations from `.gig/ROADMAP.md` (Upcoming Iterations table).
+Launch 2-3 Explore subagents (Agent tool, subagent_type "Explore") **in parallel**, each with a different research focus. Every agent receives:
 
-**If no upcoming iterations:**
-Say: "No upcoming iterations to triage. Run `/gig:govern` to generate suggestions, or `gather [your idea]` to start something." STOP.
-
-Also read `.gig/FUTURE.md` for backlog ideas that might be worth promoting.
-
-Present: "Triaging {N} upcoming iterations..."
-
-## Step 3 — Research
-
-For each upcoming iteration, launch an Explore subagent (Agent tool, subagent_type "Explore") **in parallel**. Each agent receives:
-
-- The iteration name and description from ROADMAP.md
 - The project's ARCHITECTURE.md for structural context
 - Open/deferred issues from ISSUES.md
+- The completed iterations list from ROADMAP.md (for historical context)
 
-Each agent investigates:
-1. **What files/skills/areas would this iteration touch?**
-2. **What unknowns or ambiguities exist?** (unclear requirements, missing context, dependencies on external factors)
-3. **What's the estimated scope?** (number of files, likely batch count)
-4. **Are there blockers or prerequisites?**
+### Agent 1 — Quality & Coverage
 
-Collect all findings.
+Investigate:
+1. **Test gaps** — untested skills, missing assertions, areas with no coverage
+2. **Code quality** — lint issues, inconsistencies, error-prone patterns
+3. **Broken or stale behavior** — features that don't work as documented
 
-## Step 4 — Assess
+### Agent 2 — Consistency & Docs
 
-For each upcoming iteration, produce a triage card:
+Investigate:
+1. **Skill/template drift** — do skills match their documented behavior? Do templates match skill expectations?
+2. **Stale documentation** — README, ARCHITECTURE.md, GETTING-STARTED.md accuracy
+3. **Naming inconsistencies** — terminology mismatches across files
+
+### Agent 3 — Features & Architecture
+
+Investigate:
+1. **Missing capabilities** — gaps in the workflow that users would expect
+2. **Incomplete features** — partially implemented or rough-edged functionality
+3. **Architectural improvements** — structural issues, dependency problems, scalability
+
+Each agent returns findings with **specific file references** and severity assessment.
+
+Collect all findings and present: "Research complete. Analyzing {N} findings..."
+
+## Step 3 — Read Current Queue + Backlog
+
+Read the Upcoming Iterations table from `.gig/ROADMAP.md` and `.gig/FUTURE.md` backlog items.
+
+These are **context for comparison**, not the primary source of proposals. Note which queue items are supported or contradicted by research findings.
+
+## Step 4 — Assess Findings
+
+For each significant finding from research (limit to 5-7 top findings), produce a triage card:
+
+**Present the following cards in full. Do not abbreviate, inline, or collapse into prose.**
 
 ```
-### {N} — {Iteration Name}
+### {Finding Name}
 
-**Scope:** {files/skills affected, estimated batch count}
-**Knowledge Gaps:** {unknowns, questions that need answering before gather}
-**Value:** {what this unlocks, who benefits, why it matters now}
-**Risk:** {what could go wrong, dependencies, complexity traps}
+**Scope:** {files/areas affected, estimated batch count}
+**Value:** {what this unlocks, why it matters now}
+**Risk:** {what could go wrong, complexity}
+**Evidence:** {specific files, lines, tests, or behaviors that surfaced this finding}
 ```
 
-If an iteration has zero knowledge gaps, note: "Ready to gather — no unknowns."
-If an iteration has significant gaps, note what research is needed first.
+Prioritize findings by: blockers > user-facing issues > consistency > quality > nice-to-have.
 
-## Step 5 — Recommend
+## Step 5 — Compare & Recommend
 
-Present a ranked recommendation:
+### Research-Driven Recommendation
+
+Present a ranked top 3 based on research findings:
 
 ```
 ## Recommendation
@@ -75,26 +90,40 @@ Present a ranked recommendation:
 2. **{Iteration Name}** — {one-line reason}
 3. **{Iteration Name}** — {one-line reason}
 
-**Rationale:** {2-3 sentences explaining the ordering — dependencies, value sequencing, gap resolution}
+**Rationale:** {2-3 sentences explaining the ordering — dependencies, value sequencing, evidence strength}
 ```
 
-Also surface any `.gig/FUTURE.md` backlog items worth promoting to the upcoming queue:
+### Current Queue Assessment
+
+If the Upcoming Iterations table has entries, compare each against research findings:
 
 ```
-### Worth Promoting from Backlog
-- {idea} — {why it's timely}
+### Current Queue
+
+| # | Name | Assessment |
+|---|------|------------|
+| {N} | {Name} | {Still valid / Superseded by X / Needs revision: Y} |
 ```
 
-If nothing in FUTURE.md is worth promoting, skip this section.
+### In the Backlog
+
+If `.gig/FUTURE.md` has items relevant to the research findings, surface them:
+
+```
+### In the Backlog
+- {idea} — {relevant because: connection to finding X}
+```
+
+If nothing in the backlog is relevant, skip this section. Do not propose backlog items as fresh recommendations.
 
 ## Step 6 — Reorder (optional)
 
 Ask:
 
-> "Want me to reorder the upcoming iterations queue based on this analysis?"
+> "Want me to rewrite the upcoming iterations queue based on this analysis?"
 >
-> - **"yes"** — rewrite the Upcoming Iterations table in ROADMAP.md with the recommended order.
+> - **"yes"** — replace the Upcoming Iterations table in ROADMAP.md with the recommended top 3.
 > - **"no"** — leave the queue as-is.
-> - **"swap X and Y"** — apply a specific reorder.
+> - **"swap X and Y"** — apply a specific change.
 
-If the user approves a reorder, update `.gig/ROADMAP.md` Upcoming Iterations table accordingly.
+If the user approves, update `.gig/ROADMAP.md` Upcoming Iterations table accordingly.
