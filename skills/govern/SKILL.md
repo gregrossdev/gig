@@ -316,23 +316,53 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
 
+### Research What's Next
+
+Before generating suggestions, launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the iteration's impact:
+
+The agent receives:
+- The files changed in this iteration (from PLAN.md batch details)
+- The project's ARCHITECTURE.md for structural context
+- Open/deferred issues from ISSUES.md
+
+The agent investigates:
+1. **Staleness** — do tests, docs, or related files need updating after this iteration's changes?
+2. **Follow-ups** — what naturally follows from what was just built? (incomplete features, rough edges, missing coverage)
+3. **Consistency** — are there naming, terminology, or behavioral mismatches introduced or exposed?
+
+The agent returns findings with **specific file references**.
+
 ### Generate 3 Suggestions
 
-Generate exactly 3 fresh iteration suggestions based on:
-- **Open/deferred issues** in ISSUES.md (highest priority)
-- **Roadmap gaps** — what the milestone needs that hasn't been built
-- **Natural extensions** — what logically follows from what was just built
-- **Quality improvements** — testing, refactoring, documentation, performance
+Using research findings + open issues + ROADMAP context, generate exactly 3 fresh iteration suggestions.
+
+**Priority order:**
+1. **Open/deferred issues** in ISSUES.md (always highest priority)
+2. **Research findings** — staleness, follow-ups, consistency gaps surfaced by the Explore agent
+3. **Roadmap gaps** — what the milestone needs that hasn't been built
+
+**Each suggestion must cite its evidence** — an issue ID, a specific file reference, or a research finding.
 
 ```
 ### What's Next?
 
-1. **{Iteration idea 1}** — {Why}
-2. **{Iteration idea 2}** — {Why}
-3. **{Iteration idea 3}** — {Why}
+1. **{Iteration idea 1}** — {Why} (evidence: {issue ID or file reference})
+2. **{Iteration idea 2}** — {Why} (evidence: {file reference or research finding})
+3. **{Iteration idea 3}** — {Why} (evidence: {file reference or research finding})
 
 Or run `gather [your idea]` to start something else entirely.
 ```
+
+### In the Backlog
+
+Read `.gig/BACKLOG.md` and surface any items relevant to this iteration's changes:
+
+```
+### In the Backlog
+- {item} — {relevant because: connection to this iteration}
+```
+
+If nothing in the backlog is relevant, skip this section. **Do not pull backlog items into the 3 suggestions.**
 
 ### Write Suggestions to Roadmap
 

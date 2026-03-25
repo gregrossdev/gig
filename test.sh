@@ -602,6 +602,14 @@ assert "govern approval gate has table enforcement" grep -q "Do not abbreviate, 
 assert "gather Gate 1 has table enforcement" grep -q "Do not abbreviate, inline, or collapse into prose" "$GATHER_SKILL"
 assert "gather Gate 2 has table enforcement" grep -q "Do not abbreviate or collapse into prose" "$GATHER_SKILL"
 
+# [31] Govern suggestion research
+echo "[31] Govern suggestion research"
+
+assert "govern Step 10 has Explore subagent research" grep -q 'Explore subagent' "$GOVERN_SKILL"
+assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GOVERN_SKILL"
+assert "govern Step 10 suggestions cite evidence" grep -q 'cite its evidence' "$GOVERN_SKILL"
+assert "govern Step 10 has research priority order" grep -q 'Open/deferred issues' "$GOVERN_SKILL"
+
 # --- Summary ---
 
 echo ""
