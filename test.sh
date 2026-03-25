@@ -584,6 +584,18 @@ for skill in $SKILLS; do
     assert "command $skill references skill" grep -q "@~/.claude/skills/gig/$skill/SKILL.md" "$CMD_FILE"
 done
 
+# [30] Govern quick verify and approval table enforcement
+echo "[30] Govern quick verify and approval table enforcement"
+
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+GATHER_SKILL="$SCRIPT_DIR/skills/gather/SKILL.md"
+
+assert_not "govern Step 2 does not auto-skip" grep -q "skip automatically" "$GOVERN_SKILL"
+assert "govern Step 2 always presents checklist" grep -q "Always present this checklist" "$GOVERN_SKILL"
+assert "govern approval gate has table enforcement" grep -q "Do not abbreviate, inline, or omit" "$GOVERN_SKILL"
+assert "gather Gate 1 has table enforcement" grep -q "Do not abbreviate, inline, or collapse into prose" "$GATHER_SKILL"
+assert "gather Gate 2 has table enforcement" grep -q "Do not abbreviate or collapse into prose" "$GATHER_SKILL"
+
 # --- Summary ---
 
 echo ""
