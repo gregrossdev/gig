@@ -8,7 +8,7 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Task, WebS
 <objective>
 Research the problem, make all decisions with rationale, and build the implementation plan. Two approval gates — decisions then plan — in one command.
 
-**When to use:** After `/gig:init`, or when starting a new phase.
+**When to use:** After `/gig:init`, or when starting a new iteration.
 </objective>
 
 <execution_context>

@@ -108,7 +108,7 @@ gig will:
 - Track issues by severity (blocker, major, minor, cosmetic)
 - Blockers and majors loop back to implement for fixing
 - Archive the completed iteration to `.gig/iterations/`
-- Summarize what was built and suggest 2-3 next iteration ideas
+- Summarize what was built and suggest 3 next iteration ideas
 
 ## Repeat
 
@@ -162,4 +162,6 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `ISSUES.md` | Issues found during governance | During govern |
 | `ARCHITECTURE.md` | Project structure and stack | During init, updated as project evolves |
 | `ROADMAP.md` | Milestones and iterations | Iteration start/end, milestone completion |
+| `GOVERNANCE.md` | Iteration closure report (tests, audit, verdict) | During govern, archived with iteration |
+| `BACKLOG.md` | Backlog ideas — no commitment, no priority | During govern, anytime |
 | `GIT-STRATEGY.md` | Branch, commit, tag conventions | Reference only |

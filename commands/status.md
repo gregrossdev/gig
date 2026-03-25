@@ -6,7 +6,7 @@ allowed-tools: [Read, Glob]
 ---
 
 <objective>
-Show current version, phase, progress, and suggest exactly one next action.
+Show current version, iteration, progress, and suggest exactly one next action.
 
 **When to use:** Anytime you want to check where you are.
 </objective>
