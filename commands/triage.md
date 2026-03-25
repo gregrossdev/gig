@@ -1,14 +1,14 @@
 ---
 name: gig:triage
-description: Evaluate upcoming iterations — surface knowledge gaps, assess value, recommend priority order.
+description: Research the codebase and propose what to work on next.
 argument-hint:
 allowed-tools: [Read, Glob, Grep, Agent, WebSearch, WebFetch]
 ---
 
 <objective>
-Evaluate upcoming iterations — surface knowledge gaps, assess value, recommend priority order.
+Research the codebase independently and propose what to work on next — a specialized analysis tool.
 
-**When to use:** Before deciding on next iteration priorities, or when the upcoming queue needs review.
+**When to use:** Before deciding on next iteration priorities, or when you want a fresh codebase analysis.
 </objective>
 
 <execution_context>
