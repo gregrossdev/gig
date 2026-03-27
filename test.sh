@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init gather implement govern status milestone research handoff triage"
+SKILLS="init spec gather implement govern status milestone research handoff triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
@@ -636,6 +636,21 @@ assert "govern Step 10 has Explore subagent research" grep -q 'Explore subagent'
 assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GOVERN_SKILL"
 assert "govern Step 10 suggestions cite evidence" grep -q 'cite its evidence' "$GOVERN_SKILL"
 assert "govern Step 10 has research priority order" grep -q 'Open/deferred issues' "$GOVERN_SKILL"
+
+# [32] Spec skill
+echo "[32] Spec skill"
+
+SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
+assert "spec skill has elicitation step" grep -q 'Elicitation' "$SPEC_SKILL"
+assert "spec skill has lock gate" grep -q 'Lock Gate' "$SPEC_SKILL"
+assert "spec skill references SPEC.md" grep -q 'SPEC\.md' "$SPEC_SKILL"
+assert "spec skill has SPECING status" grep -q 'SPECING' "$SPEC_SKILL"
+assert "spec skill has SPECCED status" grep -q 'SPECCED' "$SPEC_SKILL"
+assert "spec skill has user story format" grep -q 'As a \[who\]' "$SPEC_SKILL"
+assert "spec skill has requirement IDs" grep -q 'REQ-001' "$SPEC_SKILL"
+assert "SPEC.md template exists" test -f "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "SPEC.md template has Stories section" grep -q '## Stories' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "SPEC.md template has Requirements section" grep -q '## Requirements' "$SCRIPT_DIR/templates/gig/SPEC.md"
 
 # --- Summary ---
 
