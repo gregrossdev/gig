@@ -417,6 +417,7 @@ assert "upgrade adds ARCHITECTURE.md" test -f "$UPGRADE_DIR/.gig/ARCHITECTURE.md
 assert "upgrade adds ROADMAP.md" test -f "$UPGRADE_DIR/.gig/ROADMAP.md"
 assert "upgrade adds GIT-STRATEGY.md" test -f "$UPGRADE_DIR/.gig/GIT-STRATEGY.md"
 assert "upgrade adds BACKLOG.md" test -f "$UPGRADE_DIR/.gig/BACKLOG.md"
+assert "upgrade adds SPEC.md" test -f "$UPGRADE_DIR/.gig/SPEC.md"
 assert_not "upgrade does not add ARTICLE.md to .gig/" test -f "$UPGRADE_DIR/.gig/ARTICLE.md"
 assert "upgrade creates iterations/ dir" test -d "$UPGRADE_DIR/.gig/iterations"
 assert "upgrade preserves existing STATE.md" grep -q "# State" "$UPGRADE_DIR/.gig/STATE.md"
@@ -552,6 +553,7 @@ assert "init skill has project templates step" grep -q 'Project Templates' "$SCR
 assert "init skill references templates/gig/" grep -q 'templates/gig/' "$SCRIPT_DIR/skills/init/SKILL.md"
 assert "init skill references templates/project/" grep -q 'templates/project/' "$SCRIPT_DIR/skills/init/SKILL.md"
 assert_not "init .gig/ file list no longer includes ARTICLE.md" grep -q 'GIT-STRATEGY.md, ARTICLE.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init .gig/ file list includes SPEC.md" grep -q 'SPEC\.md' "$SCRIPT_DIR/skills/init/SKILL.md"
 
 # --- Test 24: Govern plugin version instruction ---
 
