@@ -2,7 +2,7 @@
 name: gig:spec
 description: Build a complete spec through interactive conversation so gather produces plans that execute cleanly.
 user-invocable: true
-argument-hint: "[topic or goal]"
+argument-hint: "[topic or goal | baseline]"
 ---
 
 # /gig:spec Skill

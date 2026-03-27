@@ -1,14 +1,14 @@
 ---
 name: gig:spec
 description: Build a complete spec through interactive conversation so gather produces plans that execute cleanly.
-argument-hint: "[topic or goal]"
+argument-hint: "[topic or goal | baseline]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, AskUserQuestion, Agent, WebSearch, WebFetch]
 ---
 
 <objective>
 Build a complete spec through interactive conversation — user stories, requirements, constraints — so gather can make decisions without assumptions.
 
-**When to use:** Before `/gig:gather` for complex features, new milestones, or when you want clarity before decisions.
+**When to use:** Before `/gig:gather` for complex features, new milestones, or when you want clarity before decisions. Use `baseline` to reverse-engineer a spec from existing iteration history.
 </objective>
 
 <execution_context>
