@@ -39,7 +39,14 @@ Reply **"verified"** or **"skip"** to continue with governance.
 ```
 
 **If user says "verified":** Note it in the governance report and proceed.
-**If user says "skip":** Proceed without manual verification.
+
+**If user says "skip":** Append the verification steps to the **Verify Later** table in `.gig/STATE.md`:
+
+```
+| v0.{N}.{P} | {batch title} | {verification steps as a semicolon-separated list} | {today's date} |
+```
+
+This creates a running queue of skipped verifications the user can review at their own pace. Then proceed with governance.
 
 **Always present this checklist.** Do not skip it automatically. The user decides whether to verify or skip.
 

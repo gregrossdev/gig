@@ -54,6 +54,16 @@ _None._
 
 ---
 
+## Verify Later
+
+<!-- Skipped manual verifications from govern. Review these at your own pace. -->
+<!-- Format: | Version | Batch | Verification Steps | Skipped Date | -->
+
+| Version | Batch | Verification Steps | Skipped |
+|---------|-------|--------------------|---------|
+
+---
+
 ## Session Recovery
 
 1. Read this file — current state
