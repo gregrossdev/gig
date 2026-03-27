@@ -646,8 +646,10 @@ assert "govern Step 10 has Explore subagent research" grep -q 'Explore subagent'
 assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GOVERN_SKILL"
 assert "govern Step 10 suggestions cite evidence" grep -q 'cite its evidence' "$GOVERN_SKILL"
 assert "govern Step 10 has research priority order" grep -q 'Open/deferred issues' "$GOVERN_SKILL"
-assert "govern Step 10 uses spec for suggestions" grep -q 'Uncovered spec requirements' "$GOVERN_SKILL"
+assert "govern Step 10 auto-queues from spec" grep -q 'Auto-Queued from Spec' "$GOVERN_SKILL"
 assert "govern Step 10 checks NOT COVERED requirements" grep -q 'NOT COVERED' "$GOVERN_SKILL"
+assert "govern Step 10 groups by parent story" grep -q 'Group uncovered requirements by parent story' "$GOVERN_SKILL"
+assert "govern Step 10 surfaces issues alongside spec queue" grep -q 'insert a fix iteration before the spec queue' "$GOVERN_SKILL"
 
 # [31b] Govern spec coverage
 echo "[31b] Govern spec coverage"

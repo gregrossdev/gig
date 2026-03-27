@@ -335,13 +335,36 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 
 ### Determine What's Next
 
-**If `.gig/SPEC.md` exists with uncovered requirements:**
+**Path A — Spec exists with uncovered requirements (auto-queue):**
 
-Read the Spec Coverage section from the governance report (Step 8). Identify requirements with status `NOT COVERED`. These are the primary source of suggestions — the spec defines what needs to be built, and uncovered requirements are what's left.
+Read `.gig/SPEC.md`. Identify requirements with Status `NOT COVERED`. If any exist:
 
-Group related uncovered requirements into iteration-sized chunks (1 story or 2-3 related requirements per suggestion). Each suggestion maps directly to spec requirements.
+1. Group uncovered requirements by parent story into iteration-sized chunks (1 story or 2-3 related requirements per iteration).
+2. Take the next 3 chunks (or fewer if less remain).
+3. **Automatically write them to the Upcoming Iterations queue** — no suggestions, no asking. The spec already defines what needs to be built.
 
-**If no spec exists, or all requirements are covered:**
+```
+### Auto-Queued from Spec
+
+| # | Name | Requirements |
+|---|------|-------------|
+| {N} | {Story or requirement group name} | REQ-001, REQ-002 |
+| {N+1} | {Story or requirement group name} | REQ-003 |
+| {N+2} | {Story or requirement group name} | REQ-004, REQ-005 |
+
+{remaining} uncovered requirements after these 3.
+```
+
+Present the auto-queued iterations, then:
+> "These are queued from your spec. Edit or reorder if needed, or say 'go' to accept."
+
+**If user edits:** Apply changes and write the edited versions.
+**Otherwise:** Write all to ROADMAP.md.
+
+If open/deferred issues exist in ISSUES.md, surface them:
+> "Open issues: {list}. Want to insert a fix iteration before the spec queue?"
+
+**Path B — No spec, or all requirements covered (research + suggest):**
 
 Launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the iteration's impact:
 
@@ -352,22 +375,19 @@ The agent receives:
 
 The agent investigates:
 1. **Staleness** — do tests, docs, or related files need updating after this iteration's changes?
-2. **Follow-ups** — what naturally follows from what was just built? (incomplete features, rough edges, missing coverage)
-3. **Consistency** — are there naming, terminology, or behavioral mismatches introduced or exposed?
+2. **Follow-ups** — what naturally follows from what was just built?
+3. **Consistency** — naming, terminology, or behavioral mismatches introduced or exposed?
 
 The agent returns findings with **specific file references**.
-
-### Generate 3 Suggestions
 
 Generate exactly 3 fresh iteration suggestions.
 
 **Priority order:**
-1. **Uncovered spec requirements** — if SPEC.md exists, requirements not yet addressed are always highest priority
-2. **Open/deferred issues** in ISSUES.md
-3. **Research findings** — staleness, follow-ups, consistency gaps surfaced by the Explore agent
-4. **Roadmap gaps** — what the milestone needs that hasn't been built
+1. **Open/deferred issues** in ISSUES.md (always highest priority)
+2. **Research findings** — staleness, follow-ups, consistency gaps
+3. **Roadmap gaps** — what the milestone needs that hasn't been built
 
-**Each suggestion must cite its evidence** — a requirement ID (REQ-001), an issue ID, a specific file reference, or a research finding.
+**Each suggestion must cite its evidence** — an issue ID, a specific file reference, or a research finding.
 
 ```
 ### What's Next?
@@ -379,6 +399,12 @@ Generate exactly 3 fresh iteration suggestions.
 Or run `gather [your idea]` to start something else entirely.
 ```
 
+Present the 3 suggestions, then:
+> "These will replace your upcoming iterations queue. Edit or remove any you don't want."
+
+**If user edits:** Apply their changes and write the edited versions.
+**Otherwise:** Write all 3 to ROADMAP.md.
+
 ### In the Backlog
 
 Read `.gig/BACKLOG.md` and surface any items relevant to this iteration's changes:
@@ -388,15 +414,9 @@ Read `.gig/BACKLOG.md` and surface any items relevant to this iteration's change
 - {item} — {relevant because: connection to this iteration}
 ```
 
-If nothing in the backlog is relevant, skip this section. **Do not pull backlog items into the 3 suggestions.**
+If nothing in the backlog is relevant, skip this section. **Do not pull backlog items into suggestions.**
 
-### Write Suggestions to Roadmap
-
-Present the 3 suggestions, then:
-> "These will replace your upcoming iterations queue. Edit or remove any you don't want."
-
-**If user edits:** Apply their changes and write the edited versions.
-**Otherwise:** Write all 3 to ROADMAP.md.
+### Write to Roadmap
 
 **Clear** the entire Upcoming Iterations table in `.gig/ROADMAP.md`, then write the 3 new entries:
 ```
