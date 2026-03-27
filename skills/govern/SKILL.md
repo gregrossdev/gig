@@ -325,9 +325,17 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
 
-### Research What's Next
+### Determine What's Next
 
-Before generating suggestions, launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the iteration's impact:
+**If `.gig/SPEC.md` exists with uncovered requirements:**
+
+Read the Spec Coverage section from the governance report (Step 8). Identify requirements with status `NOT COVERED`. These are the primary source of suggestions — the spec defines what needs to be built, and uncovered requirements are what's left.
+
+Group related uncovered requirements into iteration-sized chunks (1 story or 2-3 related requirements per suggestion). Each suggestion maps directly to spec requirements.
+
+**If no spec exists, or all requirements are covered:**
+
+Launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the iteration's impact:
 
 The agent receives:
 - The files changed in this iteration (from PLAN.md batch details)
@@ -343,14 +351,15 @@ The agent returns findings with **specific file references**.
 
 ### Generate 3 Suggestions
 
-Using research findings + open issues + ROADMAP context, generate exactly 3 fresh iteration suggestions.
+Generate exactly 3 fresh iteration suggestions.
 
 **Priority order:**
-1. **Open/deferred issues** in ISSUES.md (always highest priority)
-2. **Research findings** — staleness, follow-ups, consistency gaps surfaced by the Explore agent
-3. **Roadmap gaps** — what the milestone needs that hasn't been built
+1. **Uncovered spec requirements** — if SPEC.md exists, requirements not yet addressed are always highest priority
+2. **Open/deferred issues** in ISSUES.md
+3. **Research findings** — staleness, follow-ups, consistency gaps surfaced by the Explore agent
+4. **Roadmap gaps** — what the milestone needs that hasn't been built
 
-**Each suggestion must cite its evidence** — an issue ID, a specific file reference, or a research finding.
+**Each suggestion must cite its evidence** — a requirement ID (REQ-001), an issue ID, a specific file reference, or a research finding.
 
 ```
 ### What's Next?
