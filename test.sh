@@ -535,6 +535,14 @@ assert "gather writes directly as ACTIVE" grep -q 'directly as.*ACTIVE' "$GATHER
 assert_not "gather no longer has pre-approval write step" grep -q '^### Step 5 — Write Decisions' "$GATHER_SKILL"
 assert "gather defers DECISIONS.md write" grep -q 'Do NOT write to DECISIONS.md yet' "$GATHER_SKILL"
 
+# --- Test 21b: Gather spec awareness ---
+
+echo "[21b] Gather spec awareness"
+assert "gather reads SPEC.md" grep -q 'Read.*SPEC\.md' "$GATHER_SKILL"
+assert "gather has REQ column in decision table" grep -q '| REQ |' "$GATHER_SKILL"
+assert "gather warns if no spec" grep -q 'No spec found' "$GATHER_SKILL"
+assert "gather traces decisions to requirements" grep -q 'trace to a requirement' "$GATHER_SKILL"
+
 # --- Test 22: BACKLOG.md backlog ---
 
 echo "[22] BACKLOG.md backlog"
