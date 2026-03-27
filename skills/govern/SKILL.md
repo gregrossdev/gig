@@ -297,6 +297,14 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
    - Mark iteration as `complete` in the iterations table.
    - Update version range with actual final version.
 
+3. Update `.gig/SPEC.md` (if it exists):
+   - Read the Spec Coverage section from the governance report.
+   - For each requirement marked `COVERED` in the report, update its row in SPEC.md:
+     - Set **Status** to `COVERED`
+     - Set **Iteration** to `v0.{N}.{last-P}` (the iteration that covered it)
+   - If all requirements for a story are now `COVERED`, update the story's **Status** to `COVERED`.
+   - This keeps SPEC.md as the living tracker of what's done and what's left.
+
 ---
 
 ## Step 10 — Iteration Summary & Next Suggestions

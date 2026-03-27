@@ -656,6 +656,9 @@ assert "govern reads SPEC.md" grep -q 'SPEC\.md' "$GOVERN_SKILL"
 assert "govern report has Spec Coverage section" grep -q 'Spec Coverage' "$GOVERN_SKILL"
 assert "govern has REQ coverage table" grep -q '| REQ | Description | Addressed By | Status |' "$GOVERN_SKILL"
 assert "govern handles no spec gracefully" grep -q 'No spec.*coverage not tracked' "$GOVERN_SKILL"
+assert "govern updates SPEC.md after archive" grep -q 'Update.*SPEC\.md' "$GOVERN_SKILL"
+assert "govern marks requirements COVERED" grep -q 'Status.*to.*COVERED' "$GOVERN_SKILL"
+assert "govern records iteration in SPEC.md" grep -q 'Iteration.*v0' "$GOVERN_SKILL"
 
 # [32] Spec skill
 echo "[32] Spec skill"
@@ -678,6 +681,10 @@ assert "spec skill has baseline from iterations" grep -q 'Baseline from Iteratio
 assert "spec skill reads archived iterations" grep -q 'gig/iterations/' "$SPEC_SKILL"
 assert "spec skill has DELIVERED status" grep -q 'DELIVERED' "$SPEC_SKILL"
 assert "spec skill has NOT COVERED for new work" grep -q 'NOT COVERED' "$SPEC_SKILL"
+assert "SPEC.md template has Status column in requirements" grep -q '| Status | Iteration |' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "SPEC.md template has Status column in stories" grep -q '| Status |' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "SPEC.md template documents requirement statuses" grep -q 'Requirement statuses' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "milestone archives SPEC.md" grep -q 'SPEC.*archive' "$SCRIPT_DIR/skills/milestone/SKILL.md"
 
 # --- Summary ---
 
