@@ -27,6 +27,11 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 3. Read `.gig/ARCHITECTURE.md` for structural context.
 4. Read `.gig/ROADMAP.md` for milestone context.
 5. Read `.gig/ISSUES.md` for open issues from prior iterations.
+6. Read `.gig/SPEC.md` if it exists — this is the spec for the current milestone.
+
+**If `.gig/SPEC.md` exists and has content beyond the template:** Use it as the foundation for decisions. Every decision should trace to a requirement in the spec.
+
+**If `.gig/SPEC.md` does not exist or is empty:** Print: "No spec found. Consider running `/gig:spec` first for complex features." Then proceed as normal.
 
 ---
 
@@ -82,6 +87,7 @@ Organize into a single batch of 3-7 decisions.
 - Reference specific research findings.
 - Each decision is atomic — one choice per entry.
 - Use ID format: `D-{batch}.{num}` (e.g., D-1.1, D-1.2)
+- **If a spec exists:** link each decision to its requirement ID (REQ column). Decisions that can't trace to a requirement should be flagged — either the spec needs amending or the decision is out of scope.
 
 If more than 7 decisions are needed, split into multiple batches and present sequentially.
 
@@ -95,8 +101,10 @@ Update `.gig/STATE.md`:
 
 **Present the following table in full. Do not abbreviate, inline, or collapse into prose.**
 
-| ID | Decision | Choice | Rationale (1-line) |
-|----|----------|--------|-------------------|
+| ID | REQ | Decision | Choice | Rationale (1-line) |
+|----|-----|----------|--------|-------------------|
+
+If no spec exists, omit the REQ column.
 
 Then say:
 
