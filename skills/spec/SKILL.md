@@ -56,7 +56,34 @@ This is an interactive conversation. Claude guides the user to articulate what t
 
 **If user provided args:** Use the args as the starting topic. Begin with: "Let's build a spec for **{topic}**. I'll help you define what you want so gather can execute it cleanly."
 
-**If no args:** Ask ONE question: "What are you trying to build or accomplish?"
+**If no args and the project has completed iterations (existing project):**
+
+Launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the current project state. The agent receives ARCHITECTURE.md, ROADMAP.md (completed iterations), BACKLOG.md, and ISSUES.md.
+
+The agent investigates:
+1. What the project can do now (working features, capabilities)
+2. What's rough, incomplete, or missing
+3. Structural or quality concerns
+
+Present a project assessment and propose directions:
+
+```
+### Your Project Now
+
+{2-3 sentence assessment of current state and capabilities}
+
+### Suggested Directions
+
+1. **{Direction}** ({type: refactor / feature / enhancement / testing / docs}) — {why this matters now}
+2. **{Direction}** ({type}) — {why}
+3. **{Direction}** ({type}) — {why}
+
+Pick a direction to spec out, combine them, or tell me what you have in mind.
+```
+
+The user picks a direction (or states their own), then elicitation continues normally.
+
+**If no args and new project (no completed iterations):** Ask ONE question: "What are you trying to build or accomplish?"
 
 ### Elicitation Behaviors
 

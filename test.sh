@@ -671,6 +671,9 @@ assert "spec skill has requirement IDs" grep -q 'REQ-001' "$SPEC_SKILL"
 assert "SPEC.md template exists" test -f "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Stories section" grep -q '## Stories' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Requirements section" grep -q '## Requirements' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "spec skill has existing project analysis" grep -q 'Explore subagent' "$SPEC_SKILL"
+assert "spec skill proposes directions" grep -q 'Suggested Directions' "$SPEC_SKILL"
+assert "spec skill has project assessment" grep -q 'Your Project Now' "$SPEC_SKILL"
 
 # --- Summary ---
 
