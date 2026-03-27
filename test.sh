@@ -674,6 +674,10 @@ assert "SPEC.md template has Requirements section" grep -q '## Requirements' "$S
 assert "spec skill has existing project analysis" grep -q 'Explore subagent' "$SPEC_SKILL"
 assert "spec skill proposes directions" grep -q 'Suggested Directions' "$SPEC_SKILL"
 assert "spec skill has project assessment" grep -q 'Your Project Now' "$SPEC_SKILL"
+assert "spec skill has baseline from iterations" grep -q 'Baseline from Iterations' "$SPEC_SKILL"
+assert "spec skill reads archived iterations" grep -q 'gig/iterations/' "$SPEC_SKILL"
+assert "spec skill has DELIVERED status" grep -q 'DELIVERED' "$SPEC_SKILL"
+assert "spec skill has NOT COVERED for new work" grep -q 'NOT COVERED' "$SPEC_SKILL"
 
 # --- Summary ---
 
