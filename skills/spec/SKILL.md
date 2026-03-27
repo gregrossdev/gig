@@ -54,7 +54,11 @@ This is an interactive conversation. Claude guides the user to articulate what t
 
 ### Starting the Conversation
 
-**If user provided args:** Use the args as the starting topic. Begin with: "Let's build a spec for **{topic}**. I'll help you define what you want so gather can execute it cleanly."
+**If user says "baseline" or "reverse-engineer" (or provided args containing these words):**
+
+Jump to the **Baseline from Iterations** flow below.
+
+**If user provided other args:** Use the args as the starting topic. Begin with: "Let's build a spec for **{topic}**. I'll help you define what you want so gather can execute it cleanly."
 
 **If no args and the project has completed iterations (existing project):**
 
@@ -84,6 +88,50 @@ Pick a direction to spec out, combine them, or tell me what you have in mind.
 The user picks a direction (or states their own), then elicitation continues normally.
 
 **If no args and new project (no completed iterations):** Ask ONE question: "What are you trying to build or accomplish?"
+
+### Baseline from Iterations
+
+For existing projects that want to capture what's already been built as a spec. This reverse-engineers user stories and requirements from iteration history.
+
+1. **Read all archived iterations:** Scan `.gig/iterations/` for completed iteration archives. For each, read PLAN.md (batch details, acceptance criteria) and DECISIONS.md (what was decided and why).
+
+2. **Read current state:** Read `.gig/ARCHITECTURE.md`, `.gig/ROADMAP.md` (completed milestones and iterations).
+
+3. **Launch Explore subagents in parallel** (Agent tool, subagent_type "Explore") to:
+   - **Agent 1:** Group completed iterations into user stories — what user-facing capability did each cluster of iterations deliver? Assign IDs: US-001, US-002, etc.
+   - **Agent 2:** Extract requirements from batch acceptance criteria and test criteria across all iterations. Link each to its parent story. Assign IDs: REQ-001, REQ-002, etc.
+
+4. **Present the baseline draft spec:**
+
+```
+### Baseline Spec (reverse-engineered from {N} iterations)
+
+## Stories
+
+| ID | Story | Priority | Status |
+|----|-------|----------|--------|
+| US-001 | As a ..., I want ..., so that ... | core | DELIVERED |
+| US-002 | ... | core | DELIVERED |
+| ... | ... | ... | ... |
+
+## Requirements
+
+| ID | Story | Description | Acceptance Criteria | Status | Iteration |
+|----|-------|-------------|---------------------|--------|-----------|
+| REQ-001 | US-001 | ... | ... | COVERED | v0.X.Y |
+| REQ-002 | US-001 | ... | ... | COVERED | v0.X.Y |
+| ... | ... | ... | ... | ... | ... |
+
+All {count} requirements are marked COVERED — these represent what's already built.
+```
+
+5. **Ask the user to review and extend:**
+
+> "This is what your project has built so far. Review the stories and requirements — adjust anything that's wrong."
+>
+> "To add NEW work, describe what you want next. I'll add new stories and requirements with status NOT COVERED. Govern will track them going forward."
+
+6. The user reviews, adjusts existing items, and adds new stories/requirements. New items get status `NOT COVERED`. Then continue to the **Lock Gate** (Step 4).
 
 ### Elicitation Behaviors
 
