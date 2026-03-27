@@ -16,6 +16,7 @@ You tell Claude what you want. Claude does the rest — research, decisions, imp
 Each iteration is one loop — **decide, build, verify**:
 
 ```
+/gig:spec       →  spec:   (optional) interactive elicitation — stories, requirements, constraints
 /gig:gather     →  decide: research, make decisions, build the plan
 /gig:implement  →  build:  execute batches with checkpoints
 /gig:govern     →  verify: test, validate, track issues, archive
@@ -178,6 +179,7 @@ Safe to run multiple times — idempotent.
 | Skill | What it does |
 |-------|-------------|
 | `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
+| `/gig:spec` | Interactive elicitation — stories, requirements, constraints (optional, before gather) |
 | `/gig:gather` | Research → decisions → plan (two approval gates) |
 | `/gig:implement` | Execute batches, checkpoints, parallel when possible |
 | `/gig:govern` | Test, validate, track issues, archive iteration |
@@ -189,7 +191,7 @@ Safe to run multiple times — idempotent.
 
 **Natural language shortcuts:**
 
-`next` · `status` · `triage` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
+`spec` · `next` · `status` · `triage` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
 
 ## Hooks
 
@@ -243,6 +245,7 @@ graph LR
 ├── GOVERNANCE.md        # Iteration closure report (test results, audit, verdict)
 ├── ARCHITECTURE.md      # Your stack, structure, patterns
 ├── ROADMAP.md           # Milestones, iterations, what's next
+├── SPEC.md              # Locked spec — stories, requirements, constraints (optional)
 ├── BACKLOG.md            # Backlog ideas — no commitment, no priority
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
 └── iterations/          # Completed iteration archives (full history)
