@@ -203,17 +203,17 @@ Present the entire draft spec in SPEC.md format:
 
 ## Stories
 
-| ID | Story | Priority | Scope Notes |
-|----|-------|----------|------------|
-| US-001 | As a ..., I want ..., so that ... | core | ... |
-| ... | ... | ... | ... |
+| ID | Story | Priority | Scope Notes | Status |
+|----|-------|----------|------------|--------|
+| US-001 | As a ..., I want ..., so that ... | core | ... | NOT COVERED |
+| ... | ... | ... | ... | ... |
 
 ## Requirements
 
-| ID | Story | Description | Acceptance Criteria | Priority | Dependencies |
-|----|-------|-------------|---------------------|----------|-------------|
-| REQ-001 | US-001 | ... | ... | must | — |
-| ... | ... | ... | ... | ... | ... |
+| ID | Story | Description | Acceptance Criteria | Priority | Dependencies | Status | Iteration |
+|----|-------|-------------|---------------------|----------|-------------|--------|-----------|
+| REQ-001 | US-001 | ... | ... | must | — | NOT COVERED | — |
+| ... | ... | ... | ... | ... | ... | ... | ... |
 
 ## Constraints
 

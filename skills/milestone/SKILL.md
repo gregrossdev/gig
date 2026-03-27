@@ -84,6 +84,7 @@ Use AskUserQuestion to present options:
      ```
      Derive version ranges from the Iterations table's "Version Range" column.
    - Clear Current Milestone section.
+   - If `.gig/SPEC.md` exists: archive it to `.gig/iterations/` as `SPEC-{milestone-version}.md` (frozen snapshot of the completed spec with all statuses). Then reset SPEC.md to template state.
    - Update STATE.md: set status to `IDLE`, clear iteration/batch.
 
 5. **Push (if remote exists):**
