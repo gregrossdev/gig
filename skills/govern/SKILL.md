@@ -364,46 +364,35 @@ Present the auto-queued iterations, then:
 If open/deferred issues exist in ISSUES.md, surface them:
 > "Open issues: {list}. Want to insert a fix iteration before the spec queue?"
 
-**Path B — No spec, or all requirements covered (research + suggest):**
+**Path B — All requirements covered:**
 
-Launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the iteration's impact:
-
-The agent receives:
-- The files changed in this iteration (from PLAN.md batch details)
-- The project's ARCHITECTURE.md for structural context
-- Open/deferred issues from ISSUES.md
-
-The agent investigates:
-1. **Staleness** — do tests, docs, or related files need updating after this iteration's changes?
-2. **Follow-ups** — what naturally follows from what was just built?
-3. **Consistency** — naming, terminology, or behavioral mismatches introduced or exposed?
-
-The agent returns findings with **specific file references**.
-
-Generate exactly 3 fresh iteration suggestions.
-
-**Priority order:**
-1. **Open/deferred issues** in ISSUES.md (always highest priority)
-2. **Research findings** — staleness, follow-ups, consistency gaps
-3. **Roadmap gaps** — what the milestone needs that hasn't been built
-
-**Each suggestion must cite its evidence** — an issue ID, a specific file reference, or a research finding.
+The current spec is complete — every requirement has been addressed.
 
 ```
-### What's Next?
+### Spec Complete
 
-1. **{Iteration idea 1}** — {Why} (evidence: {issue ID or file reference})
-2. **{Iteration idea 2}** — {Why} (evidence: {file reference or research finding})
-3. **{Iteration idea 3}** — {Why} (evidence: {file reference or research finding})
+All {count} requirements in SPEC.md are now COVERED.
 
-Or run `gather [your idea]` to start something else entirely.
+Run `/gig:spec` to define the next body of work, or `/gig:milestone complete` if this milestone is done.
 ```
 
-Present the 3 suggestions, then:
-> "These will replace your upcoming iterations queue. Edit or remove any you don't want."
+Clear the Upcoming Iterations queue (nothing left to auto-queue). Do not generate suggestions — the spec phase is the right place to decide what's next.
 
-**If user edits:** Apply their changes and write the edited versions.
-**Otherwise:** Write all 3 to ROADMAP.md.
+If open/deferred issues exist, surface them:
+> "Open issues remain: {list}. Consider addressing these in the next spec, or run `gather fix [thing]` for urgent fixes."
+
+**Path C — No spec exists:**
+
+No spec means the project hasn't adopted spec-driven development yet.
+
+```
+### No Spec
+
+Run `/gig:spec` to define what to build next, or `/gig:spec baseline` to create a spec from what's already been built.
+```
+
+If open/deferred issues exist, surface them:
+> "Open issues: {list}. Run `gather fix [thing]` for urgent fixes, or include them in your next spec."
 
 ### In the Backlog
 
