@@ -51,6 +51,7 @@ Milestone: {name} v{target} ({status})
 Iterations: {completed}/{total} complete
 
 Open Issues: {count from ISSUES.md — OPEN or DEFERRED}
+Verify Later: {count of rows in Verify Later table in STATE.md, or omit if empty}
 Backlog: {count of bullet points in BACKLOG.md, or omit line if empty/no file}
 
 Upcoming:
