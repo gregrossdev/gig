@@ -47,9 +47,21 @@ Milestone: API Improvements v0.3.0 — Improve API error handling and validation
 
 Review and approve, adjust, or ask questions.
 
-## Step 2 — Gather
+## Step 2 — Spec (optional)
 
-Once the milestone is locked, run:
+For complex features or new milestones, build a spec first:
+
+```
+/gig:spec
+```
+
+Claude guides you through an interactive conversation to define user stories, requirements, and constraints. This eliminates the ambiguity that causes rework — by the time gather runs, decisions are grounded in a clear spec.
+
+Skip this step for simple iterations where the goal is already clear.
+
+## Step 3 — Gather
+
+Once the milestone is locked (and optionally spec'd), run:
 
 ```
 /gig:gather
@@ -68,7 +80,7 @@ After you approve decisions:
 
 Two gates, one command. You approve twice, then you're ready to build.
 
-## Step 3 — Implement
+## Step 4 — Implement
 
 ```
 /gig:implement
@@ -93,7 +105,7 @@ At each checkpoint you can:
 
 When independent batches exist, gig runs them in parallel using Agent Teams with git worktrees.
 
-## Step 4 — Govern
+## Step 5 — Govern
 
 When all batches are done:
 
@@ -163,5 +175,6 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `ARCHITECTURE.md` | Project structure and stack | During init, updated as project evolves |
 | `ROADMAP.md` | Milestones and iterations | Iteration start/end, milestone completion |
 | `GOVERNANCE.md` | Iteration closure report (tests, audit, verdict) | During govern, archived with iteration |
+| `SPEC.md` | Locked spec — stories, requirements, constraints | During spec, read by gather/govern |
 | `BACKLOG.md` | Backlog ideas — no commitment, no priority | During govern, anytime |
 | `GIT-STRATEGY.md` | Branch, commit, tag conventions | Reference only |
