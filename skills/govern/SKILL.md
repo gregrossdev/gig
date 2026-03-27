@@ -13,7 +13,7 @@ Read `.gig/STATE.md` and display:
 
 ## Step 1 — Guard Check
 
-Read `.gig/STATE.md`, `.gig/PLAN.md`, and `.gig/DECISIONS.md`.
+Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`, and `.gig/SPEC.md` (if it exists).
 
 **If status is NOT "IMPLEMENTED" and NOT "IMPLEMENTING":**
 Say: "Nothing to govern. Run `/gig:implement` first." STOP.
@@ -144,6 +144,15 @@ Lint: {PASS|FAIL|N/A}
 Blockers: {count}
 Majors: {count}
 Deferred (Minor/Cosmetic): {count}
+
+## Spec Coverage
+{If `.gig/SPEC.md` exists and has requirements, list each requirement and whether it was addressed:}
+| REQ | Description | Addressed By | Status |
+|-----|-------------|-------------|--------|
+{REQ-001 | ... | Batch N.P | COVERED}
+{REQ-002 | ... | — | NOT COVERED}
+
+{If no SPEC.md exists, write: "No spec — coverage not tracked."}
 
 ## Verdict
 {APPROVED | APPROVED WITH DEFERRALS | BLOCKED}

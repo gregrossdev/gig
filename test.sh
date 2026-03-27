@@ -647,6 +647,14 @@ assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GO
 assert "govern Step 10 suggestions cite evidence" grep -q 'cite its evidence' "$GOVERN_SKILL"
 assert "govern Step 10 has research priority order" grep -q 'Open/deferred issues' "$GOVERN_SKILL"
 
+# [31b] Govern spec coverage
+echo "[31b] Govern spec coverage"
+
+assert "govern reads SPEC.md" grep -q 'SPEC\.md' "$GOVERN_SKILL"
+assert "govern report has Spec Coverage section" grep -q 'Spec Coverage' "$GOVERN_SKILL"
+assert "govern has REQ coverage table" grep -q '| REQ | Description | Addressed By | Status |' "$GOVERN_SKILL"
+assert "govern handles no spec gracefully" grep -q 'No spec.*coverage not tracked' "$GOVERN_SKILL"
+
 # [32] Spec skill
 echo "[32] Spec skill"
 
