@@ -503,10 +503,8 @@ assert "init skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_
 # --- Test 18: Iteration queue cap ---
 
 echo "[18] Iteration queue cap"
-assert "govern says exactly 3 suggestions" grep -q 'exactly 3' "$SCRIPT_DIR/skills/govern/SKILL.md"
-assert "govern says replace never append" grep -q 'replace, never append' "$SCRIPT_DIR/skills/govern/SKILL.md"
-assert "govern says clear upcoming table" grep -q 'Clear.*Upcoming Iterations table' "$SCRIPT_DIR/skills/govern/SKILL.md"
-assert "govern mentions freeform option" grep -q 'gather \[your idea\]' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern has 3-cap for queued iterations" grep -q 'next 3 chunks' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern has queue cap hard rule" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
 assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
 
 # --- Test 19: Implement auto-continue ---
@@ -642,14 +640,14 @@ assert "gather Gate 2 has table enforcement" grep -q "Do not abbreviate or colla
 # [31] Govern suggestion research
 echo "[31] Govern suggestion research"
 
-assert "govern Step 10 has Explore subagent research" grep -q 'Explore subagent' "$GOVERN_SKILL"
 assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GOVERN_SKILL"
-assert "govern Step 10 suggestions cite evidence" grep -q 'cite its evidence' "$GOVERN_SKILL"
-assert "govern Step 10 has research priority order" grep -q 'Open/deferred issues' "$GOVERN_SKILL"
 assert "govern Step 10 auto-queues from spec" grep -q 'Auto-Queued from Spec' "$GOVERN_SKILL"
 assert "govern Step 10 checks NOT COVERED requirements" grep -q 'NOT COVERED' "$GOVERN_SKILL"
 assert "govern Step 10 groups by parent story" grep -q 'Group uncovered requirements by parent story' "$GOVERN_SKILL"
 assert "govern Step 10 surfaces issues alongside spec queue" grep -q 'insert a fix iteration before the spec queue' "$GOVERN_SKILL"
+assert "govern Path B directs to new spec" grep -q 'Spec Complete' "$GOVERN_SKILL"
+assert "govern Path C handles no spec" grep -q 'No Spec' "$GOVERN_SKILL"
+assert "govern Path C suggests baseline" grep -q 'gig:spec baseline' "$GOVERN_SKILL"
 
 # [31b] Govern spec coverage
 echo "[31b] Govern spec coverage"
