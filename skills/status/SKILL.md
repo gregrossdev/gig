@@ -25,6 +25,16 @@ If none, say "No open issues." Then STOP.
 
 **"iteration done"** — Update `.gig/STATE.md`: set **Status** to `IMPLEMENTED`. Say: "Iteration marked done. Run `/gig:govern` to validate." Then STOP.
 
+**"amend [REQ-X]"** — Context-dependent spec amendment:
+- Read `.gig/STATE.md` to check current status.
+- **If status is GATHERING (Tier 2):** Read `.gig/SPEC.md`, increment the version header (e.g., `Spec v1.0` → `Spec v1.1`). Append amendment entry to `## Amendments`: `AMD-{N}: Tier 2 — {description}. Affected: {REQ IDs}. Reason: {why}.` Then scan `.gig/DECISIONS.md` for ACTIVE decisions referencing the affected REQ IDs, flag them for re-evaluation, and re-present the decision table for approval. Then STOP.
+- **If status is IMPLEMENTING (Tier 3):** Say: "Tier 3 amendment — pausing implementation." Then follow the implement skill's `amend [REQ-X]` interrupt flow (impact analysis + 3 resolution options). Then STOP.
+- **Otherwise:** Say: "Amendments are only available during gather or implement phases." Then STOP.
+
+**"debt"** — Read `.gig/DEBT.md` and display all OPEN and TRACKED entries:
+| ID | Title | Severity | Area | Status |
+If none or file doesn't exist, say "No outstanding technical debt." Then STOP.
+
 If no command match, proceed to Step 1.
 
 ## Step 1 — Read State
@@ -51,6 +61,7 @@ Milestone: {name} v{target} ({status})
 Iterations: {completed}/{total} complete
 
 Open Issues: {count from ISSUES.md — OPEN or DEFERRED}
+Debt: {count from DEBT.md — OPEN or TRACKED, omit if none}
 Verify Later: {count of rows in Verify Later table in STATE.md, or omit if empty}
 Backlog: {count of bullet points in BACKLOG.md, or omit line if empty/no file}
 
