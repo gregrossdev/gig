@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init spec gather implement govern status milestone research handoff triage"
+SKILLS="init spec design gather implement govern status milestone research handoff triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
@@ -688,6 +688,53 @@ assert "SPEC.md template has Status column in requirements" grep -q '| Status | 
 assert "SPEC.md template has Status column in stories" grep -q '| Status |' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template documents requirement statuses" grep -q 'Requirement statuses' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "milestone archives SPEC.md" grep -q 'SPEC.*archive' "$SCRIPT_DIR/skills/milestone/SKILL.md"
+
+# [33] Design skill
+echo "[33] Design skill"
+
+DESIGN_SKILL="$SCRIPT_DIR/skills/design/SKILL.md"
+assert "design skill has name field" grep -q '^name: gig:design$' "$DESIGN_SKILL"
+assert "design skill has description field" grep -q '^description:' "$DESIGN_SKILL"
+assert "design skill has user-invocable field" grep -q '^user-invocable: true' "$DESIGN_SKILL"
+assert "design skill has guard check" grep -q 'Guard Check' "$DESIGN_SKILL"
+assert "design skill has approval gate" grep -q 'Approval Gate' "$DESIGN_SKILL"
+assert "design skill has DESIGNING status" grep -q 'DESIGNING' "$DESIGN_SKILL"
+assert "design skill has DESIGNED status" grep -q 'DESIGNED' "$DESIGN_SKILL"
+assert "design skill references SPEC.md" grep -q 'SPEC\.md' "$DESIGN_SKILL"
+assert "design skill references DESIGN.md" grep -q 'DESIGN\.md' "$DESIGN_SKILL"
+assert "design skill references ARCHITECTURE.md" grep -q 'ARCHITECTURE\.md' "$DESIGN_SKILL"
+assert "design skill references Figma" grep -q 'Figma\|figma' "$DESIGN_SKILL"
+assert "design skill has design summary table" grep -q 'Screen/Flow' "$DESIGN_SKILL"
+assert "design command references skill" grep -q '@~/.claude/skills/gig/design/SKILL.md' "$SCRIPT_DIR/commands/design.md"
+assert "design command has Figma tools" grep -q 'mcp__figma__generate_figma_design' "$SCRIPT_DIR/commands/design.md"
+
+# [34] Design-gather integration
+echo "[34] Design-gather integration"
+
+GATHER_SKILL="$SCRIPT_DIR/skills/gather/SKILL.md"
+assert "gather reads DESIGN.md" grep -q 'DESIGN\.md' "$GATHER_SKILL"
+assert "gather has Mermaid diagram step" grep -q 'System Diagrams' "$GATHER_SKILL"
+assert "gather references .gig/design/ directory" grep -q '\.gig/design/' "$GATHER_SKILL"
+assert "gather has .mmd file references" grep -q '\.mmd' "$GATHER_SKILL"
+assert "gather design is optional" grep -q 'Design is optional' "$GATHER_SKILL"
+assert "gather references Figma in decisions" grep -q 'Figma' "$GATHER_SKILL"
+
+# [35] Design in docs
+echo "[35] Design in docs"
+
+assert "RULES.md has design in workflow header" grep -q 'Design.*Gather' "$SCRIPT_DIR/docs/RULES.md"
+assert "RULES.md lists gig:design skill" grep -q 'gig:design' "$SCRIPT_DIR/docs/RULES.md"
+assert "RULES.md has design natural language command" grep -q '| .design.' "$SCRIPT_DIR/docs/RULES.md"
+assert "GETTING-STARTED.md mentions gig:design" grep -q 'gig:design' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
+assert "GETTING-STARTED.md has DESIGN.md in file table" grep -q 'DESIGN\.md' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
+
+# [36] Status handles design states
+echo "[36] Status handles design states"
+
+STATUS_SKILL="$SCRIPT_DIR/skills/status/SKILL.md"
+assert "status has DESIGNING suggestion" grep -q 'DESIGNING' "$STATUS_SKILL"
+assert "status has DESIGNED suggestion" grep -q 'DESIGNED' "$STATUS_SKILL"
+assert "status SPECCED mentions design option" grep -q 'gig:design' "$STATUS_SKILL"
 
 # --- Summary ---
 
