@@ -142,6 +142,18 @@ The user can interrupt at any time by typing. If they do:
 - **`fix [thing]`** — Increment PATCH, tag `[UNPLANNED]`, execute the fix, insert into PLAN.md, shift subsequent versions, resume.
 - **`revise [decision ID]`** — Update DECISIONS.md (mark old AMENDED, append new as ACTIVE), assess impact on remaining batches.
 - **`pause`** — Update STATE and stop.
+- **`amend [REQ-X]`** — Tier 3 spec amendment. Pause execution and run impact analysis:
+  1. Read `.gig/SPEC.md` and increment the version header (e.g., `Spec v1.0` → `Spec v1.1`).
+  2. Append amendment entry to the `## Amendments` section:
+     ```
+     AMD-{N}: Tier 3 — {description of what changed}. Affected: {REQ IDs}. Reason: {why the change is needed}.
+     ```
+  3. Identify which pending batches reference the affected REQ IDs (trace via Decision → REQ mapping in DECISIONS.md).
+  4. Present impact analysis and 3 resolution options:
+     - **Patch batch** — adjust current/next batch to accommodate the change, continue implementing.
+     - **Re-gather** — pause implement, return to `/gig:gather` with the amended spec. Re-evaluates all remaining decisions and batches.
+     - **Story-level re-eval** — if the amendment affects a user story, flag all REQs under that story for re-evaluation. Broader than patch, narrower than full re-gather.
+  5. Wait for user choice before proceeding.
 
 **If verification FAILS (Step 5):** STOP and present the error:
 
