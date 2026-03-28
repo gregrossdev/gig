@@ -29,6 +29,7 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 5. Read `.gig/ISSUES.md` for open issues from prior iterations.
 6. Read `.gig/SPEC.md` if it exists — this is the spec for the current milestone.
 7. Read `.gig/DESIGN.md` if it exists — UI/UX design decisions and Figma prototype links.
+8. Read `.gig/DEBT.md` if it exists — structural debt from prior iterations.
 
 **If `.gig/SPEC.md` exists and has content beyond the template:** Use it as the foundation for decisions. Every decision should trace to a requirement in the spec.
 
@@ -37,6 +38,8 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 **If `.gig/DESIGN.md` exists and has content:** Use it as design context for decisions. Reference Figma designs when making UI-related decisions. Link decisions to design screens where applicable.
 
 **If `.gig/DESIGN.md` does not exist:** Proceed normally. Design is optional.
+
+**If `.gig/DEBT.md` exists and has entries:** Note outstanding debt items. Surface them in Step 2 if relevant to the iteration goal.
 
 ---
 
@@ -69,6 +72,9 @@ When an iteration is selected from the Upcoming Iterations table:
 If there are open issues from `.gig/ISSUES.md` (deferred from prior iterations), surface them:
 "Open issues from prior iterations: {list}. Want to address any of these?"
 
+If `.gig/DEBT.md` has OPEN or TRACKED entries and the iteration goal involves refactoring or structural work, surface relevant debt items:
+"Outstanding technical debt: {list DEBT IDs and titles}. Want to include any of these in the refactor scope?"
+
 Do NOT ask follow-up questions — Claude researches and decides in Steps 3-4.
 
 ### Step 3 — Deep Research
@@ -81,6 +87,17 @@ Before making ANY decisions, research thoroughly:
 - Identify unknowns, ambiguities, areas with multiple valid approaches.
 
 Do NOT skip this step. Do NOT guess. Decision quality depends on thorough research.
+
+### Step 3a — Architecture Audit Log
+
+After research completes, append an architecture assessment to `.gig/ARCHITECTURE.md` under the `## Audit Log` section:
+
+```
+### Iteration {N} — {date}
+{2-3 line assessment of structural health based on research findings: patterns observed, consistency with ARCHITECTURE.md, any concerns or drift}
+```
+
+This builds a running record of architectural observations across iterations.
 
 ### Step 3b — System Diagrams
 
@@ -120,6 +137,8 @@ Update `.gig/STATE.md`:
 
 **Do NOT write to DECISIONS.md yet.** Present decisions in chat only.
 
+**If a spec exists:** Include `**Spec:** v{X.Y}` (read from the SPEC.md version header) when presenting the decision batch.
+
 ### APPROVAL GATE 1 — Decisions
 
 **Present the following table in full. Do not abbreviate, inline, or collapse into prose.**
@@ -151,6 +170,7 @@ Once approved (with or without redlines), write all decisions to `.gig/DECISIONS
 **Alternatives considered:** {What else was viable and why rejected}
 **Status:** ACTIVE
 **ID:** D-{batch}.{num}
+**Spec:** v{X.Y}
 ```
 
 For redlined decisions: write only the user's final choice as ACTIVE. Do not write the original proposal.
@@ -195,11 +215,15 @@ For each batch:
 
 **Delegation:** {team | subagent | in-session}
 **Decisions:** {Decision IDs this implements, e.g., D-1.1, D-2.3}
+**Type:** {feature | refactor}
+**Spec:** v{X.Y}
 **Files:** {files to create or modify}
 **Work:** {What to do}
 **Test criteria:** {specific verification — command, file check, behavior}
 **Acceptance:** {What "done" looks like}
 ```
+
+Default type is `feature`. Set to `refactor` when the iteration goal is structural work or driven by DEBT.md items.
 
 **Delegation defaults:**
 - `team` — Independent batches with no dependency between them. **This is the default for implementation.** When 2+ batches have no dependency chain, mark them all as `team` so they execute in parallel via worktrees.
@@ -240,6 +264,8 @@ Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 > {One-paragraph goal derived from decisions}
 
 **Decisions:** {list all ACTIVE decision IDs this iteration implements}
+**Type:** {feature | refactor}
+**Spec:** v{X.Y}
 
 | Batch | Version | Title | Delegation | Status |
 |-------|---------|-------|------------|--------|
