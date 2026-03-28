@@ -44,7 +44,7 @@ cleanup() {
 trap cleanup EXIT
 
 SKILLS="init spec design gather implement govern status milestone research handoff triage"
-TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md"
+TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
 echo ""
@@ -735,6 +735,92 @@ STATUS_SKILL="$SCRIPT_DIR/skills/status/SKILL.md"
 assert "status has DESIGNING suggestion" grep -q 'DESIGNING' "$STATUS_SKILL"
 assert "status has DESIGNED suggestion" grep -q 'DESIGNED' "$STATUS_SKILL"
 assert "status SPECCED mentions design option" grep -q 'gig:design' "$STATUS_SKILL"
+
+# [37] SPEC.md template versioning
+echo "[37] SPEC.md template versioning"
+
+assert "SPEC.md template has version header" grep -q 'Spec v1.0' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "SPEC.md template has Amendments section" grep -q '## Amendments' "$SCRIPT_DIR/templates/gig/SPEC.md"
+assert "SPEC.md template has AMD format comment" grep -q 'AMD-{N}' "$SCRIPT_DIR/templates/gig/SPEC.md"
+
+# [38] ARCHITECTURE.md audit log
+echo "[38] ARCHITECTURE.md audit log"
+
+assert "ARCHITECTURE.md template has Audit Log section" grep -q '## Audit Log' "$SCRIPT_DIR/templates/gig/ARCHITECTURE.md"
+assert "ARCHITECTURE.md template has gather comment" grep -q 'Gather appends' "$SCRIPT_DIR/templates/gig/ARCHITECTURE.md"
+
+# [39] DEBT.md template
+echo "[39] DEBT.md template"
+
+assert "DEBT.md template exists" test -f "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has header" grep -q '# Technical Debt' "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has DEBT-{N} format" grep -q 'DEBT-{N}' "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has OPEN status" grep -q 'OPEN' "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has TRACKED status" grep -q 'TRACKED' "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has RESOLVED status" grep -q 'RESOLVED' "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has Severity field" grep -q 'Severity' "$SCRIPT_DIR/templates/gig/DEBT.md"
+assert "DEBT.md template has Area field" grep -q 'Area' "$SCRIPT_DIR/templates/gig/DEBT.md"
+
+# [40] Init scaffolds DEBT.md
+echo "[40] Init scaffolds DEBT.md"
+
+INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init file list includes DEBT.md" grep -q 'DEBT.md' "$INIT_SKILL"
+
+# [41] Gather amendments + architecture
+echo "[41] Gather amendments + architecture"
+
+GATHER_SKILL="$SCRIPT_DIR/skills/gather/SKILL.md"
+assert "gather reads DEBT.md" grep -q 'DEBT\.md' "$GATHER_SKILL"
+assert "gather has audit log step" grep -q 'Audit Log' "$GATHER_SKILL"
+assert "gather has architecture assessment" grep -q 'architecture assessment' "$GATHER_SKILL"
+assert "gather has spec version reference" grep -q 'Spec.*v{X.Y}' "$GATHER_SKILL"
+assert "gather has Type field" grep -q 'Type.*feature.*refactor' "$GATHER_SKILL"
+assert "gather surfaces debt for refactors" grep -q 'refactor.*scope' "$GATHER_SKILL"
+
+# [42] Implement amend interrupt
+echo "[42] Implement amend interrupt"
+
+IMPLEMENT_SKILL="$SCRIPT_DIR/skills/implement/SKILL.md"
+assert "implement has amend interrupt" grep -q 'amend.*REQ' "$IMPLEMENT_SKILL"
+assert "implement has Tier 3 reference" grep -q 'Tier 3' "$IMPLEMENT_SKILL"
+assert "implement has Patch batch option" grep -q 'Patch batch' "$IMPLEMENT_SKILL"
+assert "implement has Re-gather option" grep -q 'Re-gather' "$IMPLEMENT_SKILL"
+assert "implement has Story-level re-eval" grep -q 'Story-level' "$IMPLEMENT_SKILL"
+assert "implement has impact analysis" grep -q 'impact analysis' "$IMPLEMENT_SKILL"
+
+# [43] Govern architecture health
+echo "[43] Govern architecture health"
+
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern reads DEBT.md" grep -q 'DEBT\.md' "$GOVERN_SKILL"
+assert "govern has Step 5b" grep -q 'Step 5b' "$GOVERN_SKILL"
+assert "govern has Architecture Health Check" grep -q 'Architecture Health' "$GOVERN_SKILL"
+assert "govern flags amendment candidates" grep -q 'amend REQ' "$GOVERN_SKILL"
+assert "govern has Technical Debt report section" grep -q 'Technical Debt' "$GOVERN_SKILL"
+assert "govern has debt-driven refactor check" grep -q 'Debt-Driven Refactor' "$GOVERN_SKILL"
+assert "govern has type-aware validation" grep -q 'Type.*refactor' "$GOVERN_SKILL"
+assert "govern archives resolved debt" grep -q 'RESOLVED.*DEBT' "$GOVERN_SKILL"
+
+# [44] Status amend + debt
+echo "[44] Status amend + debt"
+
+STATUS_SKILL="$SCRIPT_DIR/skills/status/SKILL.md"
+assert "status routes amend command" grep -q 'amend.*REQ' "$STATUS_SKILL"
+assert "status has Tier 2 amendment" grep -q 'Tier 2' "$STATUS_SKILL"
+assert "status routes debt command" grep -q '"debt"' "$STATUS_SKILL"
+assert "status displays debt count" grep -q 'Debt:' "$STATUS_SKILL"
+assert "status checks GATHERING for amend" grep -q 'GATHERING' "$STATUS_SKILL"
+assert "status checks IMPLEMENTING for amend" grep -q 'IMPLEMENTING' "$STATUS_SKILL"
+
+# [45] Docs updates
+echo "[45] Docs updates"
+
+assert "RULES.md has debt command" grep -q '| .debt.' "$SCRIPT_DIR/docs/RULES.md"
+assert "RULES.md has amend REQ" grep -q 'amend.*REQ' "$SCRIPT_DIR/docs/RULES.md"
+assert "GETTING-STARTED.md has DEBT.md" grep -q 'DEBT\.md' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
+assert "GETTING-STARTED.md has debt command" grep -q 'debt' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
+assert "GETTING-STARTED.md has amend command" grep -q 'amend' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
 
 # --- Summary ---
 
