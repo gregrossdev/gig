@@ -160,7 +160,8 @@ These are shortcuts the user can type during an active gig session:
 | `issues` | Show open issues |
 | `fix [thing]` | Insert unplanned work as next batch |
 | `skip` | Skip current batch with reason |
-| `amend [change]` | Propose plan modification |
+| `amend [REQ-X]` | Amend spec requirement (Tier 2 during gather, Tier 3 during implement) |
+| `debt` | Show outstanding technical debt |
 | `decisions` | Show recent decisions |
 | `history` | Show batch execution history |
 | `triage` | Evaluate upcoming iterations — surface gaps, assess value, recommend order |

@@ -171,6 +171,8 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `fix [thing]` | Unplanned work as next batch |
 | `decisions` | Show active decisions |
 | `issues` | Show open/deferred issues |
+| `debt` | Show outstanding technical debt |
+| `amend [REQ-X]` | Amend a spec requirement mid-flight |
 | `history` | Show batch execution history |
 
 ## Tips
@@ -194,5 +196,6 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `GOVERNANCE.md` | Iteration closure report (tests, audit, verdict) | During govern, archived with iteration |
 | `SPEC.md` | Locked spec — stories, requirements, constraints | During spec, read by gather/govern |
 | `DESIGN.md` | UI/UX design decisions, Figma prototype links | During design, read by gather |
+| `DEBT.md` | Technical debt — structural concerns tracked across iterations | During govern, resolved during refactor iterations |
 | `BACKLOG.md` | Backlog ideas — no commitment, no priority | During govern, anytime |
 | `GIT-STRATEGY.md` | Branch, commit, tag conventions | Reference only |
