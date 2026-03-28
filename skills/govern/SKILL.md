@@ -13,7 +13,7 @@ Read `.gig/STATE.md` and display:
 
 ## Step 1 — Guard Check
 
-Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`, and `.gig/SPEC.md` (if it exists).
+Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/DECISIONS.md`, `.gig/DEBT.md` (if it exists), and `.gig/SPEC.md` (if it exists).
 
 **If status is NOT "IMPLEMENTED" and NOT "IMPLEMENTING":**
 Say: "Nothing to govern. Run `/gig:implement` first." STOP.
@@ -72,6 +72,13 @@ For each batch in `.gig/PLAN.md`:
 2. Check implementation against each criterion.
 3. Mark each: PASS or FAIL with evidence.
 4. Cross-reference with ACTIVE decisions — does implementation match?
+5. If a failing criterion traces to a REQ in `.gig/SPEC.md`, flag: "REQ-X acceptance criteria could not be verified — consider `amend REQ-X`."
+
+**If iteration Type is `refactor` (read from `.gig/PLAN.md` iteration header):**
+- Skip "new feature/capability" acceptance checks.
+- Instead verify: existing tests still pass, structure improved per DEBT items addressed, no behavioral regressions.
+- For each DEBT item that was in scope for this iteration, check if it was resolved.
+- Mark addressed DEBT items as RESOLVED in `.gig/DEBT.md` with resolution details.
 
 ## Step 5 — Decision Audit
 
@@ -83,6 +90,30 @@ Compare every ACTIVE decision against actual implementation:
 For mismatches:
 - Determine if deviation was necessary (discovered during build).
 - Propose either: fix code to match decision, OR revise the decision.
+
+## Step 5b — Architecture Health Check
+
+Read the `## Audit Log` section in `.gig/ARCHITECTURE.md` (latest entry from this iteration's gather).
+Compare the assessment against the actual implementation:
+
+1. Did implementation introduce patterns inconsistent with ARCHITECTURE.md?
+2. Are there structural concerns the audit flagged that weren't addressed?
+3. Did workarounds or shortcuts create technical debt?
+
+For each concern found, write a DEBT entry to `.gig/DEBT.md`:
+
+```
+## DEBT-{N}: {Title}
+
+**Severity:** High | Medium | Low
+**Source:** Iteration {N} governance
+**Status:** OPEN
+**Description:** {What the structural concern is}
+**Area:** {Which part of the codebase is affected}
+**Resolution:** — (filled when resolved)
+```
+
+If no concerns found, note "No new technical debt identified" in the governance report.
 
 ## Step 6 — User Acceptance Testing (UAT)
 
@@ -161,6 +192,17 @@ Deferred (Minor/Cosmetic): {count}
 
 {If no SPEC.md exists, write: "No spec — coverage not tracked."}
 
+## Technical Debt
+{If `.gig/DEBT.md` exists and has entries:}
+| ID | Title | Severity | Area | Status |
+|----|-------|----------|------|--------|
+{All DEBT entries — OPEN and TRACKED}
+
+New this iteration: {count of entries created in Step 5b}
+Total outstanding: {count of OPEN + TRACKED entries}
+
+{If no DEBT.md or no entries: "No technical debt tracked."}
+
 ## Verdict
 {APPROVED | APPROVED WITH DEFERRALS | BLOCKED}
 ```
@@ -230,6 +272,7 @@ Copy into the archive:
 - Reset `.gig/PLAN.md` to template state (no active iteration).
 - Remove archived decisions from `.gig/DECISIONS.md` (keep the header/format comments).
 - Remove RESOLVED issues from `.gig/ISSUES.md` (DEFERRED issues stay — they carry forward).
+- Remove RESOLVED entries from `.gig/DEBT.md` (OPEN and TRACKED entries stay — they carry forward).
 - Reset `.gig/GOVERNANCE.md` to template state (header and format comments only).
 
 ### 3. Git Merge & Tag (if in a git repo)
@@ -339,6 +382,15 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 ### Current Project State
 {Brief assessment of what the project can do now — working features, capabilities}
 ```
+
+### Debt-Driven Refactor Check
+
+Read `.gig/DEBT.md`. Group OPEN and TRACKED entries by Area.
+If 2+ entries share the same area, recommend a refactor iteration:
+- When writing Upcoming Iterations, insert as first entry: `| {N} | Refactor: {area} | Address DEBT-X, DEBT-Y — {area} has accumulated structural debt |`
+- Note the iteration type should be `refactor` (gather will set this based on the goal).
+
+If no debt clusters, skip this section.
 
 ### Determine What's Next
 
