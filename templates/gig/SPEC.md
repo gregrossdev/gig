@@ -1,4 +1,4 @@
-# Spec
+# Spec v1.0
 
 > Locked spec for the current milestone. Gather traces decisions to these requirements.
 > Edit and re-gather if requirements change.
@@ -38,3 +38,7 @@
 ## Clarifications
 
 <!-- Key Q&A from elicitation that resolved ambiguity -->
+
+## Amendments
+
+<!-- Append-only. Format: AMD-{N}: Tier {T} — {description}. Affected: {REQ IDs}. Reason: {why}. -->

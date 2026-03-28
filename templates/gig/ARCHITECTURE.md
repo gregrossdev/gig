@@ -35,3 +35,10 @@ project-root/
 
 | Dependency | Purpose | Notes |
 |-----------|---------|-------|
+
+## Audit Log
+
+<!-- Gather appends a 2-3 line assessment each iteration. Format:
+### Iteration {N} — {date}
+{Assessment of structural health, patterns observed, concerns}
+-->
