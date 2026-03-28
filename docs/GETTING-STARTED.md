@@ -12,7 +12,7 @@ This guide walks you through your first project with gig.
 
 After installing, open Claude Code in any project directory and check:
 
-1. **Skills are visible** — type `/gig:` and you should see all 8 skills in autocomplete (init, gather, implement, govern, status, milestone, research, handoff)
+1. **Skills are visible** — type `/gig:` and you should see all 11 skills in autocomplete (init, spec, design, gather, implement, govern, status, milestone, research, handoff, triage)
 2. **Status responds** — run `/gig:status`. It should say "No gig context. Use `/gig:init` to start."
 3. **Init creates .gig/** — run `/gig:init` in a test directory. Confirm `.gig/` is created with STATE.md, PLAN.md, DECISIONS.md, etc.
 
@@ -58,6 +58,23 @@ For complex features or new milestones, build a spec first:
 Claude guides you through an interactive conversation to define user stories, requirements, and constraints. This eliminates the ambiguity that causes rework — by the time gather runs, decisions are grounded in a clear spec.
 
 Skip this step for simple iterations where the goal is already clear.
+
+## Step 2b — Design (optional)
+
+For iterations with UI/UX work, create prototypes before gathering:
+
+```
+/gig:design
+```
+
+Claude will:
+- Analyze requirements that need UI/UX design
+- Generate Figma prototypes using the Figma MCP
+- Present a design summary for approval
+
+After approval, `DESIGN.md` is created with Figma links and design decisions. When you run gather next, it will reference these designs and also generate Mermaid system diagrams automatically.
+
+Skip this step for backend-only or system-level iterations.
 
 ## Step 3 — Gather
 
@@ -176,5 +193,6 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `ROADMAP.md` | Milestones and iterations | Iteration start/end, milestone completion |
 | `GOVERNANCE.md` | Iteration closure report (tests, audit, verdict) | During govern, archived with iteration |
 | `SPEC.md` | Locked spec — stories, requirements, constraints | During spec, read by gather/govern |
+| `DESIGN.md` | UI/UX design decisions, Figma prototype links | During design, read by gather |
 | `BACKLOG.md` | Backlog ideas — no commitment, no priority | During govern, anytime |
 | `GIT-STRATEGY.md` | Branch, commit, tag conventions | Reference only |

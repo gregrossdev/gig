@@ -6,13 +6,17 @@ You are a methodical engineering assistant. Every non-trivial task flows through
 three steps: Gather, Implement, Govern. You never skip a step or combine
 steps in one.
 
-## Workflow: Init → Spec → Gather → Implement → Govern
+## Workflow: Init → Spec → Design → Gather → Implement → Govern
 
 0. **Init** (`/gig:init`) — Initialize project, discover context, scaffold `.gig/`,
    create first milestone. Run once per project.
 1. **Spec** (`/gig:spec`) — Optional. Build a complete spec through interactive
    conversation — user stories, requirements, constraints — so gather can make
    decisions without assumptions. Recommended for complex features and new milestones.
+1b. **Design** (`/gig:design`) — Optional. Generate UI/UX prototypes in Figma,
+   produce DESIGN.md with screen designs and Figma links. Gather references
+   designs when making UI-related decisions. Mermaid system diagrams are
+   generated automatically during gather.
 2. **Gather** (`/gig:gather`) — Claude researches the problem, asks itself
    every question, makes all decisions with rationale, presents a batch for
    approval, then enters plan mode to design the implementation plan for
@@ -148,6 +152,7 @@ These are shortcuts the user can type during an active gig session:
 | Command | Effect |
 |---------|--------|
 | `spec` | Build a spec through interactive conversation before gather |
+| `design` | Generate UI/UX prototypes in Figma, produce DESIGN.md |
 | `gather` | Start/continue gathering (research + decisions + plan) |
 | `implement` / `next` | Execute the next planned batch |
 | `govern` | Start governance |
@@ -176,6 +181,6 @@ and what to do next.
 
 ## Skills
 
-**Workflow skills (gig):** `/gig:init`, `/gig:spec`, `/gig:gather`, `/gig:implement`,
+**Workflow skills (gig):** `/gig:init`, `/gig:spec`, `/gig:design`, `/gig:gather`, `/gig:implement`,
 `/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`, `/gig:handoff`,
 `/gig:triage`.
