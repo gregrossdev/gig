@@ -69,6 +69,9 @@ Based on current status, suggest exactly ONE next action:
 |--------|-----------|
 | `IDLE` (no milestone) | "Run `/gig:milestone` to create a milestone." |
 | `IDLE` (has milestone) | "Run `/gig:gather` to start the next iteration." |
+| `SPECCED` | "Run `/gig:design` for UI/UX prototypes, or `/gig:gather` to skip design." |
+| `DESIGNING` | "Design in progress. Continue with `/gig:design`." |
+| `DESIGNED` | "Run `/gig:gather` to start making decisions." |
 | `GATHERING` | "Gathering in progress. Continue with `/gig:gather`." |
 | `GATHERED` | "Run `/gig:implement` to start implementing." |
 | `IMPLEMENTING` | "Run `/gig:implement` to continue — next batch: {title}." |
