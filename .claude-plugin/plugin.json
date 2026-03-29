@@ -1,6 +1,6 @@
 {
   "name": "gig",
-  "version": "0.96.4",
+  "version": "0.97.5",
   "description": "A structured workflow system for Claude Code: gather decisions, implement in batches, govern quality. Three steps, two approval gates, zero decision fatigue.",
   "author": {
     "name": "gregrossdev",
