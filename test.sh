@@ -578,8 +578,8 @@ assert "govern does not reference .gig-version" test "$(grep -c '\.gig-version' 
 
 echo "[26] Init template preview UX"
 INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
-assert "init has template preview table with Purpose column" grep -q '| # | Template | Purpose |' "$INIT_SKILL"
-assert "init has numbered selection UX" grep -q 'numbers' "$INIT_SKILL"
+assert "init has template preview table" grep -q '| # | Template | Type |' "$INIT_SKILL"
+assert "init has numbered selection UX" grep -q 'number' "$INIT_SKILL"
 assert "init has skip-existing message" grep -q 'already exists in project root' "$INIT_SKILL"
 assert "init has copied message" grep -q 'Copied {file} to project root' "$INIT_SKILL"
 
@@ -838,9 +838,9 @@ assert "govern trims audit log to 5 entries" grep -q 'last 5 entries' "$GOVERN_S
 # REQ-004: Govern archives design/
 assert "govern archives design directory" grep -q 'design.*iterations' "$GOVERN_SKILL"
 
-# REQ-005: Gather clears design/
-assert "gather clears design before diagrams" grep -qi 'clear.*design' "$GATHER_SKILL"
-assert "gather mentions stale diagrams" grep -q 'stale diagrams' "$GATHER_SKILL"
+# REQ-005: Gather updates living diagrams (revised from clear behavior)
+assert "gather treats diagrams as living artifacts" grep -q 'living diagrams' "$GATHER_SKILL"
+assert "gather evolves diagrams across iterations" grep -q 'evolve across iterations' "$GATHER_SKILL"
 
 # REQ-006: Spec auto-archives completed specs
 assert "spec archives completed specs" grep -q 'SPEC-completed' "$SPEC_SKILL"
@@ -850,6 +850,57 @@ assert "spec archives to iterations dir" grep -q '.gig/iterations/SPEC' "$SPEC_S
 assert "spec warns on uncovered requirements" grep -q 'uncovered requirements' "$SPEC_SKILL"
 assert "spec has partial archive option" grep -q 'SPEC-partial' "$SPEC_SKILL"
 assert "spec auto-archives without prompt when complete" grep -q 'Auto-archive' "$SPEC_SKILL"
+
+# [47] Diagram templates and init-to-spec flow
+echo "[47] Diagram templates and init-to-spec flow"
+
+INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
+
+# Diagram template directories exist
+assert "diagram dir article exists" test -d "$SCRIPT_DIR/templates/diagrams/article"
+assert "diagram dir readme exists" test -d "$SCRIPT_DIR/templates/diagrams/readme"
+assert "diagram dir research exists" test -d "$SCRIPT_DIR/templates/diagrams/research"
+assert "diagram dir webapp exists" test -d "$SCRIPT_DIR/templates/diagrams/webapp"
+assert "diagram dir api exists" test -d "$SCRIPT_DIR/templates/diagrams/api"
+assert "diagram dir cli exists" test -d "$SCRIPT_DIR/templates/diagrams/cli"
+assert "diagram dir library exists" test -d "$SCRIPT_DIR/templates/diagrams/library"
+
+# Correct file counts per type
+assert "article has 1 diagram" test "$(find "$SCRIPT_DIR/templates/diagrams/article" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
+assert "readme has 1 diagram" test "$(find "$SCRIPT_DIR/templates/diagrams/readme" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
+assert "research has 2 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/research" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
+assert "webapp has 4 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/webapp" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
+assert "api has 4 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/api" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
+assert "cli has 3 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/cli" -name '*.mmd' | wc -l | tr -d ' ')" = "3"
+assert "library has 2 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/library" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
+
+# .mmd files have valid Mermaid comment header
+assert "webapp architecture starts with %%" head -1 "$SCRIPT_DIR/templates/diagrams/webapp/architecture.mmd" | grep -q '%%'
+assert "cli architecture starts with %%" head -1 "$SCRIPT_DIR/templates/diagrams/cli/architecture.mmd" | grep -q '%%'
+
+# Init skill — 7 template types
+assert "init has Web App type" grep -q 'Web App' "$INIT_SKILL"
+assert "init has API type" grep -q '| API |' "$INIT_SKILL"
+assert "init has CLI type" grep -q '| CLI |' "$INIT_SKILL"
+assert "init has Library type" grep -q '| Library |' "$INIT_SKILL"
+
+# Init skill — diagram scaffolding
+assert "init has diagram scaffolding step" grep -q 'Scaffold Diagrams' "$INIT_SKILL"
+assert "init scaffolds to .gig/design/" grep -q '.gig/design/' "$INIT_SKILL"
+
+# Init skill — flows into spec (not gather)
+assert "init references spec elicitation" grep -q 'spec elicitation' "$INIT_SKILL"
+assert "init no longer suggests run gather as ending" grep -q 'spec elicitation will begin' "$INIT_SKILL"
+
+# Gather — living diagrams
+assert "gather has diagram change report" grep -q 'Updated:' "$GATHER_SKILL"
+
+# Govern — no delete
+assert "govern preserves design originals" grep -q 'Do NOT delete' "$GOVERN_SKILL"
+
+# install.sh — diagram handling
+assert "install.sh handles diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
+assert "install.sh uninstalls diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
 
 # --- Summary ---
 

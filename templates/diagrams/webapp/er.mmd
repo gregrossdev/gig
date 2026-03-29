@@ -1,0 +1,19 @@
+%% Web App Entity Relationships
+%% Core data models and their relationships
+
+erDiagram
+    USER ||--o{ SESSION : has
+    USER ||--o{ RESOURCE : owns
+    RESOURCE ||--o{ RESOURCE_ITEM : contains
+    USER {
+        string id PK
+        string email
+        string name
+        datetime created_at
+    }
+    RESOURCE {
+        string id PK
+        string user_id FK
+        string title
+        string status
+    }

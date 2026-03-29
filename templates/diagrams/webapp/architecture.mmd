@@ -1,0 +1,11 @@
+%% Web App Architecture
+%% Client-server architecture with frontend, API, and database layers
+
+flowchart TD
+    A[Client / Browser] --> B[Frontend]
+    B --> C[API Gateway]
+    C --> D[Backend Services]
+    D --> E[(Database)]
+    D --> F[Cache]
+    D --> G[External APIs]
+    B --> H[Static Assets / CDN]

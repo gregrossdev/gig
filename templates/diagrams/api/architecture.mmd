@@ -1,0 +1,11 @@
+%% API Architecture
+%% Backend service architecture with routing, middleware, and data layers
+
+flowchart TD
+    A[API Client] --> B[Router / Endpoints]
+    B --> C[Middleware]
+    C --> D[Controllers]
+    D --> E[Service Layer]
+    E --> F[(Primary Database)]
+    E --> G[(Cache)]
+    E --> H[External Services]

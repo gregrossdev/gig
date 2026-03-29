@@ -1,0 +1,18 @@
+%% API Key Interaction Sequence
+%% Authenticated CRUD operation flow
+
+sequenceDiagram
+    actor Client
+    participant Gateway
+    participant Auth
+    participant Service
+    participant DB
+
+    Client->>Gateway: POST /resource (+ API key)
+    Gateway->>Auth: Validate API key
+    Auth-->>Gateway: Authorized
+    Gateway->>Service: Create resource
+    Service->>DB: INSERT
+    DB-->>Service: Created
+    Service-->>Gateway: 201 Created
+    Gateway-->>Client: JSON response

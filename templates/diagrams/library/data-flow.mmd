@@ -1,0 +1,10 @@
+%% Library Data Flow
+%% How data moves through the library from input to output
+
+flowchart LR
+    A[Consumer Input] --> B[Public API]
+    B --> C[Validate]
+    C --> D[Transform]
+    D --> E[Core Processing]
+    E --> F[Result / Return Value]
+    C --> G[Error / Exception]

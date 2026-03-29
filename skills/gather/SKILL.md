@@ -103,7 +103,7 @@ This builds a running record of architectural observations across iterations.
 
 After research and before presenting decisions, generate Mermaid diagrams to model the system:
 
-1. **Clear `.gig/design/` if it exists** — remove all files in the directory so stale diagrams from prior iterations don't persist. Then create `.gig/design/` directory if it doesn't exist.
+1. Create `.gig/design/` directory if it doesn't exist. If existing `.mmd` files are present, read them — these are living diagrams that evolve across iterations. Update and extend them based on research findings rather than replacing them.
 2. Generate diagrams as appropriate for the iteration scope:
    - **Architecture diagram** (`.gig/design/architecture.mmd`) — system components and relationships
    - **Data flow diagram** (`.gig/design/data-flow.mmd`) — how data moves through the system
@@ -112,6 +112,10 @@ After research and before presenting decisions, generate Mermaid diagrams to mod
 3. Only generate diagrams that are relevant to the current iteration. Not every iteration needs all types.
 4. If `.gig/DESIGN.md` exists, reference Figma prototypes in the diagrams where UI components interact with the system.
 5. Present the diagrams in the conversation for review. The user can view rendered output in VS Code with a Mermaid preview extension.
+6. After updating diagrams, summarize changes in the conversation before presenting decisions:
+   - **Updated:** {list of modified .mmd files with one-line change description}
+   - **Added:** {list of new .mmd files created this iteration}
+   - **Unchanged:** {list of .mmd files that didn't need changes}
 
 These diagrams inform decisions in Step 4 and are referenced in the plan.
 

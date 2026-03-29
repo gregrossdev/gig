@@ -1,0 +1,26 @@
+%% API Entity Relationships
+%% Core data models and their relationships
+
+erDiagram
+    USER ||--o{ API_KEY : has
+    USER ||--o{ RESOURCE : owns
+    RESOURCE ||--o{ AUDIT_LOG : tracks
+    USER {
+        string id PK
+        string email
+        string role
+        datetime created_at
+    }
+    RESOURCE {
+        string id PK
+        string user_id FK
+        string type
+        json data
+        string status
+    }
+    API_KEY {
+        string id PK
+        string user_id FK
+        string key_hash
+        datetime expires_at
+    }

@@ -266,7 +266,7 @@ Copy into the archive:
 - Extract this iteration's decisions from `.gig/DECISIONS.md` → `.gig/iterations/v0.{N}-{iteration-name}/DECISIONS.md`
 - Extract this iteration's resolved issues from `.gig/ISSUES.md` → `.gig/iterations/v0.{N}-{iteration-name}/ISSUES.md`
 - `.gig/GOVERNANCE.md` → `.gig/iterations/v0.{N}-{iteration-name}/GOVERNANCE.md` (frozen snapshot)
-- `.gig/design/` → `.gig/iterations/v0.{N}-{iteration-name}/design/` (copy entire directory with `cp -r` if `.gig/design/` exists and is non-empty; skip silently if missing or empty)
+- `.gig/design/` → `.gig/iterations/v0.{N}-{iteration-name}/design/` (copy entire directory with `cp -r` if `.gig/design/` exists and is non-empty; skip silently if missing or empty). **Do NOT delete `.gig/design/` originals** — diagrams persist as living artifacts across iterations.
 
 ### 2. Clear Active Files
 

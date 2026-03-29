@@ -84,6 +84,11 @@ if [ "$MODE" = "uninstall" ]; then
         echo "  Removed $CLAUDE_DIR/templates/project"
     fi
 
+    if [ -e "$CLAUDE_DIR/templates/diagrams" ]; then
+        rm -rf "$CLAUDE_DIR/templates/diagrams"
+        echo "  Removed $CLAUDE_DIR/templates/diagrams"
+    fi
+
     if [ -e "$HOOKS_DEST" ]; then
         rm -rf "$HOOKS_DEST"
         echo "  Removed $HOOKS_DEST"
@@ -193,6 +198,20 @@ else
         cp "$tmpl" "$PROJECT_TEMPLATES_DEST/"
         echo "  Installed project template: $(basename "$tmpl")"
     done
+
+    # Diagram templates (nested subdirectories with .mmd files)
+    DIAGRAMS_TEMPLATES_DEST="$CLAUDE_DIR/templates/diagrams"
+    if [ -d "$SCRIPT_DIR/templates/diagrams" ]; then
+        for type_dir in "$SCRIPT_DIR"/templates/diagrams/*/; do
+            type_name="$(basename "$type_dir")"
+            mkdir -p "$DIAGRAMS_TEMPLATES_DEST/$type_name"
+            for mmd in "$type_dir"*.mmd; do
+                [ -f "$mmd" ] || continue
+                cp "$mmd" "$DIAGRAMS_TEMPLATES_DEST/$type_name/"
+            done
+            echo "  Installed diagram preset: $type_name"
+        done
+    fi
 
     if [ "$SKIP_HOOKS" = false ]; then
         mkdir -p "$HOOKS_DEST"

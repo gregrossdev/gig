@@ -1,0 +1,19 @@
+%% CLI Command Execution Sequence
+%% Typical command lifecycle
+
+sequenceDiagram
+    actor User
+    participant CLI
+    participant Config
+    participant Core
+    participant FS as File System
+
+    User->>CLI: Run command with args
+    CLI->>CLI: Parse arguments
+    CLI->>Config: Load config file
+    Config-->>CLI: Settings
+    CLI->>Core: Execute command
+    Core->>FS: Read/write files
+    FS-->>Core: Result
+    Core-->>CLI: Output
+    CLI-->>User: Display result

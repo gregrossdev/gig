@@ -1,0 +1,11 @@
+%% Web App Data Flow
+%% How data moves through the system from user input to persistence
+
+flowchart LR
+    A[User Input] --> B[Frontend State]
+    B --> C[API Request]
+    C --> D[Validation]
+    D --> E[Business Logic]
+    E --> F[(Database)]
+    F --> G[Response]
+    G --> B

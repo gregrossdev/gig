@@ -57,22 +57,49 @@ If project templates are found, present a numbered preview table:
 
 > **Project templates available:**
 >
-> | # | Template | Purpose |
-> |---|----------|---------|
-> | 1 | ARTICLE.md | Technical article/blog post outline |
-> | 2 | README.md | Standard project documentation |
-> | 3 | RESEARCH.md | Research spike with findings and decisions |
+> | # | Template | Type | Project File | Diagrams |
+> |---|----------|------|-------------|----------|
+> | 1 | Article | content | ARTICLE.md | outline-flow |
+> | 2 | README | content | README.md | architecture |
+> | 3 | Research | content | RESEARCH.md | concept-map, flow |
+> | 4 | Web App | code | — | architecture, data-flow, er, sequence |
+> | 5 | API | code | — | architecture, er, data-flow, sequence |
+> | 6 | CLI | code | — | architecture, data-flow, sequence |
+> | 7 | Library | code | — | architecture, data-flow |
 >
-> Which would you like copied to your project root?
-> - **all** — copy all templates
-> - **none** — skip project templates
-> - **numbers** — e.g., "1 3" to select specific templates
+> Which template matches your project?
+> - **number** — e.g., "4" to select Web App
+> - **none** — skip templates and diagrams
 
-For each selected template:
+For content types (1-3): copy the project file to the project root AND scaffold diagrams.
+For code types (4-7): scaffold diagrams only (no project file).
+For "none": skip both project file and diagrams.
+
+For content type project files:
 - If the file already exists in the project root, say: "Skipped {file} — already exists in project root."
 - Otherwise, copy it and say: "Copied {file} to project root."
 
 If no project templates directory is found, skip silently.
+
+### Step 1c — Scaffold Diagrams
+
+If a template type was selected in Step 1b:
+
+1. Create `.gig/design/` directory.
+2. Locate the diagram preset: check `${CLAUDE_PLUGIN_ROOT}/templates/diagrams/{type}/`, then `~/.claude/templates/gig/diagrams/{type}/`, then `~/.claude/templates/diagrams/{type}/`.
+3. Copy all `.mmd` files from the matched directory into `.gig/design/`.
+4. Say: "Scaffolded {N} diagram presets to `.gig/design/`."
+
+If "none" was selected in Step 1b, skip this step silently.
+
+The type-to-directory mapping:
+- Article → `article/`
+- README → `readme/`
+- Research → `research/`
+- Web App → `webapp/`
+- API → `api/`
+- CLI → `cli/`
+- Library → `library/`
 
 ## Step 2 — Detect Project Type
 
@@ -232,11 +259,12 @@ Then say:
 > - **Adjust milestone** — change the name or description.
 > - **Review architecture** — I'll show the full ARCHITECTURE.md for review.
 >
-> After approval, run `/gig:gather` to start the first iteration.
+> After approval, spec elicitation will begin automatically.
 
 **STOP. Do not create iterations. Do not make decisions. Wait for approval.**
 
 ## After Approval
 
 1. If user adjusted version/name/description, update ROADMAP.md and STATE.md.
-2. Say: "Project initialized. Run `/gig:gather` to start the first iteration."
+2. Say: "Project initialized. Starting spec elicitation..."
+3. Proceed directly to `/gig:spec` Step 2 (Load Project Context) and Step 3 (Elicitation). The spec guard check accepts IDLE status, so this transition works seamlessly. Do NOT stop or ask the user to run a separate command.
