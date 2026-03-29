@@ -12,6 +12,7 @@ Gather decisions, implement in batches, govern quality. Two approval gates, zero
 ## How it works
 
 You tell Claude what you want. Claude does the rest — research, decisions, implementation, testing — and checks in with you at two gates before writing any code.
+Init scaffolds project-type-specific Mermaid diagrams and flows directly into spec elicitation.
 
 Each iteration is one loop — **decide, build, verify**:
 
@@ -180,6 +181,7 @@ Safe to run multiple times — idempotent.
 |-------|-------------|
 | `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
 | `/gig:spec` | Interactive elicitation — stories, requirements, constraints (optional, before gather) |
+| `/gig:design` | Generate UI/UX prototypes in Figma, create DESIGN.md |
 | `/gig:gather` | Research → decisions → plan (two approval gates) |
 | `/gig:implement` | Execute batches, checkpoints, parallel when possible |
 | `/gig:govern` | Test, validate, track issues, archive iteration |
@@ -246,6 +248,7 @@ graph LR
 ├── ARCHITECTURE.md      # Your stack, structure, patterns
 ├── ROADMAP.md           # Milestones, iterations, what's next
 ├── SPEC.md              # Locked spec — stories, requirements, constraints (optional)
+├── DEBT.md              # Technical debt tracking
 ├── BACKLOG.md            # Backlog ideas — no commitment, no priority
 ├── GIT-STRATEGY.md      # Branch/commit/tag conventions
 └── iterations/          # Completed iteration archives (full history)

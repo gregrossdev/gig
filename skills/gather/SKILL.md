@@ -77,6 +77,25 @@ If `.gig/DEBT.md` has OPEN or TRACKED entries and the iteration goal involves re
 
 Do NOT ask follow-up questions — Claude researches and decides in Steps 3-4.
 
+### Step 2b — Docs/Config Detection
+
+Before launching deep research, assess whether this is a docs/config iteration:
+
+**Indicators (any match triggers lightweight mode):**
+- User args contain: "docs", "config", "readme", "update docs", "documentation"
+- Iteration name contains: "docs", "config", "readme"
+- All spec requirements reference only documentation files (no code changes)
+
+**If lightweight mode detected:**
+Say: "Docs/config iteration — using lightweight research path."
+- **Skip Step 3** (deep subagent research) — use direct file reads from Step 1 context instead.
+- **Skip Step 3a** (architecture audit) — note: "Docs/config iteration — no architectural assessment needed."
+- **Skip Step 3b** (diagrams) — note: "No diagram changes — docs/config only."
+- Proceed directly to Step 4 (Present Decisions).
+
+**If the user says "do full research":** Override and run the standard path.
+**If work turns out to involve code changes:** Escalate to the full path mid-gather.
+
 ### Step 3 — Deep Research
 
 Before making ANY decisions, research thoroughly:
@@ -86,7 +105,7 @@ Before making ANY decisions, research thoroughly:
 - Read existing code, configs, tests, documentation.
 - Identify unknowns, ambiguities, areas with multiple valid approaches.
 
-Do NOT skip this step. Do NOT guess. Decision quality depends on thorough research.
+Do NOT skip this step. Do NOT guess. Decision quality depends on thorough research. **Exception:** docs/config iterations use the lightweight path from Step 2b instead.
 
 ### Step 3a — Architecture Audit Log
 

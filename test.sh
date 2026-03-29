@@ -902,6 +902,43 @@ assert "govern preserves design originals" grep -q 'Do NOT delete' "$GOVERN_SKIL
 assert "install.sh handles diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
 assert "install.sh uninstalls diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
 
+# [48] Docs sync and gather research tuning
+echo "[48] Docs sync and gather research tuning"
+
+ARCH_FILE="$SCRIPT_DIR/.gig/ARCHITECTURE.md"
+BACKLOG_FILE="$SCRIPT_DIR/.gig/BACKLOG.md"
+GETTING_STARTED="$SCRIPT_DIR/docs/GETTING-STARTED.md"
+README_FILE="$SCRIPT_DIR/README.md"
+
+# REQ-001: ARCHITECTURE.md structure
+assert "architecture has templates/diagrams/" grep -q 'diagrams/' "$ARCH_FILE"
+assert "architecture has SPEC.md in templates" grep -q 'SPEC.md' "$ARCH_FILE"
+assert "architecture has DEBT.md in templates" grep -q 'DEBT.md' "$ARCH_FILE"
+assert "architecture has spec skill" grep -q 'spec/SKILL.md' "$ARCH_FILE"
+assert "architecture has design skill" grep -q 'design/SKILL.md' "$ARCH_FILE"
+
+# REQ-002: ARCHITECTURE.md patterns
+assert "architecture has spec-driven pattern" grep -q 'Spec-driven development' "$ARCH_FILE"
+assert "architecture has living diagrams pattern" grep -q 'Living diagrams' "$ARCH_FILE"
+
+# REQ-005/006: BACKLOG.md pruned
+assert "backlog has Govern Auto-Flow" grep -q 'Govern Auto-Flow' "$BACKLOG_FILE"
+assert "backlog has RULES.md Drift Guard" grep -q 'RULES.md Drift Guard' "$BACKLOG_FILE"
+assert "backlog has only 3 actionable items" test "$(grep -c '^- ' "$BACKLOG_FILE")" = "3"
+
+# REQ-003: GETTING-STARTED.md
+assert "getting-started mentions project types" grep -q 'Web App' "$GETTING_STARTED"
+assert "getting-started mentions diagram presets" grep -q 'diagram presets' "$GETTING_STARTED"
+
+# REQ-004: README.md
+assert "readme has DEBT.md in listing" grep -q 'DEBT.md' "$README_FILE"
+assert "readme has gig:design command" grep -q 'gig:design' "$README_FILE"
+
+# REQ-007-010: Gather lightweight path
+assert "gather has docs/config detection" grep -q 'Docs/Config Detection' "$GATHER_SKILL"
+assert "gather has lightweight keyword" grep -q 'lightweight' "$GATHER_SKILL"
+assert "gather Step 3 has Exception carve-out" grep -q 'Exception' "$GATHER_SKILL"
+
 # --- Summary ---
 
 echo ""

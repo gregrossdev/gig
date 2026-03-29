@@ -31,6 +31,7 @@ gig will:
 - Scan your project (if existing code) to discover stack, structure, and patterns
 - Populate `ARCHITECTURE.md` with what it finds
 - Propose a first milestone with version number
+- Offer a choice of 7 project types (Article, README, Research, Web App, API, CLI, Library) and scaffold Mermaid diagram presets to `.gig/design/`
 
 You'll see something like:
 
@@ -47,17 +48,11 @@ Milestone: API Improvements v0.3.0 — Improve API error handling and validation
 
 Review and approve, adjust, or ask questions.
 
-## Step 2 — Spec (optional)
+## Step 2 — Spec
 
-For complex features or new milestones, build a spec first:
+Init flows directly into spec elicitation after approval — no separate command needed. Claude guides you through defining user stories, requirements, and constraints.
 
-```
-/gig:spec
-```
-
-Claude guides you through an interactive conversation to define user stories, requirements, and constraints. This eliminates the ambiguity that causes rework — by the time gather runs, decisions are grounded in a clear spec.
-
-Skip this step for simple iterations where the goal is already clear.
+If the goal is already clear and you want to skip straight to decisions, run `/gig:gather` instead.
 
 ## Step 2b — Design (optional)
 
