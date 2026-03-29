@@ -103,7 +103,7 @@ This builds a running record of architectural observations across iterations.
 
 After research and before presenting decisions, generate Mermaid diagrams to model the system:
 
-1. Create `.gig/design/` directory if it doesn't exist.
+1. **Clear `.gig/design/` if it exists** — remove all files in the directory so stale diagrams from prior iterations don't persist. Then create `.gig/design/` directory if it doesn't exist.
 2. Generate diagrams as appropriate for the iteration scope:
    - **Architecture diagram** (`.gig/design/architecture.mmd`) — system components and relationships
    - **Data flow diagram** (`.gig/design/data-flow.mmd`) — how data moves through the system

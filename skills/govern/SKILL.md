@@ -266,6 +266,7 @@ Copy into the archive:
 - Extract this iteration's decisions from `.gig/DECISIONS.md` → `.gig/iterations/v0.{N}-{iteration-name}/DECISIONS.md`
 - Extract this iteration's resolved issues from `.gig/ISSUES.md` → `.gig/iterations/v0.{N}-{iteration-name}/ISSUES.md`
 - `.gig/GOVERNANCE.md` → `.gig/iterations/v0.{N}-{iteration-name}/GOVERNANCE.md` (frozen snapshot)
+- `.gig/design/` → `.gig/iterations/v0.{N}-{iteration-name}/design/` (copy entire directory with `cp -r` if `.gig/design/` exists and is non-empty; skip silently if missing or empty)
 
 ### 2. Clear Active Files
 
@@ -274,6 +275,11 @@ Copy into the archive:
 - Remove RESOLVED issues from `.gig/ISSUES.md` (DEFERRED issues stay — they carry forward).
 - Remove RESOLVED entries from `.gig/DEBT.md` (OPEN and TRACKED entries stay — they carry forward).
 - Reset `.gig/GOVERNANCE.md` to template state (header and format comments only).
+
+### 2b. Trim Accumulated State
+
+- **Trim `.gig/STATE.md` batch history to the last 20 rows.** Count the data rows in the `## Batch History` table (excluding the header row and separator). If more than 20, remove the oldest rows (bottom of the table, since newest is first) until exactly 20 remain. Do not modify the table header or comments.
+- **Trim `.gig/ARCHITECTURE.md` audit log to the last 5 entries.** Count the `### Iteration` subsections under `## Audit Log`. If more than 5, remove the oldest entries (earliest iteration numbers) until exactly 5 remain.
 
 ### 3. Git Merge & Tag (if in a git repo)
 

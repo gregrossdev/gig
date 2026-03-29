@@ -26,8 +26,17 @@ Read `.gig/STATE.md` for current position.
 Say: "An iteration is in progress. Complete it before starting a new spec." STOP.
 
 **If status is SPECCED:**
-Warn: "A locked spec already exists. Running `/gig:spec` will start a new elicitation. Continue?"
-If user says no, STOP.
+
+1. Read `.gig/SPEC.md` and check the `Status` column in the Requirements table.
+2. **If ALL requirements have status `COVERED`:**
+   - Auto-archive: copy `.gig/SPEC.md` to `.gig/iterations/SPEC-completed-{today's date}.md`
+   - Say: "Previous spec fully covered — archived to `.gig/iterations/SPEC-completed-{date}.md`. Starting fresh elicitation."
+   - Proceed to Step 2.
+3. **If ANY requirements have status `NOT COVERED`:**
+   - Warn: "Existing spec has uncovered requirements: {list REQ IDs with NOT COVERED status}. Archive incomplete spec and continue?"
+   - If user says yes: copy `.gig/SPEC.md` to `.gig/iterations/SPEC-partial-{today's date}.md`, then proceed to Step 2.
+   - If user says no: STOP.
+4. **If SPEC.md is empty or template-only:** Proceed without archiving.
 
 **If status is IDLE, GOVERNED, or SPECING (resuming):**
 Proceed.

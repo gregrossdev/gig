@@ -822,6 +822,35 @@ assert "GETTING-STARTED.md has DEBT.md" grep -q 'DEBT\.md' "$SCRIPT_DIR/docs/GET
 assert "GETTING-STARTED.md has debt command" grep -q 'debt' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
 assert "GETTING-STARTED.md has amend command" grep -q 'amend' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
 
+# [46] Context hygiene
+echo "[46] Context hygiene"
+
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+GATHER_SKILL="$SCRIPT_DIR/skills/gather/SKILL.md"
+SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
+
+# REQ-001: Govern trims batch history
+assert "govern trims batch history to 20 rows" grep -q 'last 20 rows' "$GOVERN_SKILL"
+
+# REQ-003: Govern trims audit log
+assert "govern trims audit log to 5 entries" grep -q 'last 5 entries' "$GOVERN_SKILL"
+
+# REQ-004: Govern archives design/
+assert "govern archives design directory" grep -q 'design.*iterations' "$GOVERN_SKILL"
+
+# REQ-005: Gather clears design/
+assert "gather clears design before diagrams" grep -qi 'clear.*design' "$GATHER_SKILL"
+assert "gather mentions stale diagrams" grep -q 'stale diagrams' "$GATHER_SKILL"
+
+# REQ-006: Spec auto-archives completed specs
+assert "spec archives completed specs" grep -q 'SPEC-completed' "$SPEC_SKILL"
+assert "spec archives to iterations dir" grep -q '.gig/iterations/SPEC' "$SPEC_SKILL"
+
+# REQ-007: Spec warns on partial overwrite
+assert "spec warns on uncovered requirements" grep -q 'uncovered requirements' "$SPEC_SKILL"
+assert "spec has partial archive option" grep -q 'SPEC-partial' "$SPEC_SKILL"
+assert "spec auto-archives without prompt when complete" grep -q 'Auto-archive' "$SPEC_SKILL"
+
 # --- Summary ---
 
 echo ""
