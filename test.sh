@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init spec design gather implement govern status milestone research handoff triage"
+SKILLS="init spec design gather implement govern status milestone research triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
@@ -583,18 +583,6 @@ assert "init has numbered selection UX" grep -q 'number' "$INIT_SKILL"
 assert "init has skip-existing message" grep -q 'already exists in project root' "$INIT_SKILL"
 assert "init has copied message" grep -q 'Copied {file} to project root' "$INIT_SKILL"
 
-# --- Test 27: Handoff state file coverage ---
-
-echo "[27] Handoff state file coverage"
-HANDOFF_SKILL="$SCRIPT_DIR/skills/handoff/SKILL.md"
-assert "handoff references STATE.md" grep -q 'STATE\.md' "$HANDOFF_SKILL"
-assert "handoff references PLAN.md" grep -q 'PLAN\.md' "$HANDOFF_SKILL"
-assert "handoff references DECISIONS.md" grep -q 'DECISIONS\.md' "$HANDOFF_SKILL"
-assert "handoff references ISSUES.md" grep -q 'ISSUES\.md' "$HANDOFF_SKILL"
-assert "handoff references ARCHITECTURE.md" grep -q 'ARCHITECTURE\.md' "$HANDOFF_SKILL"
-assert "handoff references BACKLOG.md" grep -q 'BACKLOG\.md' "$HANDOFF_SKILL"
-assert "handoff has Open Issues section" grep -q 'Open Issues' "$HANDOFF_SKILL"
-assert "handoff has Backlog section" grep -q 'Backlog' "$HANDOFF_SKILL"
 
 # --- Test 28: Triage skill ---
 

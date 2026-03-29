@@ -12,7 +12,7 @@ This guide walks you through your first project with gig.
 
 After installing, open Claude Code in any project directory and check:
 
-1. **Skills are visible** — type `/gig:` and you should see all 11 skills in autocomplete (init, spec, design, gather, implement, govern, status, milestone, research, handoff, triage)
+1. **Skills are visible** — type `/gig:` and you should see all 10 skills in autocomplete (init, spec, design, gather, implement, govern, status, milestone, research, triage)
 2. **Status responds** — run `/gig:status`. It should say "No gig context. Use `/gig:init` to start."
 3. **Init creates .gig/** — run `/gig:init` in a test directory. Confirm `.gig/` is created with STATE.md, PLAN.md, DECISIONS.md, etc.
 
@@ -160,7 +160,6 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 |---------|-------------|
 | `/gig:status` | Show where you are and what to do next |
 | `/gig:research [topic]` | Deep-dive a topic before deciding |
-| `/gig:handoff` | Save session context for next time |
 | `status` | Quick progress check |
 | `next` | Execute next batch |
 | `fix [thing]` | Unplanned work as next batch |
@@ -175,7 +174,6 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 - **Trust the workflow.** Let Claude research and decide. You only intervene when you disagree.
 - **Keep batches small.** gig plans 1-5 files per batch. If a batch feels too big, say "split this."
 - **Revise freely.** Decisions aren't permanent. Say "revise D-1.3" if something isn't working.
-- **Use handoff.** Running `/gig:handoff` before ending a session saves context for the next one.
 - **Check status.** When returning to a project, `/gig:status` tells you exactly where you left off and what to do next.
 
 ## File reference
