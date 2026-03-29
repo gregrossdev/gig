@@ -922,9 +922,8 @@ assert "architecture has spec-driven pattern" grep -q 'Spec-driven development' 
 assert "architecture has living diagrams pattern" grep -q 'Living diagrams' "$ARCH_FILE"
 
 # REQ-005/006: BACKLOG.md pruned
-assert "backlog has Govern Auto-Flow" grep -q 'Govern Auto-Flow' "$BACKLOG_FILE"
-assert "backlog has RULES.md Drift Guard" grep -q 'RULES.md Drift Guard' "$BACKLOG_FILE"
-assert "backlog has only 3 actionable items" test "$(grep -c '^- ' "$BACKLOG_FILE")" = "3"
+assert "backlog header exists" grep -q '# Backlog' "$BACKLOG_FILE"
+assert "backlog items resolved" grep -q 'All items resolved' "$BACKLOG_FILE"
 
 # REQ-003: GETTING-STARTED.md
 assert "getting-started mentions project types" grep -q 'Web App' "$GETTING_STARTED"
