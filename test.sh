@@ -939,6 +939,64 @@ assert "gather has docs/config detection" grep -q 'Docs/Config Detection' "$GATH
 assert "gather has lightweight keyword" grep -q 'lightweight' "$GATHER_SKILL"
 assert "gather Step 3 has Exception carve-out" grep -q 'Exception' "$GATHER_SKILL"
 
+# [49] RULES.md drift guard
+echo "[49] RULES.md drift guard"
+
+RULES_FILE="$SCRIPT_DIR/docs/RULES.md"
+STATUS_SKILL="$SCRIPT_DIR/skills/status/SKILL.md"
+
+# REQ-005: Workflow order — skills exist for each workflow step
+assert "rules has Init in workflow" grep -q 'Init' "$RULES_FILE"
+assert "rules has Spec in workflow" grep -q 'Spec' "$RULES_FILE"
+assert "rules has Gather in workflow" grep -q 'Gather' "$RULES_FILE"
+assert "rules has Implement in workflow" grep -q 'Implement' "$RULES_FILE"
+assert "rules has Govern in workflow" grep -q 'Govern' "$RULES_FILE"
+assert "init skill dir exists" test -d "$SCRIPT_DIR/skills/init"
+assert "spec skill dir exists" test -d "$SCRIPT_DIR/skills/spec"
+assert "gather skill dir exists" test -d "$SCRIPT_DIR/skills/gather"
+assert "implement skill dir exists" test -d "$SCRIPT_DIR/skills/implement"
+assert "govern skill dir exists" test -d "$SCRIPT_DIR/skills/govern"
+
+# REQ-006: Natural language commands — key commands in RULES.md table
+assert "rules has spec command" grep -q '| .spec.' "$RULES_FILE"
+assert "rules has gather command" grep -q '| .gather.' "$RULES_FILE"
+assert "rules has status command" grep -q '| .status.' "$RULES_FILE"
+assert "rules has issues command" grep -q '| .issues.' "$RULES_FILE"
+assert "rules has decisions command" grep -q '| .decisions.' "$RULES_FILE"
+assert "rules has triage command" grep -q '| .triage.' "$RULES_FILE"
+assert "rules has debt command" grep -q '| .debt.' "$RULES_FILE"
+
+# REQ-006: Status skill routes matching commands
+assert "status routes decisions" grep -q 'decisions' "$STATUS_SKILL"
+assert "status routes issues" grep -q 'issues' "$STATUS_SKILL"
+assert "status routes history" grep -q 'history' "$STATUS_SKILL"
+assert "status routes debt" grep -q 'debt' "$STATUS_SKILL"
+
+# REQ-007: Skill list — every skills/ dir referenced in RULES.md
+for skill_dir in "$SCRIPT_DIR"/skills/*/; do
+    skill_name="$(basename "$skill_dir")"
+    assert "rules references skill: $skill_name" grep -q "$skill_name" "$RULES_FILE"
+done
+
+# [50] Govern auto-flow
+echo "[50] Govern auto-flow"
+
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+
+# REQ-001: Steps 3-8 continuous block
+assert "govern has continuous block instruction" grep -q 'Continuous Governance Block' "$GOVERN_SKILL"
+assert "govern says do not stop between steps" grep -q 'Do not stop' "$GOVERN_SKILL"
+
+# REQ-001/004: Step 6 auto-assessment
+assert "govern Step 6 auto-assesses" grep -q 'Auto-assess' "$GOVERN_SKILL"
+assert "govern Step 6 does not prompt user" grep -q 'Do NOT prompt' "$GOVERN_SKILL"
+
+# REQ-002: Step 2 unchanged
+assert "govern Step 2 still has verified/skip" grep -q 'verified' "$GOVERN_SKILL"
+
+# REQ-003: Final gate unchanged
+assert "govern final gate still has STOP" grep -q 'STOP.*Wait for approval' "$GOVERN_SKILL"
+
 # --- Summary ---
 
 echo ""

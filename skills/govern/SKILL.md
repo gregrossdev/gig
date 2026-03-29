@@ -50,6 +50,10 @@ This creates a running queue of skipped verifications the user can review at the
 
 **Always present this checklist.** Do not skip it automatically. The user decides whether to verify or skip.
 
+## Steps 3-8 — Continuous Governance Block
+
+After Step 2 completes, execute Steps 3 through 8 as one continuous block. **Do not stop, prompt, or wait for user input between these steps.** Present all results together as a consolidated governance report at the end (Step 8), then proceed to the Approval Gate.
+
 ## Step 3 — Run Automated Tests
 
 Auto-detect project tooling and run test suites:
@@ -117,15 +121,14 @@ If no concerns found, note "No new technical debt identified" in the governance 
 
 ## Step 6 — User Acceptance Testing (UAT)
 
-Present a guided UAT checklist from the plan's acceptance criteria.
-For each item, ask the user to verify:
+Auto-assess each acceptance criterion from the plan based on findings from Steps 3-5:
 
-```
-UAT-{N}: {Description}
-Expected: {What should happen}
-Result: [ PASS | FAIL | SKIP ]
-Severity (if FAIL): [ Blocker | Major | Minor | Cosmetic ]
-```
+For each item, determine:
+- **PASS** — automated tests pass AND acceptance criteria verified in Step 4
+- **FAIL** — test failure, acceptance mismatch, or decision deviation found
+- **SKIP** — criterion cannot be verified automatically (rare)
+
+Record results internally. Do NOT prompt the user — present results in the consolidated report (Step 8).
 
 ## Step 7 — Issue Tracking
 
