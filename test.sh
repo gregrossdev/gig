@@ -1038,6 +1038,57 @@ assert "govern article has Date field" grep -q 'Date:' "$GOVERN_SKILL"
 assert "govern article has Lesson number" grep -q 'Lesson.*of.*total' "$GOVERN_SKILL"
 assert "govern skips if not learn curriculum" grep -q 'Skip this step silently' "$GOVERN_SKILL"
 
+# [53] Init E2E diagram scaffolding
+echo "[53] Init E2E diagram scaffolding"
+
+DIAGRAMS_DIR="$SCRIPT_DIR/templates/diagrams"
+
+# REQ-012: Each project type has correct diagram preset files
+# Article: outline-flow
+assert "article has outline-flow.mmd" test -f "$DIAGRAMS_DIR/article/outline-flow.mmd"
+assert "article has exactly 1 diagram" test "$(find "$DIAGRAMS_DIR/article" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
+
+# README: architecture
+assert "readme has architecture.mmd" test -f "$DIAGRAMS_DIR/readme/architecture.mmd"
+assert "readme has exactly 1 diagram" test "$(find "$DIAGRAMS_DIR/readme" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
+
+# Research: concept-map, flow
+assert "research has concept-map.mmd" test -f "$DIAGRAMS_DIR/research/concept-map.mmd"
+assert "research has flow.mmd" test -f "$DIAGRAMS_DIR/research/flow.mmd"
+assert "research has exactly 2 diagrams" test "$(find "$DIAGRAMS_DIR/research" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
+
+# Web App: architecture, data-flow, er, sequence
+assert "webapp has architecture.mmd" test -f "$DIAGRAMS_DIR/webapp/architecture.mmd"
+assert "webapp has data-flow.mmd" test -f "$DIAGRAMS_DIR/webapp/data-flow.mmd"
+assert "webapp has er.mmd" test -f "$DIAGRAMS_DIR/webapp/er.mmd"
+assert "webapp has sequence.mmd" test -f "$DIAGRAMS_DIR/webapp/sequence.mmd"
+assert "webapp has exactly 4 diagrams" test "$(find "$DIAGRAMS_DIR/webapp" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
+
+# API: architecture, er, data-flow, sequence
+assert "api has architecture.mmd" test -f "$DIAGRAMS_DIR/api/architecture.mmd"
+assert "api has er.mmd" test -f "$DIAGRAMS_DIR/api/er.mmd"
+assert "api has data-flow.mmd" test -f "$DIAGRAMS_DIR/api/data-flow.mmd"
+assert "api has sequence.mmd" test -f "$DIAGRAMS_DIR/api/sequence.mmd"
+assert "api has exactly 4 diagrams" test "$(find "$DIAGRAMS_DIR/api" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
+
+# CLI: architecture, data-flow, sequence
+assert "cli has architecture.mmd" test -f "$DIAGRAMS_DIR/cli/architecture.mmd"
+assert "cli has data-flow.mmd" test -f "$DIAGRAMS_DIR/cli/data-flow.mmd"
+assert "cli has sequence.mmd" test -f "$DIAGRAMS_DIR/cli/sequence.mmd"
+assert "cli has exactly 3 diagrams" test "$(find "$DIAGRAMS_DIR/cli" -name '*.mmd' | wc -l | tr -d ' ')" = "3"
+
+# Library: architecture, data-flow
+assert "library has architecture.mmd" test -f "$DIAGRAMS_DIR/library/architecture.mmd"
+assert "library has data-flow.mmd" test -f "$DIAGRAMS_DIR/library/data-flow.mmd"
+assert "library has exactly 2 diagrams" test "$(find "$DIAGRAMS_DIR/library" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
+
+# All diagrams have valid Mermaid headers
+assert "all mmd files start with %%" find "$DIAGRAMS_DIR" -name '*.mmd' -exec sh -c 'head -1 "$1" | grep -q "%%"' _ {} \;
+
+# Init skill references diagram scaffolding
+assert "init has diagram scaffolding step" grep -q 'Scaffold Diagrams' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init references .gig/design/" grep -q '.gig/design/' "$SCRIPT_DIR/skills/init/SKILL.md"
+
 # --- Summary ---
 
 echo ""
