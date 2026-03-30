@@ -271,6 +271,78 @@ Copy into the archive:
 - `.gig/GOVERNANCE.md` → `.gig/iterations/v0.{N}-{iteration-name}/GOVERNANCE.md` (frozen snapshot)
 - `.gig/design/` → `.gig/iterations/v0.{N}-{iteration-name}/design/` (copy entire directory with `cp -r` if `.gig/design/` exists and is non-empty; skip silently if missing or empty). **Do NOT delete `.gig/design/` originals** — diagrams persist as living artifacts across iterations.
 
+### 1b. Generate Lesson Article (if learn curriculum)
+
+Check if `.gig/SPEC.md` contains a learn curriculum — look for stories with "Lesson" in the Story column or a spec header containing "Curriculum".
+
+**If learn curriculum detected:**
+
+Determine the lesson number and topic from the iteration's story in SPEC.md (the story that was COVERED this iteration).
+
+1. Create directory: `lessons/{NN}-{kebab-case-topic}/` at the project root (not in `.gig/`).
+   - `{NN}` = zero-padded lesson number from the story ID (US-001 → 01, US-012 → 12)
+   - `{topic}` = kebab-case of the lesson title
+
+2. Write `lessons/{NN}-{topic}/ARTICLE.md` with this format:
+
+```markdown
+# Lesson {N}: {Title}
+
+> {One-line summary of what this lesson covers}
+
+**Date:** {today's date}
+**Topic:** {broader curriculum topic}
+**Lesson:** {N} of {total lessons in spec}
+**Prerequisites:** {from story dependencies, or "None"}
+
+## What This Covers
+
+{Brief overview of the concepts addressed in this lesson — 2-3 sentences}
+
+## Core Concepts
+
+### {Concept 1}
+
+{Explanation of the concept. What it is, why it matters, how it works.}
+
+### {Concept 2}
+
+{Another core concept from this lesson.}
+
+## Problem-Solving Patterns
+
+### Pattern: {Pattern Name}
+
+**When to use:** {Situation where this pattern applies}
+**How it works:** {Step-by-step approach}
+**Key insight:** {The "aha" moment}
+
+## Example Problem
+
+**Problem:** {Description of a concrete problem}
+
+**Approach:** {How to think about solving it}
+
+**Solution:** {Walkthrough of the solution with code or pseudocode if applicable}
+
+## Key Takeaways
+
+- {Takeaway 1 — the most important thing to remember}
+- {Takeaway 2}
+- {Takeaway 3}
+- {Takeaway 4}
+```
+
+3. Base the article content on:
+   - The iteration's decisions (what was decided and why)
+   - The governance report (what was verified)
+   - The learning objectives from SPEC.md (what was supposed to be learned)
+   - Research findings from gather (domain knowledge)
+
+4. Say: "Lesson article written to `lessons/{NN}-{topic}/ARTICLE.md`."
+
+**If NOT a learn curriculum:** Skip this step silently.
+
 ### 2. Clear Active Files
 
 - Reset `.gig/PLAN.md` to template state (no active iteration).

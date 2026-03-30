@@ -1019,6 +1019,25 @@ assert "readme has gig:learn" grep -q 'gig:learn' "$SCRIPT_DIR/README.md"
 assert "getting-started has learn" grep -q 'learn' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
 assert "architecture has learn skill" grep -q 'learn/SKILL.md' "$SCRIPT_DIR/.gig/ARCHITECTURE.md"
 
+# [52] Lesson article generation
+echo "[52] Lesson article generation"
+
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+
+# REQ-008: Govern generates lesson articles
+assert "govern has lesson article step" grep -q 'Generate Lesson Article' "$GOVERN_SKILL"
+assert "govern detects learn curriculum" grep -q 'learn curriculum' "$GOVERN_SKILL"
+assert "govern writes to lessons/ directory" grep -q 'lessons/' "$GOVERN_SKILL"
+assert "govern article has Core Concepts section" grep -q 'Core Concepts' "$GOVERN_SKILL"
+assert "govern article has Problem-Solving Patterns" grep -q 'Problem-Solving Patterns' "$GOVERN_SKILL"
+assert "govern article has Key Takeaways" grep -q 'Key Takeaways' "$GOVERN_SKILL"
+assert "govern article has Example Problem" grep -q 'Example Problem' "$GOVERN_SKILL"
+
+# REQ-009: Articles are standalone
+assert "govern article has Date field" grep -q 'Date:' "$GOVERN_SKILL"
+assert "govern article has Lesson number" grep -q 'Lesson.*of.*total' "$GOVERN_SKILL"
+assert "govern skips if not learn curriculum" grep -q 'Skip this step silently' "$GOVERN_SKILL"
+
 # --- Summary ---
 
 echo ""
