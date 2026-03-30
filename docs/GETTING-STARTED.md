@@ -12,7 +12,7 @@ This guide walks you through your first project with gig.
 
 After installing, open Claude Code in any project directory and check:
 
-1. **Skills are visible** — type `/gig:` and you should see all 10 skills in autocomplete (init, spec, design, gather, implement, govern, status, milestone, research, triage)
+1. **Skills are visible** — type `/gig:` and you should see all 11 skills in autocomplete (init, spec, learn, design, gather, implement, govern, status, milestone, research, triage)
 2. **Status responds** — run `/gig:status`. It should say "No gig context. Use `/gig:init` to start."
 3. **Init creates .gig/** — run `/gig:init` in a test directory. Confirm `.gig/` is created with STATE.md, PLAN.md, DECISIONS.md, etc.
 

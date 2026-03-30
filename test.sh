@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init spec design gather implement govern status milestone research triage"
+SKILLS="init spec learn design gather implement govern status milestone research triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
@@ -983,6 +983,41 @@ assert "govern Step 2 still has verified/skip" grep -q 'verified' "$GOVERN_SKILL
 
 # REQ-003: Final gate unchanged
 assert "govern final gate still has STOP" grep -q 'STOP.*Wait for approval' "$GOVERN_SKILL"
+
+# [51] Learn skill foundation
+echo "[51] Learn skill foundation"
+
+LEARN_SKILL="$SCRIPT_DIR/skills/learn/SKILL.md"
+
+# REQ-004: Skill exists with correct structure
+assert "learn skill exists" test -f "$LEARN_SKILL"
+assert "learn has name field" grep -q 'name: gig:learn' "$LEARN_SKILL"
+assert "learn has description" grep -q 'description:' "$LEARN_SKILL"
+assert "learn has user-invocable" grep -q 'user-invocable: true' "$LEARN_SKILL"
+assert "learn has guard check" grep -q 'Guard Check' "$LEARN_SKILL"
+assert "learn has lock gate" grep -q 'Lock Gate' "$LEARN_SKILL"
+
+# REQ-005: From-scratch and external course modes
+assert "learn has fresh curriculum flow" grep -q 'Fresh Curriculum Flow' "$LEARN_SKILL"
+assert "learn has external course flow" grep -q 'External Course Flow' "$LEARN_SKILL"
+assert "learn detects URL" grep -q 'http' "$LEARN_SKILL"
+
+# REQ-006: Curriculum maps to SPEC.md
+assert "learn writes SPEC.md" grep -q 'SPEC.md' "$LEARN_SKILL"
+assert "learn has US-XXX stories" grep -q 'US-001' "$LEARN_SKILL"
+assert "learn has REQ-XXX requirements" grep -q 'REQ-001' "$LEARN_SKILL"
+assert "learn sets SPECCED status" grep -q 'SPECCED' "$LEARN_SKILL"
+
+# REQ-007: Command stub and install
+assert "learn command exists" test -f "$SCRIPT_DIR/commands/learn.md"
+assert "learn command has name" grep -q 'name: gig:learn' "$SCRIPT_DIR/commands/learn.md"
+assert "install.sh has learn in SKILLS" grep -q 'learn' "$SCRIPT_DIR/install.sh"
+
+# Docs updated
+assert "rules.md has gig:learn" grep -q 'gig:learn' "$SCRIPT_DIR/docs/RULES.md"
+assert "readme has gig:learn" grep -q 'gig:learn' "$SCRIPT_DIR/README.md"
+assert "getting-started has learn" grep -q 'learn' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
+assert "architecture has learn skill" grep -q 'learn/SKILL.md' "$SCRIPT_DIR/.gig/ARCHITECTURE.md"
 
 # --- Summary ---
 

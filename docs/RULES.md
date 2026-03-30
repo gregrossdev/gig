@@ -182,5 +182,5 @@ and what to do next.
 
 ## Skills
 
-**Workflow skills (gig):** `/gig:init`, `/gig:spec`, `/gig:design`, `/gig:gather`, `/gig:implement`,
+**Workflow skills (gig):** `/gig:init`, `/gig:spec`, `/gig:learn`, `/gig:design`, `/gig:gather`, `/gig:implement`,
 `/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`, `/gig:triage`.

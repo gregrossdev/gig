@@ -10,7 +10,7 @@ HOOKS_DEST="$CLAUDE_DIR/hooks/gig"
 COMMANDS_DEST="$CLAUDE_DIR/commands/gig"
 SETTINGS="$CLAUDE_DIR/settings.json"
 
-SKILLS="init spec design gather implement govern status milestone research triage"
+SKILLS="init spec learn design gather implement govern status milestone research triage"
 HAS_JQ=false
 SKIP_HOOKS=false
 

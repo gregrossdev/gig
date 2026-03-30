@@ -181,6 +181,7 @@ Safe to run multiple times — idempotent.
 |-------|-------------|
 | `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
 | `/gig:spec` | Interactive elicitation — stories, requirements, constraints (optional, before gather) |
+| `/gig:learn` | Create structured lesson plans for any topic or course |
 | `/gig:design` | Generate UI/UX prototypes in Figma, create DESIGN.md |
 | `/gig:gather` | Research → decisions → plan (two approval gates) |
 | `/gig:implement` | Execute batches, checkpoints, parallel when possible |
