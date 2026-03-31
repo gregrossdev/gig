@@ -1,7 +1,7 @@
 ---
 name: gig:init
 description: Initialize the gig system in any project. Discovers context, scaffolds .gig/, proposes first milestone.
-argument-hint:
+argument-hint: "[mvp | reinit]"
 allowed-tools: [Read, Write, Bash, Glob, Grep, AskUserQuestion, Task]
 ---
 

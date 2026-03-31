@@ -44,7 +44,7 @@ cleanup() {
 trap cleanup EXIT
 
 SKILLS="init spec learn design gather implement govern status milestone research triage"
-TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md"
+TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md MVP.md"
 PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
 
 echo ""
@@ -878,7 +878,7 @@ assert "init scaffolds to .gig/design/" grep -q '.gig/design/' "$INIT_SKILL"
 
 # Init skill — flows into spec (not gather)
 assert "init references spec elicitation" grep -q 'spec elicitation' "$INIT_SKILL"
-assert "init no longer suggests run gather as ending" grep -q 'spec elicitation will begin' "$INIT_SKILL"
+assert "init no longer suggests run gather as ending" grep -q 'will begin automatically' "$INIT_SKILL"
 
 # Gather — living diagrams
 assert "gather has diagram change report" grep -q 'Updated:' "$GATHER_SKILL"
@@ -1088,6 +1088,56 @@ assert "all mmd files start with %%" find "$DIAGRAMS_DIR" -name '*.mmd' -exec sh
 # Init skill references diagram scaffolding
 assert "init has diagram scaffolding step" grep -q 'Scaffold Diagrams' "$SCRIPT_DIR/skills/init/SKILL.md"
 assert "init references .gig/design/" grep -q '.gig/design/' "$SCRIPT_DIR/skills/init/SKILL.md"
+
+# --- [54] MVP template ---
+
+echo "[54] MVP template"
+MVP_TMPL="$SCRIPT_DIR/templates/gig/MVP.md"
+assert "MVP.md template exists" test -f "$MVP_TMPL"
+assert "MVP.md has Vision section" grep -q '## Vision' "$MVP_TMPL"
+assert "MVP.md has Inspiration section" grep -q '## Inspiration' "$MVP_TMPL"
+assert "MVP.md has Core Flows section" grep -q '## Core Flows' "$MVP_TMPL"
+assert "MVP.md has Screens section" grep -q '## Screens' "$MVP_TMPL"
+assert "MVP.md has Data Model section" grep -q '## Data Model' "$MVP_TMPL"
+assert "MVP.md has Success Metrics section" grep -q '## Success Metrics' "$MVP_TMPL"
+assert "MVP.md has Open Questions section" grep -q '## Open Questions' "$MVP_TMPL"
+assert "MVP.md has Boundaries section" grep -q '## Boundaries' "$MVP_TMPL"
+assert "MVP.md has Mermaid flowchart example" grep -q 'flowchart' "$MVP_TMPL"
+assert "MVP.md has Mermaid stateDiagram example" grep -q 'stateDiagram' "$MVP_TMPL"
+
+# --- [55] MVP command argument hints ---
+
+echo "[55] MVP command argument hints"
+assert "init command has mvp hint" grep -q 'mvp' "$SCRIPT_DIR/commands/init.md"
+assert "spec command has mvp hint" grep -q 'mvp' "$SCRIPT_DIR/commands/spec.md"
+
+# --- [56] Init MVP routing ---
+
+echo "[56] Init MVP routing"
+INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init has MVP flag detection" grep -q 'MVP check' "$INIT_SKILL"
+assert "init has MVP routing" grep -q 'MVP flag is set' "$INIT_SKILL"
+assert "init scaffold list has MVP.md" grep -q 'MVP.md' "$INIT_SKILL"
+
+# --- [57] Spec MVP interview ---
+
+echo "[57] Spec MVP interview"
+SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
+assert "spec has MVP Product Discovery section" grep -q 'MVP Product Discovery' "$SPEC_SKILL"
+assert "spec has MVP arg detection" grep -q 'mvp' "$SPEC_SKILL"
+assert "spec has Mermaid flowchart instruction" grep -q 'flowchart TD' "$SPEC_SKILL"
+assert "spec has Mermaid stateDiagram instruction" grep -q 'stateDiagram-v2' "$SPEC_SKILL"
+assert "spec has ASCII mockup instruction" grep -q 'ASCII' "$SPEC_SKILL"
+assert "spec has 7 interview sections" grep -q 'Section 7' "$SPEC_SKILL"
+assert "spec has MVP lock gate" grep -q 'MVP Lock Gate' "$SPEC_SKILL"
+assert "spec writes MVP.md on lock" grep -q 'Write.*MVP.md' "$SPEC_SKILL"
+
+# --- [58] Spec MVP context integration ---
+
+echo "[58] Spec MVP context integration"
+assert "spec loads MVP.md in context" grep -q 'MVP.md.*MVP product discovery' "$SPEC_SKILL"
+assert "spec pre-populates from MVP" grep -q 'pre-populate' "$SPEC_SKILL"
+assert "spec surfaces MVP open questions" grep -q 'Open Questions.*MVP' "$SPEC_SKILL"
 
 # --- Summary ---
 

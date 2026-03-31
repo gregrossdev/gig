@@ -1,7 +1,7 @@
 ---
 name: gig:spec
 description: Build a complete spec through interactive conversation so gather produces plans that execute cleanly.
-argument-hint: "[topic or goal | baseline]"
+argument-hint: "[topic or goal | baseline | mvp]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, AskUserQuestion, Agent, WebSearch, WebFetch]
 ---
 

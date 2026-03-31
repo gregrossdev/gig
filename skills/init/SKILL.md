@@ -14,6 +14,8 @@ Check if `.gig/` already exists in the current project root.
 
 **Reinitialize check:** If user args contain "reinitialize" or "reinit", delete `.gig/` and proceed to Step 1.
 
+**MVP check:** If user args contain "mvp", store as MVP flag. Proceed through normal init flow — the flag only affects routing after approval.
+
 Otherwise, check if `.gig/` needs upgrading:
 1. Read `.gig/.gig-version` (if missing, treat as `0.0.0`).
 2. Compare against the current gig version:
@@ -22,7 +24,7 @@ Otherwise, check if `.gig/` needs upgrading:
 3. If `.gig-version` is missing or older than current:
    - **Plugin install:** Run `${CLAUDE_PLUGIN_ROOT}/upgrade.sh` via Bash.
    - **Script install:** If `~/.claude/upgrade.sh` exists, run it via Bash. Otherwise, fall back to inline upgrade logic:
-     - Check each expected template file (STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, BACKLOG.md, DEBT.md, SPEC.md) — copy any missing ones from `~/.claude/templates/gig/`.
+     - Check each expected template file (STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, BACKLOG.md, DEBT.md, SPEC.md, MVP.md) — copy any missing ones from `~/.claude/templates/gig/`.
      - Create `.gig/iterations/` directory if missing.
      - Check for stale "phase" terminology and apply fixes via Edit tool:
        - `STATE.md`: `| **Phase**` → `| **Iteration**`; `| Phase |` → `| Iteration |`
@@ -43,7 +45,7 @@ Otherwise, check if `.gig/` needs upgrading:
 3. Copy gig templates into `.gig/`:
    - Look for templates in this order: `${CLAUDE_PLUGIN_ROOT}/templates/gig/` (plugin install), then `~/.claude/templates/gig/` (script install).
    - If templates are not found at either location, say: "Error: gig templates not found. Reinstall gig or check your installation." STOP.
-   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, BACKLOG.md, DEBT.md, SPEC.md
+   - Files: STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, BACKLOG.md, DEBT.md, SPEC.md, MVP.md
 4. Write `.gig/.gig-version` with the current gig version:
    - **Plugin install:** Read version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` (`"version"` field).
    - **Script install:** Read version from `~/.claude/templates/gig/.gig-version` if it exists, otherwise write `0.0.0` as a placeholder.
@@ -259,12 +261,16 @@ Then say:
 > - **Adjust milestone** — change the name or description.
 > - **Review architecture** — I'll show the full ARCHITECTURE.md for review.
 >
-> After approval, spec elicitation will begin automatically.
+> After approval, {if MVP flag: "MVP product discovery" | else: "spec elicitation"} will begin automatically.
 
 **STOP. Do not create iterations. Do not make decisions. Wait for approval.**
 
 ## After Approval
 
 1. If user adjusted version/name/description, update ROADMAP.md and STATE.md.
-2. Say: "Project initialized. Starting spec elicitation..."
-3. Proceed directly to `/gig:spec` Step 2 (Load Project Context) and Step 3 (Elicitation). The spec guard check accepts IDLE status, so this transition works seamlessly. Do NOT stop or ask the user to run a separate command.
+2. **If MVP flag is set:**
+   - Say: "Project initialized. Starting MVP product discovery..."
+   - Proceed directly to `/gig:spec` with the `mvp` argument. This triggers the MVP Product Discovery flow in the spec skill. Do NOT stop or ask the user to run a separate command.
+3. **If MVP flag is NOT set:**
+   - Say: "Project initialized. Starting spec elicitation..."
+   - Proceed directly to `/gig:spec` Step 2 (Load Project Context) and Step 3 (Elicitation). The spec guard check accepts IDLE status, so this transition works seamlessly. Do NOT stop or ask the user to run a separate command.

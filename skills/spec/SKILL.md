@@ -49,9 +49,13 @@ Read these files for background:
 3. `.gig/BACKLOG.md` — backlog ideas that might inform the spec
 4. `.gig/ISSUES.md` — open/deferred issues
 5. `.gig/SPEC.md` — if resuming a draft spec
+6. `.gig/MVP.md` — if present, the MVP product discovery document
 
 If `.gig/SPEC.md` exists and has content beyond the template, present it:
 "Found existing spec draft. Resuming from where you left off."
+
+If `.gig/MVP.md` exists and has content beyond the template, note it for use in Step 3:
+"Found MVP discovery document. Will use it to pre-populate stories and requirements."
 
 ## Step 3 — Elicitation
 
@@ -66,6 +70,10 @@ This is an interactive conversation. Claude guides the user to articulate what t
 **If user says "baseline" or "reverse-engineer" (or provided args containing these words):**
 
 Jump to the **Baseline from Iterations** flow below.
+
+**If user says "mvp" (or provided args containing "mvp"):**
+
+Jump to the **MVP Product Discovery** flow below.
 
 **If user provided other args:** Use the args as the starting topic. Begin with: "Let's build a spec for **{topic}**. I'll help you define what you want so gather can execute it cleanly."
 
@@ -97,6 +105,25 @@ Pick a direction to spec out, combine them, or tell me what you have in mind.
 The user picks a direction (or states their own), then elicitation continues normally.
 
 **If no args and new project (no completed iterations):** Ask ONE question: "What are you trying to build or accomplish?"
+
+### MVP-Aware Elicitation
+
+**If `.gig/MVP.md` was loaded in Step 2 and has content beyond the template** (and this is NOT an MVP or baseline flow):
+
+Before starting normal elicitation, pre-populate from the MVP document:
+
+1. **Extract story candidates** from MVP Core Flows — each flow maps to a candidate user story. Present them as draft US-XXX entries for the user to confirm or adjust.
+
+2. **Extract requirement candidates** from MVP Screens and Data Model — each screen maps to requirements about what it must display/do, each entity maps to data requirements. Present them as draft REQ-XXX entries.
+
+3. **Surface Open Questions** from MVP.md:
+   "These items were flagged as open questions during MVP discovery — let's resolve them now before building the spec:"
+   - {list each open question}
+
+4. Present the pre-populated draft:
+   "Found MVP discovery document. Pre-populated **{N} story candidates** and **{M} requirement candidates** from your flows and screens. Let's refine them."
+
+Then continue with normal elicitation — the user adjusts, adds, removes, and the standard elicitation behaviors apply.
 
 ### Baseline from Iterations
 
@@ -141,6 +168,208 @@ All {count} requirements are marked COVERED — these represent what's already b
 > "To add NEW work, describe what you want next. I'll add new stories and requirements with status NOT COVERED. Govern will track them going forward."
 
 6. The user reviews, adjusts existing items, and adds new stories/requirements. New items get status `NOT COVERED`. Then continue to the **Lock Gate** (Step 4).
+
+### MVP Product Discovery
+
+A structured interview that produces `.gig/MVP.md` — a product discovery document with flows, screens, data model, and boundaries. Use this for new projects or existing projects that need to think through the product before coding.
+
+**If the project has existing context** (`.gig/ARCHITECTURE.md` has content beyond the template, or `.gig/ROADMAP.md` has completed iterations): Read both files before starting. Reference existing architecture and capabilities when asking questions — the interview should build on what exists, not ignore it.
+
+**If `.gig/MVP.md` already exists and has content beyond the template:** Present it and ask: "Found existing MVP discovery document. Resume editing or start fresh?" If resume, pre-populate the running draft from the existing file. If fresh, proceed with a blank slate.
+
+The interview uses **clustered questions** — each section presents 2-4 related questions at once. After the user answers, show a running draft of that section for course-correction before moving to the next.
+
+**Handling unknowns:** When the user says "I don't know" or is uncertain, ask ONE follow-up to help them think through it (e.g., "If you had to pick, would it be more like X or Y?"). If still uncertain after the follow-up, add it to the Open Questions section and move on.
+
+**Handling multiple user types:** When the user identifies multiple user types in Section 1, interview all types together. Annotate flows and screens with which role performs/sees them. Shared elements are noted as shared; role-specific elements are tagged with the user type.
+
+#### Section 1 — Vision & Problem
+
+Ask as a cluster:
+- "What are you building? Give me the elevator pitch — one or two sentences."
+- "Who are the users? If there are different types (admin, customer, etc.), name them."
+- "What problem does this solve? What do users do today without this tool?"
+
+After answers, present running draft:
+
+```
+### MVP Draft (Section 1/7 complete)
+
+## Vision
+
+**Product:** {elevator pitch}
+**Target Users:** {user types}
+**Problem:** {problem statement}
+**What exists today:** {current state}
+```
+
+#### Section 2 — Inspiration
+
+Ask as a cluster:
+- "Name 1-3 existing products that do something similar or inspired this idea."
+- "For each: what do you want to borrow from it? What do you want to avoid?"
+
+Use the inspiration answers to ground follow-up questions in later sections. For example, if the user says "like Trello but for X," ask about differences from Trello when discussing flows and screens.
+
+After answers, update running draft adding:
+
+```
+## Inspiration
+
+| Product | Borrow | Avoid |
+|---------|--------|-------|
+| {product} | {what to borrow} | {what to avoid} |
+```
+
+#### Section 3 — Core Flows
+
+Ask as a cluster:
+- "Walk me through the main thing a user does, step by step. Start from the beginning."
+- "Are there other key flows? (onboarding, settings, admin tasks, etc.)"
+- "For each flow: what can go wrong? What happens when something fails or the user makes a mistake?"
+
+If multiple user types were identified in Section 1, ask: "Which user type performs each flow?"
+
+For each flow described, generate a Mermaid flowchart:
+
+```mermaid
+flowchart TD
+    A[{first step}] --> B[{second step}]
+    B --> C{Decision point}
+    C -->|Option 1| D[{outcome}]
+    C -->|Option 2| E[{outcome}]
+```
+
+If a flow is role-specific, add a comment: `%% Role: {user type}`
+
+After answers, update running draft with all flows and their Mermaid diagrams.
+
+#### Section 4 — Screens
+
+Ask as a cluster:
+- "Based on the flows we just mapped, what screens or pages does the user see?"
+- "For each key screen: describe what's on it — what does the user see and interact with?"
+- "Which screens are shared across user types, and which are role-specific?"
+
+Generate a screen inventory table:
+
+```
+| Screen | Purpose | User Types |
+|--------|---------|------------|
+| {name} | {what it does} | {all / specific role} |
+```
+
+For each key screen, generate an ASCII mockup showing rough layout:
+
+```
+### {Screen Name}
+{Brief description of purpose and what the user does here.}
+
+┌─────────────────────────────────┐
+│ {Header / Nav}                  │
+├─────────────────────────────────┤
+│ ┌───────────┐  ┌─────────────┐ │
+│ │ {Section}  │  │ {Section}   │ │
+│ │ {content}  │  │ {content}   │ │
+│ └───────────┘  └─────────────┘ │
+├─────────────────────────────────┤
+│ {Actions / Footer}              │
+└─────────────────────────────────┘
+```
+
+After answers, update running draft with screen inventory and mockups.
+
+#### Section 5 — Data Model
+
+Ask as a cluster:
+- "What are the main things (entities) the system needs to track? (e.g., users, projects, tasks, orders)"
+- "For each entity: what are the key attributes? How does it relate to other entities?"
+- "Do any entities have states they move through? (e.g., an order goes from pending → paid → shipped)"
+
+Generate an entity table:
+
+```
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| {name} | {attr1, attr2, ...} | {belongs to X, has many Y} |
+```
+
+For stateful entities, generate Mermaid state diagrams:
+
+```mermaid
+stateDiagram-v2
+    [*] --> {initial state}
+    {state1} --> {state2}: {trigger}
+    {state2} --> {state3}: {trigger}
+```
+
+After answers, update running draft with entity table and state diagrams.
+
+#### Section 6 — Success Metrics
+
+Ask as a cluster:
+- "How will you know the MVP is working? What would you measure or observe?"
+- "What does 'good enough' look like for launch? What quality bar are you setting?"
+
+If the user is uncertain, push once: "Think about it from the user's perspective — what would make them come back a second time?" If still uncertain, flag as open question.
+
+After answers, update running draft with metrics.
+
+#### Section 7 — Boundaries & Open Questions
+
+Ask as a cluster:
+- "What is explicitly NOT in the MVP? What features are tempting but should wait?"
+- "Any technical constraints? (specific stack, hosting, integrations, budget)"
+- "Anything else that's still unclear or that we should flag for later?"
+
+Surface all items flagged as open questions during earlier sections:
+"During our conversation, these items were flagged as open questions: {list}. Want to resolve any of them now, or keep them flagged for spec?"
+
+After answers, update running draft with boundaries, constraints, and final open questions list.
+
+### MVP Running Draft
+
+After EACH section, present the full accumulated MVP.md draft so far:
+
+```
+### MVP Draft (Section {N}/7 complete)
+
+{Full accumulated content from all completed sections}
+```
+
+Do NOT write to `.gig/MVP.md` during the interview — keep the draft in the conversation. Only write on lock.
+
+### MVP Lock Gate
+
+After all 7 sections are complete, present the full MVP.md document. Do not abbreviate, inline, or collapse into prose.
+
+Then ask:
+
+> **Does this capture your MVP vision?**
+>
+> - **"lock"** / **"approve"** — write MVP.md and continue to spec.
+> - **"change X"** — adjust specific sections before locking.
+> - **"not yet"** — continue refining (go back to any section).
+
+**STOP. Do not write MVP.md. Wait for approval.**
+
+### After MVP Lock — Write MVP
+
+Once the user approves:
+
+1. **Write `.gig/MVP.md`** with the locked content. Overwrite any existing draft.
+
+2. **Update `.gig/STATE.md`:**
+   - **Status:** `SPECCED`
+   - **Last Updated:** today's date
+
+3. Say:
+
+> "MVP discovery locked. Run `/gig:spec` to build the detailed spec from this MVP — spec will pre-populate stories and requirements from your flows and screens."
+>
+> "Or run `/gig:gather` to plan implementation directly if the MVP is straightforward enough."
+
+**After writing MVP.md, STOP.** Do not auto-transition to spec elicitation. The user decides the next step.
 
 ### Elicitation Behaviors
 
