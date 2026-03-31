@@ -161,6 +161,7 @@ These are shortcuts the user can type during an active gig session:
 | `fix [thing]` | Insert unplanned work as next batch |
 | `skip` | Skip current batch with reason |
 | `amend [REQ-X]` | Amend spec requirement (Tier 2 during gather, Tier 3 during implement) |
+| `walkthrough [thing]` | Walk through a flow, requirement, or concept in plain language + pseudocode for alignment verification. Say "save" to append to relevant doc. |
 | `debt` | Show outstanding technical debt |
 | `decisions` | Show recent decisions |
 | `history` | Show batch execution history |
