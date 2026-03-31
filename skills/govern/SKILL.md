@@ -20,35 +20,34 @@ Say: "Nothing to govern. Run `/gig:implement` first." STOP.
 
 ## Step 2 — Manual Verification
 
-Before running automated checks, present a quick verification card so the user can manually confirm the latest work:
+Before running automated checks, verify the latest work directly:
 
 1. Read `.gig/PLAN.md` and identify the most recently completed batch(es).
 2. For each, extract the test criteria and acceptance criteria.
-3. Present a concise checklist:
+3. **Auto-verify:** Run each verification step yourself — grep for expected content, check file existence, run commands, read output. Do not ask the user to do checks that Claude can perform.
+4. Present results inline:
 
 ```
-### Quick Verify (optional)
+### Quick Verify
 
 The latest batch implemented: **{batch title}**
 
-Try these to confirm it works:
-- [ ] {Step derived from test criteria — something the user can do in 30 seconds}
-- [ ] {Another step if applicable}
-
-Reply **"verified"** or **"skip"** to continue with governance.
+- [x] {Step} — {PASS: evidence}
+- [x] {Step} — {PASS: evidence}
+- [ ] {Step} — {FAIL: what went wrong}
 ```
 
-**If user says "verified":** Note it in the governance report and proceed.
+**If all steps pass:** Note it in the governance report and proceed to Steps 3-8 without stopping.
 
-**If user says "skip":** Append the verification steps to the **Verify Later** table in `.gig/STATE.md`:
+**If any step fails:** Report the failure and ask the user how to proceed.
+
+**If a step requires manual interaction** (e.g., opening a browser, testing a UI, checking visual output): Present only those steps to the user and ask them to verify. Auto-verify everything else.
+
+Append any steps that could not be verified (manual steps the user skips) to the **Verify Later** table in `.gig/STATE.md`:
 
 ```
 | v0.{N}.{P} | {batch title} | {verification steps as a semicolon-separated list} | {today's date} |
 ```
-
-This creates a running queue of skipped verifications the user can review at their own pace. Then proceed with governance.
-
-**Always present this checklist.** Do not skip it automatically. The user decides whether to verify or skip.
 
 ## Steps 3-8 — Continuous Governance Block
 

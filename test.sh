@@ -623,7 +623,7 @@ assert_not "govern Step 2 does not auto-skip" grep -q "skip automatically" "$GOV
 assert "govern Step 2 appends to Verify Later on skip" grep -q 'Verify Later' "$GOVERN_SKILL"
 assert "STATE.md template has Verify Later section" grep -q '## Verify Later' "$SCRIPT_DIR/templates/gig/STATE.md"
 assert "status skill surfaces Verify Later count" grep -q 'Verify Later' "$SCRIPT_DIR/skills/status/SKILL.md"
-assert "govern Step 2 always presents checklist" grep -q "Always present this checklist" "$GOVERN_SKILL"
+assert "govern Step 2 auto-verifies" grep -q "Auto-verify" "$GOVERN_SKILL"
 assert "govern approval gate has table enforcement" grep -q "Do not abbreviate, inline, or omit" "$GOVERN_SKILL"
 assert "gather Gate 1 has table enforcement" grep -q "Do not abbreviate, inline, or collapse into prose" "$GATHER_SKILL"
 assert "gather Gate 2 has table enforcement" grep -q "Do not abbreviate or collapse into prose" "$GATHER_SKILL"
