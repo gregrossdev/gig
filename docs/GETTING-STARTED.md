@@ -167,6 +167,7 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `issues` | Show open/deferred issues |
 | `debt` | Show outstanding technical debt |
 | `amend [REQ-X]` | Amend a spec requirement mid-flight |
+| `walkthrough [thing]` | Plain-language + pseudocode walkthrough for alignment |
 | `history` | Show batch execution history |
 
 ## Tips

@@ -1139,6 +1139,12 @@ assert "spec loads MVP.md in context" grep -q 'MVP.md.*MVP product discovery' "$
 assert "spec pre-populates from MVP" grep -q 'pre-populate' "$SPEC_SKILL"
 assert "spec surfaces MVP open questions" grep -q 'Open Questions.*MVP' "$SPEC_SKILL"
 
+# --- [59] Walkthrough command ---
+
+echo "[59] Walkthrough command"
+assert "RULES.md has walkthrough command" grep -q 'walkthrough' "$SCRIPT_DIR/docs/RULES.md"
+assert "GETTING-STARTED.md has walkthrough" grep -q 'walkthrough' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
+
 # --- Summary ---
 
 echo ""
