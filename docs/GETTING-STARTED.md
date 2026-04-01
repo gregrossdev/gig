@@ -31,7 +31,9 @@ gig will:
 - Scan your project (if existing code) to discover stack, structure, and patterns
 - Populate `ARCHITECTURE.md` with what it finds
 - Propose a first milestone with version number
-- Offer a choice of 7 project types (Article, README, Research, Web App, API, CLI, Library) and scaffold Mermaid diagram presets to `.gig/design/`
+- Auto-detect project type (webapp, api, cli, library, content) and record it in ARCHITECTURE.md
+- Scaffold minimum project documentation (README.md, CHANGELOG.md, LICENSE) if missing
+- Route new projects to MVP product discovery automatically
 
 You'll see something like:
 

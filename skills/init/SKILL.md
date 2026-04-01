@@ -51,57 +51,38 @@ Otherwise, check if `.gig/` needs upgrading:
    - **Script install:** Read version from `~/.claude/templates/gig/.gig-version` if it exists, otherwise write `0.0.0` as a placeholder.
 5. Say: "Initialized `.gig/` from templates."
 
-## Step 1b — Project Templates (optional)
+## Step 1b — Scaffold Project Documentation
 
-Look for project templates at: `${CLAUDE_PLUGIN_ROOT}/templates/project/` (plugin install), then `~/.claude/templates/project/` (script install).
+Create minimum documentation in the project root if not already present:
 
-If project templates are found, present a numbered preview table:
+1. **README.md** — If missing, create with:
+   - Project name derived from the directory name (title case)
+   - Basic structure: `# {Project Name}`, `## Overview`, `## Getting Started`, `## Usage`, `## License`
+   - Placeholder content in each section: "TODO: describe..."
 
-> **Project templates available:**
->
-> | # | Template | Type | Project File | Diagrams |
-> |---|----------|------|-------------|----------|
-> | 1 | Article | content | ARTICLE.md | outline-flow |
-> | 2 | README | content | README.md | architecture |
-> | 3 | Research | content | RESEARCH.md | concept-map, flow |
-> | 4 | Web App | code | — | architecture, data-flow, er, sequence |
-> | 5 | API | code | — | architecture, er, data-flow, sequence |
-> | 6 | CLI | code | — | architecture, data-flow, sequence |
-> | 7 | Library | code | — | architecture, data-flow |
->
-> Which template matches your project?
-> - **number** — e.g., "4" to select Web App
-> - **none** — skip templates and diagrams
+2. **CHANGELOG.md** — If missing, create with [Keep a Changelog](https://keepachangelog.com/) format:
+   ```
+   # Changelog
 
-For content types (1-3): copy the project file to the project root AND scaffold diagrams.
-For code types (4-7): scaffold diagrams only (no project file).
-For "none": skip both project file and diagrams.
+   All notable changes to this project will be documented in this file.
 
-For content type project files:
-- If the file already exists in the project root, say: "Skipped {file} — already exists in project root."
-- Otherwise, copy it and say: "Copied {file} to project root."
+   The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-If no project templates directory is found, skip silently.
+   ## [Unreleased]
+   ```
 
-### Step 1c — Scaffold Diagrams
+3. **LICENSE** — If missing, ask: "What license? (MIT, Apache-2.0, ISC, or skip)"
+   - If user picks one, generate standard license text with current year and project name derived from directory.
+   - If "skip", proceed without creating a LICENSE file.
 
-If a template type was selected in Step 1b:
+4. **Article template** — If the project type (detected in Step 2 below) is `content`, offer: "This looks like a content project. Want an Article template? (yes/no)"
+   - If yes: copy Article.md from project templates (`${CLAUDE_PLUGIN_ROOT}/templates/project/` or `~/.claude/templates/project/`) to the project root.
+   - For non-content projects, skip silently.
 
-1. Create `.gig/design/` directory.
-2. Locate the diagram preset: check `${CLAUDE_PLUGIN_ROOT}/templates/diagrams/{type}/`, then `~/.claude/templates/gig/diagrams/{type}/`, then `~/.claude/templates/diagrams/{type}/`.
-3. Copy all `.mmd` files from the matched directory into `.gig/design/`.
-4. Say: "Scaffolded {N} diagram presets to `.gig/design/`."
+Say: "Scaffolded project documentation: {list of created files}."
+If all already exist: "Project documentation already present — skipped."
 
-If "none" was selected in Step 1b, skip this step silently.
-
-The type-to-directory mapping:
-- Article → `article/`
-- README → `readme/`
-- Research → `research/`
-- Web App → `webapp/`
-- API → `api/`
-- CLI → `cli/`
-- Library → `library/`
+**Note:** Step 1b runs after Step 2 (Detect Project Type) so that the content-type Article offer is informed by detection. However, README.md, CHANGELOG.md, and LICENSE scaffolding does not depend on project type — these are created for all projects.
 
 ## Step 2 — Detect Project Type
 
@@ -118,6 +99,24 @@ Scan the current directory to classify:
 Classify as:
 - **New project** — empty or near-empty (no source code, no package files).
 - **Existing project** — has source code, dependencies, or meaningful structure.
+
+Additionally, classify the project type based on detection signals:
+
+| Signals | Type |
+|---------|------|
+| Express, Next.js, React, Vue, Angular, HTML files, frontend frameworks | `webapp` |
+| FastAPI, Flask, Hono, API routes, no frontend assets | `api` |
+| `bin/` directory, CLI flags, commander, yargs, clap, argparse | `cli` |
+| Exports-focused, `index.ts`/`index.js`, no app entry point, published package | `library` |
+| `.md` files as primary content, no source code directories | `content` |
+| No signals (new empty project) | `unknown` |
+
+Record the detected type in `.gig/ARCHITECTURE.md` Overview section by adding:
+`**Type:** {webapp | api | cli | library | content | unknown}`
+
+For new projects with no signals, set type to `unknown` — the MVP interview will inform it later.
+
+After detection, run Step 1b (Scaffold Project Documentation) before proceeding to Step 3.
 
 ## Step 3 — Project Discovery (existing projects only)
 
@@ -261,16 +260,16 @@ Then say:
 > - **Adjust milestone** — change the name or description.
 > - **Review architecture** — I'll show the full ARCHITECTURE.md for review.
 >
-> After approval, {if MVP flag: "MVP product discovery" | else: "spec elicitation"} will begin automatically.
+> After approval, {if new project or MVP flag: "MVP product discovery" | else: "spec elicitation"} will begin automatically.
 
 **STOP. Do not create iterations. Do not make decisions. Wait for approval.**
 
 ## After Approval
 
 1. If user adjusted version/name/description, update ROADMAP.md and STATE.md.
-2. **If MVP flag is set:**
+2. **If new project OR MVP flag is set:**
    - Say: "Project initialized. Starting MVP product discovery..."
    - Proceed directly to `/gig:spec` with the `mvp` argument. This triggers the MVP Product Discovery flow in the spec skill. Do NOT stop or ask the user to run a separate command.
-3. **If MVP flag is NOT set:**
+3. **If existing project without MVP flag:**
    - Say: "Project initialized. Starting spec elicitation..."
    - Proceed directly to `/gig:spec` Step 2 (Load Project Context) and Step 3 (Elicitation). The spec guard check accepts IDLE status, so this transition works seamlessly. Do NOT stop or ask the user to run a separate command.
