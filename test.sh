@@ -45,7 +45,7 @@ trap cleanup EXIT
 
 SKILLS="init spec learn design gather implement govern status milestone research triage"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md MVP.md"
-PROJECT_TEMPLATES="ARTICLE.md README.md RESEARCH.md"
+PROJECT_TEMPLATES="ARTICLE.md"
 
 echo ""
 echo "=== gig e2e tests ==="
@@ -553,12 +553,12 @@ assert "status skill references Backlog" grep -q 'Backlog' "$SCRIPT_DIR/skills/s
 
 echo "[23] Project templates"
 assert "project template ARTICLE.md exists" test -f "$SCRIPT_DIR/templates/project/ARTICLE.md"
-assert "project template README.md exists" test -f "$SCRIPT_DIR/templates/project/README.md"
-assert "project template RESEARCH.md exists" test -f "$SCRIPT_DIR/templates/project/RESEARCH.md"
-assert "init skill has project templates step" grep -q 'Project Templates' "$SCRIPT_DIR/skills/init/SKILL.md"
-assert "init skill references templates/gig/" grep -q 'templates/gig/' "$SCRIPT_DIR/skills/init/SKILL.md"
-assert "init skill references templates/project/" grep -q 'templates/project/' "$SCRIPT_DIR/skills/init/SKILL.md"
-assert_not "init .gig/ file list no longer includes ARTICLE.md" grep -q 'GIT-STRATEGY.md, ARTICLE.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert_not "README.md project template removed" test -f "$SCRIPT_DIR/templates/project/README.md"
+assert_not "RESEARCH.md project template removed" test -f "$SCRIPT_DIR/templates/project/RESEARCH.md"
+assert "init skill has doc scaffolding step" grep -q 'Scaffold Project Documentation' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init skill references README.md scaffolding" grep -q 'README.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init skill references CHANGELOG.md scaffolding" grep -q 'CHANGELOG.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init skill references LICENSE scaffolding" grep -q 'LICENSE' "$SCRIPT_DIR/skills/init/SKILL.md"
 assert "init .gig/ file list includes SPEC.md" grep -q 'SPEC\.md' "$SCRIPT_DIR/skills/init/SKILL.md"
 
 # --- Test 24: Govern plugin version instruction ---
@@ -574,14 +574,17 @@ assert "govern has plugin version commit format" grep -q 'chore(v0.{N}.{last-P})
 echo "[25] Govern .gig-version exclusion"
 assert "govern does not reference .gig-version" test "$(grep -c '\.gig-version' "$GOVERN_SKILL")" = "0"
 
-# --- Test 26: Init template preview UX ---
+# --- Test 26: Init auto-detect + doc scaffolding UX ---
 
-echo "[26] Init template preview UX"
+echo "[26] Init auto-detect and doc scaffolding"
 INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
-assert "init has template preview table" grep -q '| # | Template | Type |' "$INIT_SKILL"
-assert "init has numbered selection UX" grep -q 'number' "$INIT_SKILL"
-assert "init has skip-existing message" grep -q 'already exists in project root' "$INIT_SKILL"
-assert "init has copied message" grep -q 'Copied {file} to project root' "$INIT_SKILL"
+assert "init has project type detection" grep -q 'classify the project type' "$INIT_SKILL"
+assert "init detects webapp type" grep -q 'webapp' "$INIT_SKILL"
+assert "init detects api type" grep -q '| api |' "$INIT_SKILL" || grep -q '`api`' "$INIT_SKILL"
+assert "init detects cli type" grep -q 'cli' "$INIT_SKILL"
+assert "init detects library type" grep -q 'library' "$INIT_SKILL"
+assert "init detects content type" grep -q 'content' "$INIT_SKILL"
+assert "init records type in ARCHITECTURE.md" grep -q 'ARCHITECTURE.md' "$INIT_SKILL"
 
 
 # --- Test 28: Triage skill ---
@@ -839,56 +842,31 @@ assert "spec warns on uncovered requirements" grep -q 'uncovered requirements' "
 assert "spec has partial archive option" grep -q 'SPEC-partial' "$SPEC_SKILL"
 assert "spec auto-archives without prompt when complete" grep -q 'Auto-archive' "$SPEC_SKILL"
 
-# [47] Diagram templates and init-to-spec flow
-echo "[47] Diagram templates and init-to-spec flow"
+# [47] Init-to-spec flow and auto-detection
+echo "[47] Init-to-spec flow and auto-detection"
 
 INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
 
-# Diagram template directories exist
-assert "diagram dir article exists" test -d "$SCRIPT_DIR/templates/diagrams/article"
-assert "diagram dir readme exists" test -d "$SCRIPT_DIR/templates/diagrams/readme"
-assert "diagram dir research exists" test -d "$SCRIPT_DIR/templates/diagrams/research"
-assert "diagram dir webapp exists" test -d "$SCRIPT_DIR/templates/diagrams/webapp"
-assert "diagram dir api exists" test -d "$SCRIPT_DIR/templates/diagrams/api"
-assert "diagram dir cli exists" test -d "$SCRIPT_DIR/templates/diagrams/cli"
-assert "diagram dir library exists" test -d "$SCRIPT_DIR/templates/diagrams/library"
+# Diagram presets removed
+assert_not "diagram templates dir removed" test -d "$SCRIPT_DIR/templates/diagrams"
+assert_not "init has no diagram scaffolding" grep -q 'Scaffold Diagrams' "$INIT_SKILL"
 
-# Correct file counts per type
-assert "article has 1 diagram" test "$(find "$SCRIPT_DIR/templates/diagrams/article" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
-assert "readme has 1 diagram" test "$(find "$SCRIPT_DIR/templates/diagrams/readme" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
-assert "research has 2 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/research" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
-assert "webapp has 4 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/webapp" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
-assert "api has 4 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/api" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
-assert "cli has 3 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/cli" -name '*.mmd' | wc -l | tr -d ' ')" = "3"
-assert "library has 2 diagrams" test "$(find "$SCRIPT_DIR/templates/diagrams/library" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
+# Template picker removed
+assert_not "init has no template preview table" grep -q '| # | Template | Type |' "$INIT_SKILL"
 
-# .mmd files have valid Mermaid comment header
-assert "webapp architecture starts with %%" head -1 "$SCRIPT_DIR/templates/diagrams/webapp/architecture.mmd" | grep -q '%%'
-assert "cli architecture starts with %%" head -1 "$SCRIPT_DIR/templates/diagrams/cli/architecture.mmd" | grep -q '%%'
-
-# Init skill — 7 template types
-assert "init has Web App type" grep -q 'Web App' "$INIT_SKILL"
-assert "init has API type" grep -q '| API |' "$INIT_SKILL"
-assert "init has CLI type" grep -q '| CLI |' "$INIT_SKILL"
-assert "init has Library type" grep -q '| Library |' "$INIT_SKILL"
-
-# Init skill — diagram scaffolding
-assert "init has diagram scaffolding step" grep -q 'Scaffold Diagrams' "$INIT_SKILL"
-assert "init scaffolds to .gig/design/" grep -q '.gig/design/' "$INIT_SKILL"
-
-# Init skill — flows into spec (not gather)
+# Init skill — flows into spec/MVP
 assert "init references spec elicitation" grep -q 'spec elicitation' "$INIT_SKILL"
+assert "init routes new projects to MVP" grep -q 'new project OR MVP flag' "$INIT_SKILL"
 assert "init no longer suggests run gather as ending" grep -q 'will begin automatically' "$INIT_SKILL"
 
-# Gather — living diagrams
+# Gather — living diagrams (still generates dynamically)
 assert "gather has diagram change report" grep -q 'Updated:' "$GATHER_SKILL"
 
 # Govern — no delete
 assert "govern preserves design originals" grep -q 'Do NOT delete' "$GOVERN_SKILL"
 
-# install.sh — diagram handling
-assert "install.sh handles diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
-assert "install.sh uninstalls diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
+# install.sh — diagram cleanup for legacy installs
+assert "install.sh cleans legacy diagram templates" grep -q 'templates/diagrams' "$SCRIPT_DIR/install.sh"
 
 # [48] Docs sync and gather research tuning
 echo "[48] Docs sync and gather research tuning"
@@ -899,7 +877,7 @@ GETTING_STARTED="$SCRIPT_DIR/docs/GETTING-STARTED.md"
 README_FILE="$SCRIPT_DIR/README.md"
 
 # REQ-001: ARCHITECTURE.md structure
-assert "architecture has templates/diagrams/" grep -q 'diagrams/' "$ARCH_FILE"
+assert "architecture has templates/project/" grep -q 'project/' "$ARCH_FILE"
 assert "architecture has SPEC.md in templates" grep -q 'SPEC.md' "$ARCH_FILE"
 assert "architecture has DEBT.md in templates" grep -q 'DEBT.md' "$ARCH_FILE"
 assert "architecture has spec skill" grep -q 'spec/SKILL.md' "$ARCH_FILE"
@@ -914,8 +892,8 @@ assert "backlog header exists" grep -q '# Backlog' "$BACKLOG_FILE"
 assert "backlog items resolved" grep -q 'All items resolved' "$BACKLOG_FILE"
 
 # REQ-003: GETTING-STARTED.md
-assert "getting-started mentions project types" grep -q 'Web App' "$GETTING_STARTED"
-assert "getting-started mentions diagram presets" grep -q 'diagram presets' "$GETTING_STARTED"
+assert "getting-started mentions auto-detect" grep -q 'Auto-detect project type' "$GETTING_STARTED"
+assert "getting-started mentions doc scaffolding" grep -q 'README.md' "$GETTING_STARTED"
 
 # REQ-004: README.md
 assert "readme has DEBT.md in listing" grep -q 'DEBT.md' "$README_FILE"
@@ -1038,56 +1016,31 @@ assert "govern article has Date field" grep -q 'Date:' "$GOVERN_SKILL"
 assert "govern article has Lesson number" grep -q 'Lesson.*of.*total' "$GOVERN_SKILL"
 assert "govern skips if not learn curriculum" grep -q 'Skip this step silently' "$GOVERN_SKILL"
 
-# [53] Init E2E diagram scaffolding
-echo "[53] Init E2E diagram scaffolding"
+# [53] Init auto-detect + doc scaffolding
+echo "[53] Init auto-detect and doc scaffolding"
 
-DIAGRAMS_DIR="$SCRIPT_DIR/templates/diagrams"
+INIT_SKILL="$SCRIPT_DIR/skills/init/SKILL.md"
 
-# REQ-012: Each project type has correct diagram preset files
-# Article: outline-flow
-assert "article has outline-flow.mmd" test -f "$DIAGRAMS_DIR/article/outline-flow.mmd"
-assert "article has exactly 1 diagram" test "$(find "$DIAGRAMS_DIR/article" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
+# Doc scaffolding
+assert "init has Scaffold Project Documentation" grep -q 'Scaffold Project Documentation' "$INIT_SKILL"
+assert "init scaffolds README.md" grep -q 'README.md' "$INIT_SKILL"
+assert "init scaffolds CHANGELOG.md" grep -q 'CHANGELOG.md' "$INIT_SKILL"
+assert "init scaffolds LICENSE" grep -q 'LICENSE' "$INIT_SKILL"
+assert "init offers Article.md for content projects" grep -q 'Article' "$INIT_SKILL"
 
-# README: architecture
-assert "readme has architecture.mmd" test -f "$DIAGRAMS_DIR/readme/architecture.mmd"
-assert "readme has exactly 1 diagram" test "$(find "$DIAGRAMS_DIR/readme" -name '*.mmd' | wc -l | tr -d ' ')" = "1"
+# Project type detection
+assert "init classifies project type" grep -q 'classify the project type' "$INIT_SKILL"
+assert "init has webapp detection" grep -q 'webapp' "$INIT_SKILL"
+assert "init has content detection" grep -q 'content' "$INIT_SKILL"
+assert "init has unknown type for new projects" grep -q 'unknown' "$INIT_SKILL"
+assert "init records type in ARCHITECTURE.md" grep -q 'Type.*webapp.*api.*cli.*library.*content.*unknown' "$INIT_SKILL"
 
-# Research: concept-map, flow
-assert "research has concept-map.mmd" test -f "$DIAGRAMS_DIR/research/concept-map.mmd"
-assert "research has flow.mmd" test -f "$DIAGRAMS_DIR/research/flow.mmd"
-assert "research has exactly 2 diagrams" test "$(find "$DIAGRAMS_DIR/research" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
+# MVP-first routing
+assert "init routes new projects to MVP" grep -q 'new project OR MVP flag' "$INIT_SKILL"
 
-# Web App: architecture, data-flow, er, sequence
-assert "webapp has architecture.mmd" test -f "$DIAGRAMS_DIR/webapp/architecture.mmd"
-assert "webapp has data-flow.mmd" test -f "$DIAGRAMS_DIR/webapp/data-flow.mmd"
-assert "webapp has er.mmd" test -f "$DIAGRAMS_DIR/webapp/er.mmd"
-assert "webapp has sequence.mmd" test -f "$DIAGRAMS_DIR/webapp/sequence.mmd"
-assert "webapp has exactly 4 diagrams" test "$(find "$DIAGRAMS_DIR/webapp" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
-
-# API: architecture, er, data-flow, sequence
-assert "api has architecture.mmd" test -f "$DIAGRAMS_DIR/api/architecture.mmd"
-assert "api has er.mmd" test -f "$DIAGRAMS_DIR/api/er.mmd"
-assert "api has data-flow.mmd" test -f "$DIAGRAMS_DIR/api/data-flow.mmd"
-assert "api has sequence.mmd" test -f "$DIAGRAMS_DIR/api/sequence.mmd"
-assert "api has exactly 4 diagrams" test "$(find "$DIAGRAMS_DIR/api" -name '*.mmd' | wc -l | tr -d ' ')" = "4"
-
-# CLI: architecture, data-flow, sequence
-assert "cli has architecture.mmd" test -f "$DIAGRAMS_DIR/cli/architecture.mmd"
-assert "cli has data-flow.mmd" test -f "$DIAGRAMS_DIR/cli/data-flow.mmd"
-assert "cli has sequence.mmd" test -f "$DIAGRAMS_DIR/cli/sequence.mmd"
-assert "cli has exactly 3 diagrams" test "$(find "$DIAGRAMS_DIR/cli" -name '*.mmd' | wc -l | tr -d ' ')" = "3"
-
-# Library: architecture, data-flow
-assert "library has architecture.mmd" test -f "$DIAGRAMS_DIR/library/architecture.mmd"
-assert "library has data-flow.mmd" test -f "$DIAGRAMS_DIR/library/data-flow.mmd"
-assert "library has exactly 2 diagrams" test "$(find "$DIAGRAMS_DIR/library" -name '*.mmd' | wc -l | tr -d ' ')" = "2"
-
-# All diagrams have valid Mermaid headers
-assert "all mmd files start with %%" find "$DIAGRAMS_DIR" -name '*.mmd' -exec sh -c 'head -1 "$1" | grep -q "%%"' _ {} \;
-
-# Init skill references diagram scaffolding
-assert "init has diagram scaffolding step" grep -q 'Scaffold Diagrams' "$SCRIPT_DIR/skills/init/SKILL.md"
-assert "init references .gig/design/" grep -q '.gig/design/' "$SCRIPT_DIR/skills/init/SKILL.md"
+# Diagram presets fully removed
+assert_not "no diagram preset references" grep -q 'Scaffold Diagrams' "$INIT_SKILL"
+assert_not "no templates/diagrams references" grep -q 'templates/diagrams' "$INIT_SKILL"
 
 # --- [54] MVP template ---
 
