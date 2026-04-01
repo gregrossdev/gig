@@ -118,6 +118,64 @@ For each concern found, write a DEBT entry to `.gig/DEBT.md`:
 
 If no concerns found, note "No new technical debt identified" in the governance report.
 
+## Step 5c — Documentation Health Check
+
+Read `.gig/DOCS.md` if it exists. If it does not exist or has no entries in the Documentation Status table, note "No documentation plan — skipping doc health check" and proceed to Step 6.
+
+**If DOCS.md has entries:**
+
+For each doc in the Documentation Status table:
+
+1. **Check existence:** Does the file exist in the project root? If missing, flag as `missing`.
+
+2. **Check staleness:** Read the current iteration's batch file changes (from `.gig/PLAN.md`) and decisions (from `.gig/DECISIONS.md`). Determine if the changes introduced in this iteration should be reflected in this doc:
+   - New API endpoints or route changes → API-REFERENCE.md should be updated
+   - New user-facing features or UI changes → USAGE.md, README.md should be updated
+   - Dependency changes or config changes → ENV-SETUP.md, DEPLOYMENT.md should be updated
+   - Any significant feature addition → CHANGELOG.md should be updated
+   - README.md should reflect current project capabilities after any feature iteration
+
+   Do NOT use a fixed mapping — reason about whether the iteration's changes are relevant to each doc. Flag as `stale` if the doc hasn't been updated in 2+ iterations that introduced relevant changes.
+
+3. **Auto-generate updates for stale or missing docs:**
+   - Read the current doc content (if it exists) and current `.gig/ARCHITECTURE.md` + recent iteration decisions
+   - Generate updated content that reflects the current state of the project
+   - Present the full updated doc for each stale/missing doc:
+
+   ```
+   ### Documentation Update: {doc name}
+   
+   **Status:** {stale | missing}
+   **Reason:** {what changed that this doc should reflect}
+   
+   **Proposed content:**
+   
+   {full updated document content}
+   ```
+
+4. **Approval per doc:** For each proposed update, the user can:
+   - **Approve** — write the updated content to the file
+   - **Adjust** — user edits in conversation, then write
+   - **Defer** — create a DOC issue in `.gig/ISSUES.md`:
+     ```
+     ## ISS-{N}: Update {doc name}
+     
+     **Severity:** Minor
+     **Source:** Documentation Health (Step 5c)
+     **Iteration:** {current iteration number}
+     **Status:** DEFERRED
+     **Description:** {doc name} is {stale|missing} — {reason}
+     **Evidence:** Last updated: {iteration}. Current iteration introduced: {relevant changes}
+     **Batch:** —
+     ```
+
+5. **Update `.gig/DOCS.md`:** After all docs are checked, update the Documentation Status table:
+   - Set **Status** to `current` for approved updates
+   - Set **Status** to `stale` or `missing` for deferred items
+   - Set **Last Updated** to the current iteration version for approved updates
+
+Present a summary: "{N} docs checked. {updated} updated, {deferred} deferred, {current} already current."
+
 ## Step 6 — User Acceptance Testing (UAT)
 
 Auto-assess each acceptance criterion from the plan based on findings from Steps 3-5:
@@ -172,6 +230,20 @@ Lint: {PASS|FAIL|N/A}
 
 ## Decision Audit
 {Table from Step 5 — highlight deviations}
+
+## Documentation Coverage
+{If `.gig/DOCS.md` exists and has entries:}
+| Doc | Status | Last Updated | Staleness |
+|-----|--------|-------------|-----------|
+{README.md | current | v0.N.P | — }
+{API-REFERENCE.md | stale | v0.N.P | 2 iterations behind }
+{DEPLOYMENT.md | missing | — | — }
+
+Updated: {count}
+Deferred: {count}
+Already current: {count}
+
+{If no DOCS.md: "No documentation plan — doc health not tracked."}
 
 ## UAT Results
 {Summary: N passed, N failed, N skipped}
