@@ -76,7 +76,9 @@ Create minimum documentation in the project root if not already present:
    - If "skip", proceed without creating a LICENSE file.
 
 4. **Article template** — If the project type (detected in Step 2 below) is `content`, offer: "This looks like a content project. Want an Article template? (yes/no)"
-   - If yes: copy Article.md from project templates (`${CLAUDE_PLUGIN_ROOT}/templates/project/` or `~/.claude/templates/project/`) to the project root.
+   - If yes, ask: "What kind of content? (blog post, tutorial, guide, technical article, documentation, case study, or describe your own)"
+   - Copy Article.md from project templates (`${CLAUDE_PLUGIN_ROOT}/templates/project/` or `~/.claude/templates/project/`) to the project root.
+   - Then adapt the template structure to match the chosen content type — replace the placeholder sections with type-appropriate sections per the comment block in the template.
    - For non-content projects, skip silently.
 
 Say: "Scaffolded project documentation: {list of created files}."

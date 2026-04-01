@@ -1088,6 +1088,19 @@ assert "govern creates DOC issues for deferred" grep -q 'Documentation Health.*S
 assert "govern updates DOCS.md status" grep -q 'Update.*DOCS.md' "$GOVERN_SKILL"
 assert "govern report has Documentation Coverage" grep -q 'Documentation Coverage' "$GOVERN_SKILL"
 
+# --- [63] Flexible Article template ---
+
+echo "[63] Flexible Article template"
+ARTICLE_TMPL="$SCRIPT_DIR/templates/project/ARTICLE.md"
+assert "Article.md exists" test -f "$ARTICLE_TMPL"
+assert "Article.md has flexible comment block" grep -q 'flexible content template' "$ARTICLE_TMPL"
+assert "Article.md lists blog post type" grep -q 'Blog Post' "$ARTICLE_TMPL"
+assert "Article.md lists tutorial type" grep -q 'Tutorial' "$ARTICLE_TMPL"
+assert "Article.md lists guide type" grep -q 'Guide' "$ARTICLE_TMPL"
+assert "Article.md lists technical article type" grep -q 'Technical Article' "$ARTICLE_TMPL"
+assert "Article.md has generic starter sections" grep -q 'Introduction' "$ARTICLE_TMPL"
+assert "init asks content type for articles" grep -q 'What kind of content' "$SCRIPT_DIR/skills/init/SKILL.md"
+
 # --- [54] MVP template ---
 
 echo "[54] MVP template"
