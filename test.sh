@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init spec learn design gather implement govern status milestone research triage"
+SKILLS="init spec learn design gather implement govern status milestone research"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md MVP.md DOCS.md"
 PROJECT_TEMPLATES="ARTICLE.md"
 
@@ -587,23 +587,28 @@ assert "init detects content type" grep -q 'content' "$INIT_SKILL"
 assert "init records type in ARCHITECTURE.md" grep -q 'ARCHITECTURE.md' "$INIT_SKILL"
 
 
-# --- Test 28: Triage skill ---
+# --- Test 28: Agent Profiles ---
 
-echo "[28] Triage skill"
-TRIAGE_SKILL="$SCRIPT_DIR/skills/triage/SKILL.md"
-assert "triage references ROADMAP.md" grep -q 'ROADMAP\.md' "$TRIAGE_SKILL"
-assert "triage references BACKLOG.md" grep -q 'BACKLOG\.md' "$TRIAGE_SKILL"
-assert "triage has codebase research step" grep -q 'Research the Codebase' "$TRIAGE_SKILL"
-assert "triage has quality research focus" grep -q 'Quality & Coverage' "$TRIAGE_SKILL"
-assert "triage has consistency research focus" grep -q 'Consistency & Docs' "$TRIAGE_SKILL"
-assert "triage has features research focus" grep -q 'Features & Architecture' "$TRIAGE_SKILL"
-assert "triage has Evidence field in cards" grep -q 'Evidence' "$TRIAGE_SKILL"
-assert "triage has Value in output" grep -q 'Value' "$TRIAGE_SKILL"
-assert "triage has Risk in output" grep -q 'Risk' "$TRIAGE_SKILL"
-assert "triage compares against existing queue" grep -q 'Current Queue Assessment' "$TRIAGE_SKILL"
-assert "triage surfaces backlog separately" grep -q 'In the Backlog' "$TRIAGE_SKILL"
-assert "triage has recommendation step" grep -q 'Recommend' "$TRIAGE_SKILL"
-assert "triage has parallel subagent research" grep -q 'parallel' "$TRIAGE_SKILL"
+echo "[28] Agent profiles in delegation policy"
+RULES_28="$SCRIPT_DIR/docs/RULES.md"
+assert "rules has Agent Profiles section" grep -q 'Agent Profiles' "$RULES_28"
+assert "rules defines Architecture profile" grep -q 'Architecture.*Structure.*stack' "$RULES_28"
+assert "rules defines Quality profile" grep -q 'Quality.*Tests.*lint' "$RULES_28"
+assert "rules defines Discovery profile" grep -q 'Discovery.*Patterns.*themes' "$RULES_28"
+assert "rules has background execution guidance" grep -q 'run_in_background' "$RULES_28"
+assert "gather uses parallel agents" grep -q 'parallel' "$SCRIPT_DIR/skills/gather/SKILL.md"
+assert "gather references Architecture Agent" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/gather/SKILL.md"
+assert "init uses parallel agents" grep -q 'parallel' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "init synthesizes findings" grep -qi 'synthe' "$SCRIPT_DIR/skills/init/SKILL.md"
+assert "spec uses 3 agents for assessment" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/spec/SKILL.md"
+assert "spec has background research" grep -qi 'background' "$SCRIPT_DIR/skills/spec/SKILL.md"
+assert "research has subagent type table" grep -qi 'decision table' "$SCRIPT_DIR/skills/research/SKILL.md"
+assert "research uses parallel execution" grep -q 'parallel' "$SCRIPT_DIR/skills/research/SKILL.md"
+assert "learn uses Architecture + Discovery" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/learn/SKILL.md"
+assert "govern uses run_in_background" grep -q 'run_in_background' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern parallelizes validation steps" grep -qi 'parallel' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "triage skill removed" test ! -d "$SCRIPT_DIR/skills/triage"
+assert "triage command removed" test ! -f "$SCRIPT_DIR/commands/triage.md"
 
 # --- Test 29: Command stub validation ---
 
@@ -668,7 +673,7 @@ assert "spec skill has requirement IDs" grep -q 'REQ-001' "$SPEC_SKILL"
 assert "SPEC.md template exists" test -f "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Stories section" grep -q '## Stories' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Requirements section" grep -q '## Requirements' "$SCRIPT_DIR/templates/gig/SPEC.md"
-assert "spec skill has existing project analysis" grep -q 'Explore subagent' "$SPEC_SKILL"
+assert "spec skill has existing project analysis" grep -q 'Explore agents in parallel' "$SPEC_SKILL"
 assert "spec skill proposes directions" grep -q 'Suggested Directions' "$SPEC_SKILL"
 assert "spec skill has project assessment" grep -q 'Your Project Now' "$SPEC_SKILL"
 assert "spec skill has baseline from iterations" grep -q 'Baseline from Iterations' "$SPEC_SKILL"
@@ -928,7 +933,7 @@ assert "rules has gather command" grep -q '| .gather.' "$RULES_FILE"
 assert "rules has status command" grep -q '| .status.' "$RULES_FILE"
 assert "rules has issues command" grep -q '| .issues.' "$RULES_FILE"
 assert "rules has decisions command" grep -q '| .decisions.' "$RULES_FILE"
-assert "rules has triage command" grep -q '| .triage.' "$RULES_FILE"
+assert_not "rules still has triage command" grep -q '| .triage.' "$RULES_FILE"
 assert "rules has debt command" grep -q '| .debt.' "$RULES_FILE"
 
 # REQ-006: Status skill routes matching commands

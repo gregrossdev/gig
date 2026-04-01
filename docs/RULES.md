@@ -204,7 +204,6 @@ These are shortcuts the user can type during an active gig session:
 | `debt` | Show outstanding technical debt |
 | `decisions` | Show recent decisions |
 | `history` | Show batch execution history |
-| `triage` | Evaluate upcoming iterations — surface gaps, assess value, recommend order |
 | `iteration done` | Mark current iteration as complete |
 | `milestone` | Bump MAJOR version |
 
@@ -216,4 +215,4 @@ Running any gig command auto-loads STATE.md and resumes from where you left off.
 ## Skills
 
 **Workflow skills (gig):** `/gig:init`, `/gig:spec`, `/gig:learn`, `/gig:design`, `/gig:gather`, `/gig:implement`,
-`/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`, `/gig:triage`.
+`/gig:govern`, `/gig:milestone`, `/gig:status`, `/gig:research`.
