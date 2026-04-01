@@ -124,17 +124,15 @@ After detection, run Step 1b (Scaffold Project Documentation) before proceeding 
 
 **If new project:** Skip to Step 4.
 
-**If existing project:** Use subagents (Agent tool, subagent_type "Explore") to discover:
+**If existing project:** Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one per profile:
 
-1. **Structure** — directory layout, key file locations, naming conventions.
-2. **Stack** — languages, frameworks, runtime, database, from package files and imports.
-3. **Patterns** — architecture style (MVC, modular, monorepo, etc.), state management, API patterns.
-4. **Dependencies** — key libraries and their purposes.
-5. **Git history** — recent commits (last 10-20), branch structure, commit style.
-6. **Tests** — test framework, coverage, test file locations.
-7. **Config** — linters, formatters, CI/CD, environment setup.
+- **Architecture Agent** — Discover structure, directory layout, naming conventions, stack (languages, frameworks, runtime, database), architecture style (MVC, modular, monorepo), and key dependencies.
+- **Quality Agent** — Discover test framework, coverage, test file locations, linters, formatters, CI/CD configuration, and code quality patterns.
+- **Discovery Agent** — Discover git history (recent commits, branch structure, commit style), state management patterns, API patterns, and any existing documentation.
 
-Compile findings into a Discovery Report (internal context — findings are used directly in Steps 4-5, not written to a file).
+Synthesize findings from all agents into a unified Discovery Report before presenting to the user. The user sees one coherent project assessment, not separate agent outputs.
+
+The Discovery Report is internal context — findings are used directly in Steps 4-5, not written to a file.
 
 ## Step 4 — Populate Architecture
 

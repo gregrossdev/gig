@@ -100,10 +100,19 @@ Say: "Docs/config iteration — using lightweight research path."
 
 Before making ANY decisions, research thoroughly:
 
-- Use subagents (Agent tool, subagent_type "Explore") to investigate existing codebase, dependencies, patterns, constraints.
-- If the goal involves external libraries or APIs, research with WebSearch or subagents.
-- Read existing code, configs, tests, documentation.
-- Identify unknowns, ambiguities, areas with multiple valid approaches.
+Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one per profile:
+
+- **Architecture Agent** — Investigate structure, stack, dependencies, frameworks, file layout, and pattern consistency. Receives: `.gig/ARCHITECTURE.md`, package/config files, iteration goal.
+- **Quality Agent** — Investigate tests, lint, coverage, code patterns, tech debt, and error handling. Receives: test files, lint config, `.gig/ISSUES.md`, iteration goal.
+- **Discovery Agent** — Investigate patterns, themes, cross-cutting concerns, git history, and iteration trends. Receives: `.gig/ROADMAP.md`, `.gig/BACKLOG.md`, `.gig/SPEC.md`, iteration goal.
+
+All agents also receive working memory from `.gig/STATE.md`.
+
+For projects with iteration history, launch all 3 agents. For new projects with minimal codebase, launch 2 minimum (Architecture + Discovery).
+
+If the goal involves external libraries or APIs, add WebSearch calls in the same parallel block as the agents.
+
+Synthesize findings from all agents before proceeding to Step 3a. Identify unknowns, ambiguities, and areas with multiple valid approaches.
 
 Do NOT skip this step. Do NOT guess. Decision quality depends on thorough research. **Exception:** docs/config iterations use the lightweight path from Step 2b instead.
 
