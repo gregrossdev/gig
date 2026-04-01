@@ -633,10 +633,6 @@ Then say:
 
 > "Iteration archived to `.gig/iterations/v0.{N}-{iteration-name}/`. Pick a direction and run `/gig:gather` to start the next iteration, or `/gig:milestone` to manage milestones."
 
-Then add a context checkpoint:
-
-> "Run `/gig:status` after clearing to resume where you left off."
-
 ## If Failures Need Fixing
 
 If user chooses to fix issues:

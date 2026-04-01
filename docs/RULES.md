@@ -172,15 +172,8 @@ These are shortcuts the user can type during an active gig session:
 
 ## Context Management
 
-Long sessions consume the context window. gig state files persist everything,
-so clearing and resuming is safe and encouraged.
-
-**Proactive checkpoint:** After each govern cycle (iteration complete), suggest:
-> "Iteration archived. Run `/gig:status` after clearing to resume where you left off."
-
-**After `/clear`:** Running any gig command auto-loads STATE.md and resumes.
-The recommended resume command is `/gig:status` — it shows where you are
-and what to do next.
+gig state files persist everything, so `/clear` and resume is always safe.
+Running any gig command auto-loads STATE.md and resumes from where you left off.
 
 ## Skills
 
