@@ -96,6 +96,44 @@ When an iteration completes (`/gig:govern` approved):
 
 Default to teams for implementation. Default to subagent for research.
 
+### Agent Profiles
+
+When a skill requires codebase research, launch Explore agents in parallel using
+these named profiles. Each profile defines what to investigate and what context
+to load. Skills compose from profiles — reference them by name, don't redefine
+focus areas inline.
+
+| Profile | Focus | Context Files |
+|---------|-------|---------------|
+| **Architecture** | Structure, stack, dependencies, frameworks, file layout, pattern consistency with ARCHITECTURE.md | `.gig/ARCHITECTURE.md`, package/config files (package.json, Cargo.toml, pyproject.toml, etc.) |
+| **Quality** | Tests, lint, coverage, code patterns, tech debt, error handling, broken/stale behavior | Test files, lint config, `.gig/ISSUES.md` |
+| **Discovery** | Patterns, themes, cross-cutting concerns, git history, iteration trends, feature gaps, opportunities | `.gig/ROADMAP.md`, `.gig/BACKLOG.md`, `.gig/SPEC.md` |
+
+**Standard pattern:** Launch 3 agents (Architecture + Quality + Discovery) in
+parallel for full research. Use 2 agents minimum when a profile isn't relevant
+(e.g., learn uses Architecture + Discovery, skipping Quality).
+
+Each agent also receives the iteration goal/topic and any active working memory
+from `.gig/STATE.md`. Findings from all agents are synthesized into a unified
+assessment before proceeding to decisions or presentation.
+
+### Background Execution
+
+Use `run_in_background` for research agents when the user is actively making
+decisions or answering questions. This keeps the conversation flowing while
+research completes in parallel.
+
+**When to use:**
+- Spec elicitation: launch background research on topics the user mentions
+- Govern validation: run tests and lint in background while reading state files
+- Any phase where the user is interacting and research is independent
+
+**When NOT to use:**
+- When findings must be reviewed before the next step (e.g., gather decisions depend on research)
+- When the user is waiting for results before continuing
+
+Collect background results when the skill needs them, not when the agent finishes.
+
 ## Effort Tuning
 
 | Task type        | Reasoning | Approach                              |
