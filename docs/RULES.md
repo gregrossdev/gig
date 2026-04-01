@@ -142,8 +142,9 @@ On session start in any project directory:
 ## Templates
 
 Reusable project scaffolding is included with gig. The `/gig:init` skill
-copies gig state templates into `.gig/` and offers a choice of project
-templates (Article, README, Research) on first use.
+copies gig state templates into `.gig/`, auto-detects project type, scaffolds
+minimum documentation (README, CHANGELOG, LICENSE), and routes new projects
+to MVP product discovery automatically.
 
 ## Natural Language Commands
 
