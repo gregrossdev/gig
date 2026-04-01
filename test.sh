@@ -44,7 +44,7 @@ cleanup() {
 trap cleanup EXIT
 
 SKILLS="init spec learn design gather implement govern status milestone research triage"
-TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md MVP.md"
+TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md MVP.md DOCS.md"
 PROJECT_TEMPLATES="ARTICLE.md"
 
 echo ""
@@ -1041,6 +1041,39 @@ assert "init routes new projects to MVP" grep -q 'new project OR MVP flag' "$INI
 # Diagram presets fully removed
 assert_not "no diagram preset references" grep -q 'Scaffold Diagrams' "$INIT_SKILL"
 assert_not "no templates/diagrams references" grep -q 'templates/diagrams' "$INIT_SKILL"
+
+# --- [60] DOCS.md template + doc templates ---
+
+echo "[60] DOCS.md template and doc templates"
+DOCS_TMPL="$SCRIPT_DIR/templates/gig/DOCS.md"
+assert "DOCS.md template exists" test -f "$DOCS_TMPL"
+assert "DOCS.md has Documentation Status table" grep -q 'Documentation Status' "$DOCS_TMPL"
+assert "DOCS.md has Minimum Set section" grep -q 'Minimum Set' "$DOCS_TMPL"
+assert "DOCS.md has Derived Docs section" grep -q 'Derived Docs' "$DOCS_TMPL"
+
+DOCS_DIR="$SCRIPT_DIR/templates/docs"
+assert "doc template API-REFERENCE.md exists" test -f "$DOCS_DIR/API-REFERENCE.md"
+assert "doc template DEPLOYMENT.md exists" test -f "$DOCS_DIR/DEPLOYMENT.md"
+assert "doc template CONTRIBUTING.md exists" test -f "$DOCS_DIR/CONTRIBUTING.md"
+assert "doc template USAGE.md exists" test -f "$DOCS_DIR/USAGE.md"
+assert "doc template ENV-SETUP.md exists" test -f "$DOCS_DIR/ENV-SETUP.md"
+
+# install.sh handles doc templates
+assert "install.sh copies doc templates" grep -q 'templates/docs' "$SCRIPT_DIR/install.sh"
+assert "install.sh uninstalls doc templates" grep -q 'Removed.*templates/docs' "$SCRIPT_DIR/install.sh"
+
+# Init template lists include DOCS.md
+assert "init scaffold list has DOCS.md" grep -q 'DOCS.md' "$SCRIPT_DIR/skills/init/SKILL.md"
+
+# --- [61] Spec doc derivation ---
+
+echo "[61] Spec doc derivation"
+SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
+assert "spec has doc derivation step" grep -q 'Derive documentation needs' "$SPEC_SKILL"
+assert "spec writes DOCS.md" grep -q 'Write.*DOCS.md' "$SPEC_SKILL"
+assert "spec references doc templates" grep -q 'templates/docs/' "$SPEC_SKILL"
+assert "spec derives from MVP.md" grep -q 'MVP.md.*ARCHITECTURE.md' "$SPEC_SKILL"
+assert "spec presents documentation plan" grep -q 'Documentation plan written' "$SPEC_SKILL"
 
 # --- [54] MVP template ---
 

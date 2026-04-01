@@ -363,13 +363,38 @@ Once the user approves:
    - **Status:** `SPECCED`
    - **Last Updated:** today's date
 
-3. Say:
+3. **Derive documentation needs from MVP.md:**
+
+   Read the just-written MVP.md and `.gig/ARCHITECTURE.md` (if populated). For each section, determine if additional documentation beyond the minimum set (README, CHANGELOG, LICENSE) would help users of this project:
+
+   - **Core Flows** — If flows describe API endpoints or service interactions → recommend API-REFERENCE.md
+   - **Screens** — If UI screens are described → recommend USAGE.md (user guide)
+   - **Boundaries & Constraints** — If deployment targets, hosting, or infrastructure mentioned → recommend DEPLOYMENT.md
+   - **Vision / Target Users** — If open-source or team project → recommend CONTRIBUTING.md
+   - **ARCHITECTURE.md stack** — If environment variables, config files, or multiple services → recommend ENV-SETUP.md
+
+   Do NOT use a fixed mapping. Read the actual content and reason about what docs would help. The above are examples, not rules.
+
+   **Write `.gig/DOCS.md`** with the derived documentation plan:
+   - Add the minimum set (README.md, CHANGELOG.md, LICENSE) with status `scaffolded`
+   - Add each derived doc with status `not-started`, noting which MVP section or ARCHITECTURE.md field informed the need
+   - For each derived doc, copy the relevant template from `templates/docs/` (look in `${CLAUDE_PLUGIN_ROOT}/templates/docs/` then `~/.claude/templates/docs/`) to the project root
+
+   Present the documentation plan:
+
+   > "Based on your MVP, this project needs these docs beyond the basics:"
+   > - {doc} — {reason} (template scaffolded)
+   > - {doc} — {reason} (template scaffolded)
+   >
+   > "Documentation plan written to `.gig/DOCS.md`. Govern will track freshness."
+
+4. Say:
 
 > "MVP discovery locked. Run `/gig:spec` to build the detailed spec from this MVP — spec will pre-populate stories and requirements from your flows and screens."
 >
 > "Or run `/gig:gather` to plan implementation directly if the MVP is straightforward enough."
 
-**After writing MVP.md, STOP.** Do not auto-transition to spec elicitation. The user decides the next step.
+**After writing MVP.md and DOCS.md, STOP.** Do not auto-transition to spec elicitation. The user decides the next step.
 
 ### Elicitation Behaviors
 
