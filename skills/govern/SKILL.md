@@ -55,7 +55,7 @@ After Step 2 completes, execute Steps 3 through 8 as one continuous block. **Do 
 
 ## Step 3 — Run Automated Tests
 
-Auto-detect project tooling and run test suites:
+Auto-detect project tooling and launch tests and linter concurrently using `run_in_background`:
 
 | Look for | Run tests | Run linter |
 |----------|----------|------------|
@@ -64,6 +64,8 @@ Auto-detect project tooling and run test suites:
 | `pyproject.toml` | configured commands | configured commands |
 | `Makefile` | `make test` | `make lint` |
 | `deno.json` | `deno test` | `deno lint` |
+
+Launch tests and lint as parallel Bash commands using `run_in_background`. Both execute concurrently — collect results from both before proceeding to Step 4.
 
 If no tooling detected, note "No automated checks configured" and proceed.
 Capture all results (pass/fail/warnings/error output).
@@ -82,6 +84,19 @@ For each batch in `.gig/PLAN.md`:
 - Instead verify: existing tests still pass, structure improved per DEBT items addressed, no behavioral regressions.
 - For each DEBT item that was in scope for this iteration, check if it was resolved.
 - Mark addressed DEBT items as RESOLVED in `.gig/DEBT.md` with resolution details.
+
+### Steps 5, 5b, 5c — Parallel Validation
+
+Steps 5 (Decision Audit), 5b (Architecture Health Check), and 5c (Documentation Health Check) are independent analyses — none depends on the others' results. Execute them concurrently:
+
+- Launch all three checks in parallel (use separate tool calls in the same message).
+- Each reads its own context files independently.
+- Collect all results before proceeding to Step 6 (UAT).
+
+This parallelization is safe because:
+- Step 5 reads only `.gig/DECISIONS.md` and implementation files
+- Step 5b reads only `.gig/ARCHITECTURE.md` and implementation files
+- Step 5c reads only `.gig/DOCS.md`, `.gig/PLAN.md`, and `.gig/DECISIONS.md`
 
 ## Step 5 — Decision Audit
 
