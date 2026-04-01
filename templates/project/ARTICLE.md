@@ -1,58 +1,30 @@
 # {Title}
 
-<!-- Headline is flexible — choose based on article angle:
-  - How I Built {X} to {Y}
-  - Inside {X}: {Technical Focus}
-  - Architecture Notes: {X}
-  - Lessons from Building {X}
-  - Designing {X} for {Use Case}
-  - A {Tech Stack} Approach to {Problem}
+<!-- This is a flexible content template. Claude adapts the structure based on what you're writing.
+
+Content types and suggested structures:
+
+Blog Post:        Introduction → Story/Context → Key Points → Takeaways
+Tutorial:         Overview → Prerequisites → Step-by-Step → Verification → Next Steps
+Guide:            Introduction → Concepts → How-To → Best Practices → Reference
+Technical Article: The Problem → Approach → Deep Dives → What I Learned
+Documentation:    Overview → Setup → Usage → Configuration → Troubleshooting
+Case Study:       Background → Challenge → Solution → Results → Lessons
+
+When init or the user requests an article, ask: "What kind of content?"
+Then replace these placeholder sections with the appropriate structure.
 -->
 
-> {One-line description of what was built and the key technical concept.}
+> {One-line description of what this article covers.}
 
-## The Problem
+## Introduction
 
-{2-3 paragraphs: what problem exists, why it matters, what you set out to build.}
+{Set the context. What is this about and why does it matter?}
 
-## Approach
+## {Main Content}
 
-{Architecture overview: components, separation of concerns, pipeline stages.}
+{The core of the article. Replace this section with type-appropriate structure.}
 
-### Key Decisions
+## Conclusion
 
-| Decision | Choice | Why |
-|----------|--------|-----|
-| {topic} | {choice} | {rationale} |
-
-## {Deep Dive 1 — Primary Algorithm/Technique}
-
-{Deep dive into the primary technical concept. Include code snippets showing the key logic.}
-
-## {Deep Dive 2 — Secondary Concept}
-
-{Another technical area worth explaining. Walkthrough examples if applicable.}
-
-## {Deep Dive 3 — Additional Topics (optional)}
-
-{Edge cases, security considerations, performance, etc.}
-
-## Usage (optional — for tool/CLI posts)
-
-```bash
-{command} [flags] [arguments]
-```
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `{flag}` | `{default}` | {description} |
-
-```bash
-# Example commands
-{command} {example args}
-{command} {example args}
-```
-
-## What I Learned
-
-{4-5 paragraphs, each starting with a bold insight. Focus on transferable knowledge, not just what the code does.}
+{Key takeaways, next steps, or call to action.}
