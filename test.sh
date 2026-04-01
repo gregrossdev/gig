@@ -1075,6 +1075,19 @@ assert "spec references doc templates" grep -q 'templates/docs/' "$SPEC_SKILL"
 assert "spec derives from MVP.md" grep -q 'MVP.md.*ARCHITECTURE.md' "$SPEC_SKILL"
 assert "spec presents documentation plan" grep -q 'Documentation plan written' "$SPEC_SKILL"
 
+# --- [62] Govern documentation health ---
+
+echo "[62] Govern documentation health"
+GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern has Step 5c doc health check" grep -q 'Step 5c.*Documentation Health' "$GOVERN_SKILL"
+assert "govern reads DOCS.md" grep -q 'DOCS.md' "$GOVERN_SKILL"
+assert "govern checks staleness" grep -q 'stale' "$GOVERN_SKILL"
+assert "govern auto-generates updates" grep -q 'Auto-generate updates' "$GOVERN_SKILL"
+assert "govern has doc approval options" grep -q 'Approve.*write the updated' "$GOVERN_SKILL"
+assert "govern creates DOC issues for deferred" grep -q 'Documentation Health.*Step 5c' "$GOVERN_SKILL"
+assert "govern updates DOCS.md status" grep -q 'Update.*DOCS.md' "$GOVERN_SKILL"
+assert "govern report has Documentation Coverage" grep -q 'Documentation Coverage' "$GOVERN_SKILL"
+
 # --- [54] MVP template ---
 
 echo "[54] MVP template"
