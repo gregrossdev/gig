@@ -79,12 +79,13 @@ Jump to the **MVP Product Discovery** flow below.
 
 **If no args and the project has completed iterations (existing project):**
 
-Launch 1 Explore subagent (Agent tool, subagent_type "Explore") to analyze the current project state. The agent receives ARCHITECTURE.md, ROADMAP.md (completed iterations), BACKLOG.md, and ISSUES.md.
+Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one per profile:
 
-The agent investigates:
-1. What the project can do now (working features, capabilities)
-2. What's rough, incomplete, or missing
-3. Structural or quality concerns
+- **Architecture Agent** — Investigate current project structure, stack health, and pattern consistency. Receives: `.gig/ARCHITECTURE.md`, package/config files.
+- **Quality Agent** — Investigate test coverage, code quality, broken/stale behavior, and technical debt. Receives: test files, lint config, `.gig/ISSUES.md`.
+- **Discovery Agent** — Investigate what the project can do now, what's rough or incomplete, feature gaps, and opportunities. Receives: `.gig/ROADMAP.md`, `.gig/BACKLOG.md`, `.gig/ISSUES.md`.
+
+Synthesize findings from all 3 agents into a unified project assessment before presenting directions.
 
 Present a project assessment and propose directions:
 
@@ -133,9 +134,10 @@ For existing projects that want to capture what's already been built as a spec. 
 
 2. **Read current state:** Read `.gig/ARCHITECTURE.md`, `.gig/ROADMAP.md` (completed milestones and iterations).
 
-3. **Launch Explore subagents in parallel** (Agent tool, subagent_type "Explore") to:
-   - **Agent 1:** Group completed iterations into user stories — what user-facing capability did each cluster of iterations deliver? Assign IDs: US-001, US-002, etc.
-   - **Agent 2:** Extract requirements from batch acceptance criteria and test criteria across all iterations. Link each to its parent story. Assign IDs: REQ-001, REQ-002, etc.
+3. **Launch 3 Explore agents in parallel** (Agent tool, subagent_type "Explore"), one per profile:
+   - **Architecture Agent:** Group completed iterations into user stories — what user-facing capability did each cluster of iterations deliver? Assign IDs: US-001, US-002, etc.
+   - **Quality Agent:** Extract requirements from batch acceptance criteria and test criteria across all iterations. Link each to its parent story. Assign IDs: REQ-001, REQ-002, etc.
+   - **Discovery Agent:** Detect patterns, themes, and cross-cutting concerns across iterations. Identify architectural trends, recurring problem areas, and capabilities that span multiple stories.
 
 4. **Present the baseline draft spec:**
 
@@ -395,6 +397,21 @@ Once the user approves:
 > "Or run `/gig:gather` to plan implementation directly if the MVP is straightforward enough."
 
 **After writing MVP.md and DOCS.md, STOP.** Do not auto-transition to spec elicitation. The user decides the next step.
+
+### Background Research During Elicitation
+
+During the elicitation conversation, use `run_in_background` to launch research agents when the user mentions topics that benefit from investigation. This keeps the conversation flowing while research completes.
+
+**When to launch:**
+- User mentions a specific area of the codebase → launch Architecture Agent in background
+- User describes quality concerns → launch Quality Agent in background
+- User references prior iterations or patterns → launch Discovery Agent in background
+
+**When to collect:**
+- Before presenting the running draft that incorporates findings
+- Before asking follow-up questions that depend on research results
+
+Do NOT block the conversation waiting for background agents. Ask the next question while research runs.
 
 ### Elicitation Behaviors
 

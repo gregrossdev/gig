@@ -56,11 +56,13 @@ Ask: "What do you want to learn? (Topic, course URL, or describe what you're try
 
 ### Fresh Curriculum Flow
 
-1. **Research the topic** using subagents (Agent tool, subagent_type "Explore") and WebSearch:
-   - What are the core concepts and standard learning progression?
-   - What prerequisites exist?
-   - What are common problem-solving patterns in this domain?
-   - What resources (books, docs, platforms) are authoritative?
+1. **Research the topic** by launching 2 Explore agents in parallel (Agent tool, subagent_type "Explore"), plus WebSearch:
+
+   - **Architecture Agent** — Investigate core concepts, standard learning progression, prerequisites, and foundational patterns in this domain. Add topic-specific context to the standard profile.
+   - **Discovery Agent** — Investigate authoritative resources (books, docs, platforms), common problem-solving patterns, and how this topic connects to broader themes. Add topic-specific context to the standard profile.
+   - **WebSearch** — Search for external resources, tutorials, and reference materials. Launch in the same parallel block as the agents.
+
+   Synthesize findings from both agents and WebSearch before designing the curriculum.
 
 2. **Design the curriculum:**
    - Break into 5-12 lessons ordered by progression (simple → complex)
