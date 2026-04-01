@@ -84,6 +84,11 @@ if [ "$MODE" = "uninstall" ]; then
         echo "  Removed $CLAUDE_DIR/templates/project"
     fi
 
+    if [ -e "$CLAUDE_DIR/templates/docs" ]; then
+        rm -rf "$CLAUDE_DIR/templates/docs"
+        echo "  Removed $CLAUDE_DIR/templates/docs"
+    fi
+
     # Diagram templates removed — cleaned up if present from older installs
     if [ -e "$CLAUDE_DIR/templates/diagrams" ]; then
         rm -rf "$CLAUDE_DIR/templates/diagrams"
@@ -198,6 +203,14 @@ else
     for tmpl in "$SCRIPT_DIR"/templates/project/*.md; do
         cp "$tmpl" "$PROJECT_TEMPLATES_DEST/"
         echo "  Installed project template: $(basename "$tmpl")"
+    done
+
+    # Doc starter templates
+    DOCS_TEMPLATES_DEST="$CLAUDE_DIR/templates/docs"
+    mkdir -p "$DOCS_TEMPLATES_DEST"
+    for tmpl in "$SCRIPT_DIR"/templates/docs/*.md; do
+        cp "$tmpl" "$DOCS_TEMPLATES_DEST/"
+        echo "  Installed doc template: $(basename "$tmpl")"
     done
 
     # Diagram templates removed — diagrams are auto-derived during gather
