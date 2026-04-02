@@ -2,12 +2,7 @@
 
 ## Current Milestone
 
-| Field | Value |
-|-------|-------|
-| **Name** | Govern Milestone Proposals |
-| **Version** | v0.117.0 |
-| **Status** | in-progress |
-| **Description** | Govern populates Upcoming Milestones on the roadmap when completing a milestone. Quick codebase assessment, preserves existing entries, fills to 3. |
+_None — run `/gig:milestone` to create the next one._
 
 ## Iterations
 
@@ -22,12 +17,22 @@
 
 | # | Name | Description |
 |---|------|-------------|
+| 118 | CLAUDE.md Global Rules Sync | Global CLAUDE.md still references old workflow (Spec step, old versioning). Sync with current milestone-driven, one-feature-per-milestone model. |
+| 119 | Milestone Brainstorm Prompt | After milestone creation, offer brainstorm/design phase before suggesting gather. Currently skips straight to "run gather." |
+| 120 | Init-to-Milestone Seamless Flow | Init auto-transitions to milestone elicitation. Verify SPECING/SPECCED status transitions work across the init → milestone boundary in real projects. |
 
 
 ## Completed Milestones
 
 <!-- Milestones moved here by gig:milestone on completion -->
 <!-- Format: ### v{X.Y} — {Name} (completed YYYY-MM-DD) -->
+
+### v0.117.0 — Govern Milestone Proposals (completed 2026-04-02)
+
+Govern populates Upcoming Milestones on the roadmap when completing a milestone. Quick codebase assessment, preserves existing entries, fills to 3.
+
+**Iterations:**
+1. Proposal Step + Tests (v0.117.1–v0.117.2)
 
 ### v0.116.0 — Design as Brainstorm (completed 2026-04-02)
 
