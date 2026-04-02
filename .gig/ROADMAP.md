@@ -2,18 +2,12 @@
 
 ## Current Milestone
 
-| Field | Value |
-|-------|-------|
-| **Name** | One Feature Per Milestone |
-| **Version** | v0.115.0 |
-| **Status** | in-progress |
-| **Description** | Each milestone = one feature. Versioning: milestone = 0.X.0, iterations within = 0.X.1, 0.X.2, etc. After govern, prompt to complete milestone. Roadmap shows upcoming milestones, not upcoming iterations. |
+_None — run `/gig:milestone` to create the next one._
 
 ## Iterations
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
-| 1 | Versioning & Workflow Restructure | v0.115.1–v0.115.5 | complete |
 
 ## Upcoming Milestones
 
@@ -29,6 +23,13 @@
 
 <!-- Milestones moved here by gig:milestone on completion -->
 <!-- Format: ### v{X.Y} — {Name} (completed YYYY-MM-DD) -->
+
+### v0.115.0 — One Feature Per Milestone (completed 2026-04-02)
+
+Each milestone = one feature. Versioning: milestone = 0.X.0, iterations within = 0.X.1, 0.X.2, etc. After govern, prompt to complete milestone. Roadmap shows upcoming milestones, not upcoming iterations.
+
+**Iterations:**
+1. Versioning & Workflow Restructure (v0.115.1–v0.115.5)
 
 ### v5.0.0 — Milestone-Driven Workflow (completed 2026-04-02)
 

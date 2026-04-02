@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.115.5` |
+| **Version** | `0.115.0` |
 | **Iteration** | — |
-| **Status** | `GOVERNED` |
-| **Last Batch** | Update Tests (115.5) |
+| **Status** | `IDLE` |
+| **Last Batch** | — |
 | **Last Updated** | 2026-04-02 |
 
 ---
