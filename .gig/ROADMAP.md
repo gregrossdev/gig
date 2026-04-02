@@ -2,19 +2,12 @@
 
 ## Current Milestone
 
-| Field | Value |
-|-------|-------|
-| **Name** | Milestone-Driven Workflow |
-| **Version** | v5.0.0 |
-| **Status** | in-progress |
-| **Description** | Milestones become the primary way to define requirements and user stories. Absorb spec into milestone creation, streamline lifecycle UX, and drive the roadmap from a maintained backlog. |
+_None — run `/gig:milestone` to create the next one._
 
 ## Iterations
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
-| 113 | Milestone Absorbs Spec | v0.113.1–v0.113.5 | complete |
-| 114 | Milestone Resume & Status Integration | v0.114.1–v0.114.3 | complete |
 
 ## Upcoming Iterations
 
@@ -25,14 +18,20 @@
 
 | # | Name | Description |
 |---|------|-------------|
-| 115 | Backlog-Driven Roadmap | Structured backlog entries with story/requirement previews. Milestone create presents backlog as prioritized menu. Govern appends structured items, not bullet points. |
-| 116 | Init-to-Milestone Seamless Flow | Init's auto-transition to milestone elicitation needs testing in real projects. Ensure SPECING/SPECCED status transitions work across init → milestone boundary. |
 
 
 ## Completed Milestones
 
 <!-- Milestones moved here by gig:milestone on completion -->
 <!-- Format: ### v{X.Y} — {Name} (completed YYYY-MM-DD) -->
+
+### v5.0.0 — Milestone-Driven Workflow (completed 2026-04-02)
+
+Milestones become the primary way to define requirements and user stories. Absorb spec into milestone creation, streamline lifecycle UX, and drive the roadmap from a maintained backlog.
+
+**Iterations:**
+1. Milestone Absorbs Spec (v0.113.1–v0.113.5)
+2. Milestone Resume & Status Integration (v0.114.1–v0.114.3)
 
 ### v4.0.0 — Self-Documenting Projects (completed 2026-04-02)
 

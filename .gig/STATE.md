@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.114.3` |
-| **Iteration** | 114 — Milestone Resume & Status Integration |
-| **Status** | `GOVERNED` |
-| **Last Batch** | Update Tests (114.3) |
+| **Version** | `5.0.0` |
+| **Iteration** | — |
+| **Status** | `IDLE` |
+| **Last Batch** | — |
 | **Last Updated** | 2026-04-02 |
 
 ---
