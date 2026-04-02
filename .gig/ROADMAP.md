@@ -2,7 +2,12 @@
 
 ## Current Milestone
 
-_None — run `/gig:milestone` to create the next one._
+| Field | Value |
+|-------|-------|
+| **Name** | Govern Milestone Proposals |
+| **Version** | v0.117.0 |
+| **Status** | in-progress |
+| **Description** | Govern populates Upcoming Milestones on the roadmap when completing a milestone. Quick codebase assessment, preserves existing entries, fills to 3. |
 
 ## Iterations
 

@@ -613,7 +613,30 @@ After presenting the summary, automatically complete the milestone:
    - Check: `git remote` — if output is non-empty, push main and tags.
    - Report: "Pushed to origin." or note if push fails.
 
-7. Say: "Milestone **v{version}** complete. Run `/gig:milestone` to start the next feature."
+7. **Propose Upcoming Milestones:**
+
+   Read the Upcoming Milestones table in `.gig/ROADMAP.md`. Count existing entries.
+
+   **If already 3 entries:** Skip — table is full.
+
+   **If fewer than 3:** Read these files for context:
+   - `.gig/ARCHITECTURE.md` — project structure, patterns, known gaps
+   - `.gig/BACKLOG.md` — backlog ideas worth promoting
+   - `.gig/ISSUES.md` — deferred issues that could become milestones
+   - `.gig/ROADMAP.md` — completed milestones (what's been done, what's missing)
+   - The just-completed milestone summary (from Step 10)
+
+   Based on the context, propose milestone ideas to fill empty slots up to 3 total:
+   - Derive from: backlog items, deferred issues, architectural gaps, natural next steps from what was just built
+   - Number from the next milestone MINOR after the just-completed one
+   - Format: `| {N} | {Name} | {One-line description} |`
+   - Append to the Upcoming Milestones table — do NOT replace existing entries
+
+   Present: "Proposed {N} upcoming milestones on the roadmap."
+
+   If nothing worth proposing (backlog empty, no issues, no obvious gaps), skip silently.
+
+8. Say: "Milestone **v{version}** complete. Run `/gig:milestone` to start the next feature."
 
 ## If Failures Need Fixing
 

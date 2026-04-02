@@ -645,6 +645,9 @@ assert "govern Step 10 checks NOT COVERED requirements" grep -q 'NOT COVERED' "$
 assert "govern Step 10 auto-completes milestone" grep -q 'Auto-Complete Milestone' "$GOVERN_SKILL"
 assert "govern Step 10 offers another iteration" grep -q 'gig:gather' "$GOVERN_SKILL"
 assert "govern Step 10 surfaces open issues" grep -q 'Open issues' "$GOVERN_SKILL"
+assert "govern proposes upcoming milestones" grep -q 'Propose Upcoming Milestones' "$GOVERN_SKILL"
+assert "govern reads BACKLOG for proposals" grep -q 'BACKLOG\.md.*backlog' "$GOVERN_SKILL"
+assert "govern preserves existing milestone entries" grep -q 'fewer than 3' "$GOVERN_SKILL"
 
 # [31b] Govern spec coverage
 echo "[31b] Govern spec coverage"

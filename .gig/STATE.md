@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.116.0` |
+| **Version** | `0.117.0` |
 | **Iteration** | — |
-| **Status** | `IDLE` |
-| **Last Batch** | — |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Update Tests (117.2) |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -47,7 +47,10 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-_None._
+- D-1.1: Proposal step after push, before final message
+- D-1.2: Quick scan of state files, no subagents
+- D-1.3: Preserve existing entries, fill to 3
+- D-1.4: Same table format as Upcoming Milestones
 
 ---
 
@@ -64,7 +67,11 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Milestone: Govern Milestone Proposals (v0.117.0)
+- Goal: Govern auto-complete step populates Upcoming Milestones on roadmap
+- Quick assessment, not deep research — read codebase state, propose features
+- Preserve existing Upcoming Milestones entries, fill to max 3
+- Key file: skills/govern/SKILL.md (Auto-Complete Milestone section)
 
 ---
 
