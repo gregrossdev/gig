@@ -148,10 +148,10 @@ Collect background results when the skill needs them, not when the agent finishe
 
 Full reference in `.gig/GIT-STRATEGY.md` (copied per project). Summary:
 
-- **Branches:** `main` (stable) → `feature/v0.{N}-{iteration-name}` (per iteration)
-- **Commits:** one per batch — `{type}(v0.{N}.{P}): {description}`
-- **Tags:** `v0.{N}.{last-P}` per iteration (actual last batch), `v{MAJOR}.0.0` per milestone
-- **Merge:** iteration branch → main via regular merge (`--no-ff`) by default
+- **Branches:** `main` (stable) → `feature/v0.{M}-{milestone-name}` (per milestone)
+- **Commits:** one per batch — `{type}(v0.{M}.{P}): {description}`
+- **Tags:** `v0.{M}.{P}` per iteration (milestone.iteration)
+- **Merge:** milestone branch → main via regular merge (`--no-ff`) by default
 - **Never:** force-push, rewrite main history, `git add -A`, skip hooks
 
 ## Quality Standards
@@ -161,7 +161,7 @@ Full reference in `.gig/GIT-STRATEGY.md` (copied per project). Summary:
 - Every implementation batch must have test criteria.
 - Use conventional commits: `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`.
 - Stage specific files by name — never `git add -A` or `git add .`.
-- Commit format: `{type}(v0.{N}.{P}): {description}`
+- Commit format: `{type}(v0.{M}.{P}): {description}`
 
 ## Project Context Loading
 

@@ -570,7 +570,7 @@ echo "[24] Govern plugin version instruction"
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 assert "govern has 'Update plugin manifest' instruction" grep -q 'Update plugin manifest' "$GOVERN_SKILL"
 assert "govern references plugin.json in archive section" grep -q 'plugin\.json' "$GOVERN_SKILL"
-assert "govern has plugin version commit format" grep -q 'chore(v0.{N}.{last-P}): update plugin.json version' "$GOVERN_SKILL"
+assert "govern has plugin version commit format" grep -q 'chore(v0.{M}.{P}): update plugin.json version' "$GOVERN_SKILL"
 
 # --- Test 25: Govern .gig-version exclusion ---
 

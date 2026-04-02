@@ -210,16 +210,16 @@ After decisions are locked, call `EnterPlanMode` to design the iteration plan. I
 
 ### Step 7 — Determine Iteration
 
-Read the current milestone version from `.gig/ROADMAP.md` (e.g., `v0.115.0`). The MINOR is the milestone number.
+Read the current milestone version from `.gig/ROADMAP.md` (e.g., `v0.7.0`). The MINOR (`M`) is the milestone number.
 
 Look at the Iterations table in `.gig/ROADMAP.md` for the current milestone:
 - If no iterations exist for this milestone: iteration = `1` → version `0.{M}.1`
 - Otherwise: increment from highest PATCH → version `0.{M}.{P+1}`
 
 Version follows: **MINOR = milestone number, PATCH = iteration within milestone**.
-- First iteration of milestone 115 → version `0.115.1`
-- Second iteration → version `0.115.2`
-- Iteration N → version `0.{M}.{N}`
+- First iteration of milestone 7 → version `0.7.1`
+- Second iteration → version `0.7.2`
+- Third iteration → version `0.7.3`
 
 Derive iteration name from the decisions context. Branch format: `feature/v0.{M}-{kebab-case-milestone-name}`.
 
@@ -233,7 +233,7 @@ Each batch is a small, coherent unit:
 
 For each batch:
 ```
-### Batch {iteration}.{N} — {Title}
+### Batch {M}.{P}.{B} — {Title}
 
 **Delegation:** {team | subagent | in-session}
 **Decisions:** {Decision IDs this implements, e.g., D-1.1, D-2.3}
@@ -244,6 +244,8 @@ For each batch:
 **Test criteria:** {specific verification — command, file check, behavior}
 **Acceptance:** {What "done" looks like}
 ```
+
+Where `{M}` = milestone number, `{P}` = iteration within milestone, `{B}` = batch within iteration. Versions in the table use the full `0.{M}.{P}` format (batches don't get their own version — the iteration version covers all batches in it).
 
 Default type is `feature`. Set to `refactor` when the iteration goal is structural work or driven by DEBT.md items.
 
@@ -281,7 +283,7 @@ Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 ```markdown
 ## Active Iteration
 
-### Iteration {N} — {Name} (v0.{N}.x)
+### Iteration {P} — {Name} (v0.{M}.{P})
 
 > {One-paragraph goal derived from decisions}
 
@@ -291,8 +293,8 @@ Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 
 | Batch | Version | Title | Delegation | Status |
 |-------|---------|-------|------------|--------|
-| {N}.1 | `0.{N}.1` | {title} | {mode} | pending |
-| {N}.2 | `0.{N}.2` | {title} | {mode} | pending |
+| {M}.{P}.1 | `0.{M}.{P}` | {title} | {mode} | pending |
+| {M}.{P}.2 | `0.{M}.{P}` | {title} | {mode} | pending |
 | ... | ... | ... | ... | ... |
 
 {Full batch details from Step 8}
@@ -301,9 +303,9 @@ Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 - [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] ...
-
-**Completion triggers Iteration {N+1} -> version `0.{N+1}.0`**
 ```
+
+Where `{M}` = milestone number (MINOR), `{P}` = iteration (PATCH). All batches in the same iteration share the same version `0.{M}.{P}`. Example: milestone 7, iteration 3 → all batches are `v0.7.3`.
 
 **Step 10 — Update State & Roadmap**
 

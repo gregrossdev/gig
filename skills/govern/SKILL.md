@@ -46,7 +46,7 @@ The latest batch implemented: **{batch title}**
 Append any steps that could not be verified (manual steps the user skips) to the **Verify Later** table in `.gig/STATE.md`:
 
 ```
-| v0.{N}.{P} | {batch title} | {verification steps as a semicolon-separated list} | {today's date} |
+| v0.{M}.{P} | {batch title} | {verification steps as a semicolon-separated list} | {today's date} |
 ```
 
 ## Steps 3-8 — Continuous Governance Block
@@ -234,7 +234,7 @@ Present a complete report AND write it to `.gig/GOVERNANCE.md`:
 
 > Iteration {N} — {Name}
 > Date: {today's date}
-> Version: v0.{N}.{last-P}
+> Version: v0.{M}.{P}
 
 ## Test Results
 Automated: {passed}/{total} tests  {PASS|FAIL}
@@ -348,14 +348,14 @@ Present the governance report in full, then:
 
 ### 1. Create Iteration Archive
 
-Create directory: `.gig/iterations/v0.{N}-{iteration-name}/`
+Create directory: `.gig/iterations/v0.{M}.{P}-{iteration-name}/`
 
 Copy into the archive:
-- `.gig/PLAN.md` → `.gig/iterations/v0.{N}-{iteration-name}/PLAN.md` (frozen snapshot)
-- Extract this iteration's decisions from `.gig/DECISIONS.md` → `.gig/iterations/v0.{N}-{iteration-name}/DECISIONS.md`
-- Extract this iteration's resolved issues from `.gig/ISSUES.md` → `.gig/iterations/v0.{N}-{iteration-name}/ISSUES.md`
-- `.gig/GOVERNANCE.md` → `.gig/iterations/v0.{N}-{iteration-name}/GOVERNANCE.md` (frozen snapshot)
-- `.gig/design/` → `.gig/iterations/v0.{N}-{iteration-name}/design/` (copy entire directory with `cp -r` if `.gig/design/` exists and is non-empty; skip silently if missing or empty). **Do NOT delete `.gig/design/` originals** — diagrams persist as living artifacts across iterations.
+- `.gig/PLAN.md` → `.gig/iterations/v0.{M}.{P}-{iteration-name}/PLAN.md` (frozen snapshot)
+- Extract this iteration's decisions from `.gig/DECISIONS.md` → `.gig/iterations/v0.{M}.{P}-{iteration-name}/DECISIONS.md`
+- Extract this iteration's resolved issues from `.gig/ISSUES.md` → `.gig/iterations/v0.{M}.{P}-{iteration-name}/ISSUES.md`
+- `.gig/GOVERNANCE.md` → `.gig/iterations/v0.{M}.{P}-{iteration-name}/GOVERNANCE.md` (frozen snapshot)
+- `.gig/design/` → `.gig/iterations/v0.{M}.{P}-{iteration-name}/design/` (copy entire directory with `cp -r` if `.gig/design/` exists and is non-empty; skip silently if missing or empty). **Do NOT delete `.gig/design/` originals** — diagrams persist as living artifacts across iterations.
 
 ### 1b. Generate Lesson Article (if learn curriculum)
 
@@ -454,33 +454,29 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
    - Switch to main: `git checkout main`
    - Regular merge (preserves batch commits):
      ```
-     git merge --no-ff feature/v0.{N}-{iteration-name}
+     git merge --no-ff feature/v0.{M}-{milestone-name}
      ```
    - Only use squash if the user explicitly requests it for this iteration.
 
 3. **Update plugin manifest (if present):**
    - Check if `.claude-plugin/plugin.json` exists in the project root.
-   - If yes, update the `"version"` field to `0.{N}.{last-P}` (the last batch version from STATE.md).
+   - If yes, update the `"version"` field to `0.{M}.{P}` (the current milestone.iteration version from STATE.md).
    - Stage and commit:
      ```
      git add .claude-plugin/plugin.json
-     git commit -m "chore(v0.{N}.{last-P}): update plugin.json version"
+     git commit -m "chore(v0.{M}.{P}): update plugin.json version"
      ```
    - If `.claude-plugin/plugin.json` does not exist, skip silently.
 
 4. **Tag the iteration:**
    - Tag with the **actual last batch version** (not a reset):
      ```
-     git tag -a v0.{N}.{last-P} -m "Iteration {N}: {iteration name}"
+     git tag -a v0.{M}.{P} -m "Milestone {M}, iteration {P}: {iteration name}"
      ```
-     Example: if last batch was `v0.7.4`, the tag is `v0.7.4`.
-   - If this is also a milestone boundary (last iteration in milestone):
-     ```
-     git tag -a v{MAJOR}.0.0 -m "Milestone: {milestone name}"
-     ```
+     Example: milestone 7, iteration 3 → tag is `v0.7.3`.
 
 5. **Cleanup:**
-   - Delete feature branch: `git branch -d feature/v0.{N}-{iteration-name}`
+   - Delete feature branch: `git branch -d feature/v0.{M}-{milestone-name}`
    - Remove worktrees if any were created for team tasks.
    - Verify clean state: `git status`
 
@@ -507,8 +503,7 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 1. Update `.gig/STATE.md`:
    - **Status:** `GOVERNED`
    - Version stays at the last batch version (e.g., `0.7.4`)
-   - **Plugin Version:** if `.claude-plugin/plugin.json` was updated, set to the new version (e.g., `0.{N}.{last-P}`). Otherwise leave as `—`.
-   - Next iteration will start at `0.{N+1}.1` when the first batch of that iteration completes
+   - **Plugin Version:** if `.claude-plugin/plugin.json` was updated, set to the new version (e.g., `0.{M}.{P}`). Otherwise leave as `—`.
 
 2. Update `.gig/ROADMAP.md`:
    - Mark iteration as `complete` in the iterations table.
@@ -518,7 +513,7 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
    - Read the Spec Coverage section from the governance report.
    - For each requirement marked `COVERED` in the report, update its row in SPEC.md:
      - Set **Status** to `COVERED`
-     - Set **Iteration** to `v0.{N}.{last-P}` (the iteration that covered it)
+     - Set **Iteration** to `v0.{M}.{P}` (the iteration that covered it)
    - If all requirements for a story are now `COVERED`, update the story's **Status** to `COVERED`.
    - This keeps SPEC.md as the living tracker of what's done and what's left.
 
