@@ -2,12 +2,7 @@
 
 ## Current Milestone
 
-| Field | Value |
-|-------|-------|
-| **Name** | Milestone Brainstorm Prompt + Rules Sync |
-| **Version** | v0.118.0 |
-| **Status** | in-progress |
-| **Description** | After milestone creation, offer brainstorm/design phase before suggesting gather. Also sync global CLAUDE.md rules with current milestone-driven workflow. |
+_None — run `/gig:milestone` to create the next one._
 
 ## Iterations
 
@@ -22,13 +17,22 @@
 
 | # | Name | Description |
 |---|------|-------------|
-| 120 | Init-to-Milestone Seamless Flow | Init auto-transitions to milestone elicitation. Verify SPECING/SPECCED status transitions work across the init → milestone boundary in real projects. |
+| 119 | Init-to-Milestone Seamless Flow | Init auto-transitions to milestone elicitation. Verify SPECING/SPECCED status transitions work across the init → milestone boundary in real projects. |
+| 120 | Simplify Gather Research | Gather launches 3 agents for every milestone — overkill for small changes. Add a "quick" mode that skips deep research for targeted edits. |
+| 121 | Cleanup Stale Iteration References | Skills still reference old iteration-centric patterns (iteration numbering, batch-within-iteration naming). Audit and align with milestone-driven model. |
 
 
 ## Completed Milestones
 
 <!-- Milestones moved here by gig:milestone on completion -->
 <!-- Format: ### v{X.Y} — {Name} (completed YYYY-MM-DD) -->
+
+### v0.118.0 — Brainstorm Prompt + Rules Sync (completed 2026-04-02)
+
+After milestone creation, offer brainstorm/design phase before suggesting gather. Updated global rules test count.
+
+**Iterations:**
+1. Brainstorm Prompt + Rules Sync (v0.118.1)
 
 ### v0.117.0 — Govern Milestone Proposals (completed 2026-04-02)
 
