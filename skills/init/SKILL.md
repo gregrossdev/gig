@@ -124,11 +124,13 @@ After detection, run Step 1b (Scaffold Project Documentation) before proceeding 
 
 **If new project:** Skip to Step 4.
 
-**If existing project:** Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one per profile:
+**If existing project:** Launch 2 Explore agents in parallel (Agent tool, subagent_type "Explore"). Pick the 2 most relevant:
 
 - **Architecture Agent** — Discover structure, directory layout, naming conventions, stack (languages, frameworks, runtime, database), architecture style (MVC, modular, monorepo), and key dependencies.
 - **Quality Agent** — Discover test framework, coverage, test file locations, linters, formatters, CI/CD configuration, and code quality patterns.
 - **Discovery Agent** — Discover git history (recent commits, branch structure, commit style), state management patterns, API patterns, and any existing documentation.
+
+**Hard cap: 2 parallel agents maximum.** If all 3 are needed, run 2 first, then the third.
 
 Synthesize findings from all agents into a unified Discovery Report before presenting to the user. The user sees one coherent project assessment, not separate agent outputs.
 

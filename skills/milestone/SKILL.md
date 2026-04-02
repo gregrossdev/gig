@@ -130,13 +130,15 @@ Jump to the **MVP Product Discovery** flow below.
 
 **If no args and the project has completed iterations (existing project):**
 
-Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one per profile:
+Launch 2 Explore agents in parallel (Agent tool, subagent_type "Explore"). Pick the 2 most relevant:
 
 - **Architecture Agent** — Investigate current project structure, stack health, and pattern consistency. Receives: `.gig/ARCHITECTURE.md`, package/config files.
 - **Quality Agent** — Investigate test coverage, code quality, broken/stale behavior, and technical debt. Receives: test files, lint config, `.gig/ISSUES.md`.
-- **Discovery Agent** — Investigate what the project can do now, what's rough or incomplete, feature gaps, and opportunities. Receives: `.gig/ROADMAP.md`, `.gig/BACKLOG.md`, `.gig/ISSUES.md`.
+- **Discovery Agent** — Investigate what the project can do now, what's rough or incomplete, feature gaps, and opportunities. Receives: `.gig/ROADLOG.md`, `.gig/BACKLOG.md`, `.gig/ISSUES.md`.
 
-Synthesize findings from all 3 agents into a unified project assessment before presenting directions.
+**Hard cap: 2 parallel agents maximum.** If all 3 are needed, run 2 first, then the third.
+
+Synthesize findings from all agents into a unified project assessment before presenting directions.
 
 Present a project assessment and propose directions:
 
@@ -185,7 +187,7 @@ For existing projects that want to capture what's already been built as a spec. 
 
 2. **Read current state:** Read `.gig/ARCHITECTURE.md`, `.gig/ROADMAP.md` (completed milestones and iterations).
 
-3. **Launch 3 Explore agents in parallel** (Agent tool, subagent_type "Explore"), one per profile:
+3. **Launch 2 Explore agents in parallel** (Agent tool, subagent_type "Explore"). Pick the 2 most relevant:
    - **Architecture Agent:** Group completed iterations into user stories — what user-facing capability did each cluster of iterations deliver? Assign IDs: US-001, US-002, etc.
    - **Quality Agent:** Extract requirements from batch acceptance criteria and test criteria across all iterations. Link each to its parent story. Assign IDs: REQ-001, REQ-002, etc.
    - **Discovery Agent:** Detect patterns, themes, and cross-cutting concerns across iterations. Identify architectural trends, recurring problem areas, and capabilities that span multiple stories.

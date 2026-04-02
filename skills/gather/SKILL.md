@@ -88,7 +88,7 @@ Say: "Docs/config iteration — using lightweight research path."
 
 Before making ANY decisions, research thoroughly:
 
-Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one per profile:
+Launch 2 Explore agents in parallel (Agent tool, subagent_type "Explore"). Pick the 2 most relevant profiles for the iteration goal:
 
 - **Architecture Agent** — Investigate structure, stack, dependencies, frameworks, file layout, and pattern consistency. Receives: `.gig/ARCHITECTURE.md`, package/config files, iteration goal.
 - **Quality Agent** — Investigate tests, lint, coverage, code patterns, tech debt, and error handling. Receives: test files, lint config, `.gig/ISSUES.md`, iteration goal.
@@ -96,7 +96,7 @@ Launch 3 Explore agents in parallel (Agent tool, subagent_type "Explore"), one p
 
 All agents also receive working memory from `.gig/STATE.md`.
 
-For projects with iteration history, launch all 3 agents. For new projects with minimal codebase, launch 2 minimum (Architecture + Discovery).
+**Hard cap: 2 parallel agents maximum.** 3+ concurrent agents can hang during initialization. If all 3 profiles are needed, run 2 first, then the third sequentially.
 
 If the goal involves external libraries or APIs, add WebSearch calls in the same parallel block as the agents.
 

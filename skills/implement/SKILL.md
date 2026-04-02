@@ -56,7 +56,9 @@ Otherwise, execute the next batch in-session (Step 4c).
 
 When 2+ independent batches are ready:
 
-1. For each independent batch, use the Agent tool with `isolation: "worktree"`.
+**Hard cap: launch at most 2 parallel agents at a time.** If 3+ batches are independent, run the first 2 in parallel, then the next 2, etc. This avoids agent initialization hangs with 3+ concurrent agents.
+
+1. For each independent batch (up to 2 at a time), use the Agent tool with `isolation: "worktree"`.
    Each agent receives a prompt containing:
    - The batch description and work items from PLAN.md
    - Relevant ACTIVE decisions from DECISIONS.md

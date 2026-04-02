@@ -109,9 +109,9 @@ focus areas inline.
 | **Quality** | Tests, lint, coverage, code patterns, tech debt, error handling, broken/stale behavior | Test files, lint config, `.gig/ISSUES.md` |
 | **Discovery** | Patterns, themes, cross-cutting concerns, git history, iteration trends, feature gaps, opportunities | `.gig/ROADMAP.md`, `.gig/BACKLOG.md`, `.gig/SPEC.md` |
 
-**Standard pattern:** Launch 3 agents (Architecture + Quality + Discovery) in
-parallel for full research. Use 2 agents minimum when a profile isn't relevant
-(e.g., learn uses Architecture + Discovery, skipping Quality).
+**Standard pattern:** Launch 2 agents in parallel — pick the 2 most relevant
+profiles for the task. **Hard cap: 2 parallel agents maximum** (3+ can hang
+during initialization). If all 3 profiles are needed, run 2 first, then the third.
 
 Each agent also receives the iteration goal/topic and any active working memory
 from `.gig/STATE.md`. Findings from all agents are synthesized into a unified
