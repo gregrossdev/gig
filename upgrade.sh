@@ -18,7 +18,7 @@ DRY_RUN=false
 if [ -f "$SCRIPT_DIR/.claude-plugin/plugin.json" ] && command -v jq >/dev/null 2>&1; then
     GIG_VERSION=$(jq -r '.version' "$SCRIPT_DIR/.claude-plugin/plugin.json")
 else
-    GIG_VERSION="0.61.2"
+    GIG_VERSION="gig-1.0"
 fi
 
 # --- Argument parsing ---
