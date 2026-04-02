@@ -96,7 +96,4 @@ MVP-driven doc derivation: Adding logic to the spec skill's After MVP Lock step 
 ### Iteration 108 — 2026-03-30
 Init overhaul: Removing the manual template picker (Step 1b) and diagram preset scaffolding (Step 1c) from init. Replacing with auto-detection of project type (already partly exists in Step 2), minimum doc scaffolding (README, CHANGELOG, LICENSE), and MVP-first routing for new projects. This is a structural rewrite of init's post-scaffold flow. Project templates reduced from 3 to 1 (Article.md only). Diagram templates directory removed entirely — gather Step 3b handles diagrams dynamically. Significant test rewrite needed: tests [23], [26], [53] heavily affected. Install.sh project template and diagram copy sections need updating.
 
-### Iteration 106 — 2026-03-30
-Walkthrough command: Adding a natural language command `walkthrough [thing]` for on-demand alignment verification. Not a new skill — just a command pattern recognized during any active session. Claude writes plain-language + pseudocode walkthrough, user confirms or corrects. Appends to relevant doc or stays in conversation. No structural changes — additive behavior in RULES.md natural language commands table + CLAUDE.md.
-
 

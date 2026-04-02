@@ -1,0 +1,10 @@
+stateDiagram-v2
+    [*] --> OPEN: Govern discovers concern
+    OPEN --> TRACKED: Acknowledged, not yet fixing
+    OPEN --> RESOLVED: Fixed in same iteration
+    TRACKED --> RESOLVED: Fixed in refactor iteration
+    RESOLVED --> [*]
+
+    note right of OPEN: Created by govern\nfrom audit log findings
+    note right of TRACKED: Carried forward\nacross iterations
+    note right of RESOLVED: Verified by govern\nafter fix

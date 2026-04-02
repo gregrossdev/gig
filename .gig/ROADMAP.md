@@ -13,7 +13,7 @@
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
-| 113 | Milestone Absorbs Spec | v0.113.x | planned |
+| 113 | Milestone Absorbs Spec | v0.113.1–v0.113.5 | complete |
 
 ## Upcoming Iterations
 

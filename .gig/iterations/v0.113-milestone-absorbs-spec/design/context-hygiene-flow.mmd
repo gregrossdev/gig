@@ -1,0 +1,27 @@
+%% Context Hygiene — Archiving & Trimming Flow
+%% Shows what happens during govern archiving and spec/gather lifecycle
+
+flowchart TD
+    subgraph Govern["gig:govern — Archive Iteration"]
+        A[Step 9: Archive Iteration] --> B[Copy PLAN, DECISIONS, ISSUES, GOVERNANCE]
+        B --> C[Copy .gig/design/ to archive]
+        C --> D[Trim STATE.md batch history to 20 rows]
+        D --> E[Trim ARCHITECTURE.md audit log to 5 entries]
+        E --> F[Clear active files]
+    end
+
+    subgraph Gather["gig:gather — Start New Iteration"]
+        G[Step 3b: System Diagrams] --> H[Clear .gig/design/]
+        H --> I[Generate new diagrams]
+    end
+
+    subgraph Spec["gig:spec — New Spec"]
+        J[Guard Check] --> K{All REQs COVERED?}
+        K -->|Yes| L[Archive to SPEC-completed-date.md]
+        K -->|No| M[Warn: uncovered requirements]
+        L --> N[Start elicitation]
+        M --> N
+    end
+
+    Govern --> Gather
+    Govern --> Spec

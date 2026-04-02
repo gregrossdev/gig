@@ -4,9 +4,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.113.0` |
+| **Version** | `0.113.5` |
 | **Iteration** | 113 — Milestone Absorbs Spec |
-| **Status** | `IMPLEMENTED` |
+| **Status** | `GOVERNED` |
 | **Last Batch** | Update Tests (113.5) |
 | **Last Updated** | 2026-04-02 |
 
@@ -18,6 +18,11 @@
 
 | Version | Iteration | Batch Title | Type | Status | Timestamp |
 |---------|-----------|-------------|------|--------|-----------|
+| 0.113.5 | 113 | Update Tests | PLANNED | done | 2026-04-02 |
+| 0.113.4 | 113 | Update Global Rules | PLANNED | done | 2026-04-02 |
+| 0.113.3 | 113 | Update Consumer Skills | PLANNED | done | 2026-04-02 |
+| 0.113.2 | 113 | Remove Spec Skill + Update Install | PLANNED | done | 2026-04-02 |
+| 0.113.1 | 113 | Rewrite Milestone Skill | PLANNED | done | 2026-04-02 |
 | 0.112.5 | 112 | Triage Removal + Tests | PLANNED | done | 2026-04-01 |
 | 0.112.4 | 112 | Govern Parallelization | PLANNED | done | 2026-04-01 |
 | 0.112.3 | 112 | Skill Updates: research, spec | PLANNED | done | 2026-04-01 |
@@ -33,14 +38,6 @@
 | 0.108.4 | 108 | Update install.sh + docs | PLANNED | done | 2026-03-30 |
 | 0.108.3 | 108 | Auto-detect type + scaffold docs + MVP routing | PLANNED | done | 2026-03-30 |
 | 0.108.2 | 108 | Remove project templates + diagram files | PLANNED | done | 2026-03-30 |
-| 0.108.1 | 108 | Remove template picker + diagram presets | PLANNED | done | 2026-03-30 |
-| 0.107.1 | 107 | Auto-verify Quick Verify step | PLANNED | done | 2026-03-30 |
-| 0.106.1 | 106 | Walkthrough command + docs + tests | PLANNED | done | 2026-03-30 |
-| 0.105.5 | 105 | Tests | PLANNED | done | 2026-03-30 |
-| 0.105.4 | 105 | Spec MVP-aware context loading | PLANNED | done | 2026-03-30 |
-| 0.105.3 | 105 | Spec MVP interview branch | PLANNED | done | 2026-03-30 |
-| 0.105.2 | 105 | Init MVP detection + routing | PLANNED | done | 2026-03-30 |
-| 0.105.1 | 105 | MVP template + infrastructure | PLANNED | done | 2026-03-30 |
 
 
 
@@ -50,13 +47,7 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-- D-1.1: Absorb spec elicitation into milestone create
-- D-1.2: Remove /gig:spec entirely
-- D-1.3: Keep SPEC.md as inter-skill contract file
-- D-1.4: New milestone create flow (name → stories → requirements → lock)
-- D-1.5: Move MVP interview into milestone create
-- D-1.6: Streamline milestone complete confirmations
-- D-1.7: Backlog items seed milestone creation
+_None._
 
 ---
 
@@ -73,16 +64,7 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-- Milestone: Milestone-Driven Workflow (v5.0.0)
-- Iteration 113: Absorb spec elicitation into milestone create
-- Spec skill (535 lines) being absorbed into milestone skill
-- SPEC.md stays as inter-skill contract (gather/govern still read it)
-- Key files: skills/milestone/SKILL.md, skills/spec/SKILL.md (to delete)
-- Consumer skills to update: gather, govern, init, status, implement
-- Global rules: CLAUDE.md, docs/RULES.md
-- 52+ spec test assertions need rewriting in test.sh
-- Backlog seed: milestone create offers BACKLOG.md entries as starting points
-- MVP flow moves into milestone create as routing option
+_None._
 
 ---
 
