@@ -21,20 +21,20 @@ Otherwise, check if `.gig/` needs upgrading:
 2. Compare against the current gig version:
    - **Plugin install:** Read version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` (`"version"` field).
    - **Script install:** Read version from `~/.claude/templates/gig/.gig-version` if it exists, otherwise use `0.0.0`.
-3. If `.gig-version` is missing or older than current:
+3. If `.gig-version` is missing or does not match current (any difference triggers upgrade):
    - **Plugin install:** Run `${CLAUDE_PLUGIN_ROOT}/upgrade.sh` via Bash.
    - **Script install:** If `~/.claude/upgrade.sh` exists, run it via Bash. Otherwise, fall back to inline upgrade logic:
      - Check each expected template file (STATE.md, PLAN.md, DECISIONS.md, ISSUES.md, GOVERNANCE.md, ARCHITECTURE.md, ROADMAP.md, GIT-STRATEGY.md, BACKLOG.md, DEBT.md, SPEC.md, MVP.md, DOCS.md) — copy any missing ones from `~/.claude/templates/gig/`.
      - Create `.gig/iterations/` directory if missing.
-     - Check for stale "phase" terminology and apply fixes via Edit tool:
+     - Check for stale terminology and apply fixes via Edit tool:
        - `STATE.md`: `| **Phase**` → `| **Iteration**`; `| Phase |` → `| Iteration |`
-       - `ROADMAP.md`: `## Phases` → `## Iterations`; `## Upcoming Phases` → `## Upcoming Iterations`
+       - `ROADMAP.md`: `## Phases` → `## Iterations`; `## Upcoming Phases` → `## Upcoming Milestones`; `## Upcoming Iterations` → `## Upcoming Milestones`
        - `ISSUES.md`: `archived with their phase` → `archived with their iteration`; `**Phase:**` → `**Iteration:**`
        - `ARCHITECTURE.md`: `Phase-based versioning` → `Iteration-based versioning`; `MINOR = phase number` → `MINOR = iteration number`
      - Write current gig version to `.gig/.gig-version`.
    - Say: "Upgraded .gig/ to version {version}. Run `/gig:status` to see current state." STOP.
-4. If `.gig-version` matches current version:
-   - Say: "Already up to date (v{version}). Run `/gig:status` to see current state." STOP.
+4. If `.gig-version` exactly matches current gig version:
+   - Say: "Already up to date (gig v{version}). Run `/gig:status` to see current state." STOP.
 
 **If NOT present:** Proceed to Step 1.
 

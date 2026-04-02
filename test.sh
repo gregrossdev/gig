@@ -425,6 +425,7 @@ assert "upgrade preserves existing STATE.md" grep -q "# State" "$UPGRADE_DIR/.gi
 # Sets .gig-version
 assert "upgrade sets .gig-version" test -f "$UPGRADE_DIR/.gig/.gig-version"
 assert "upgrade .gig-version has content" test -s "$UPGRADE_DIR/.gig/.gig-version"
+assert "upgrade has Upcoming Milestones migration" grep -q 'Upcoming Iterations.*Upcoming Milestones\|Upcoming Milestones' "$SCRIPT_DIR/upgrade.sh"
 
 # Idempotency — second run reports no changes
 assert "upgrade idempotent" sh -c "sh '$SCRIPT_DIR/upgrade.sh' '$UPGRADE_DIR' 2>&1 | grep -q 'No changes needed'"
@@ -480,6 +481,8 @@ assert "init has dual-path upgrade (script)" grep -q '~/.claude/upgrade\.sh' "$I
 assert_not "init no longer has top-level Phase migration marker" grep -q '^First, check for stale "phase"' "$INIT_SKILL"
 assert "init has reinit keyword check" grep -q 'reinitialize.*or.*reinit' "$INIT_SKILL"
 assert "init stops after upgrade" grep -q 'Upgraded .gig/.*STOP' "$INIT_SKILL"
+assert "init uses exact match not older-than" grep -q 'does not match\|not match\|not equal\|exactly matches' "$INIT_SKILL"
+assert "init migrates Upcoming Iterations to Milestones" grep -q 'Upcoming Iterations.*Upcoming Milestones' "$INIT_SKILL"
 assert "init has already-up-to-date path" grep -q 'Already up to date' "$INIT_SKILL"
 assert_not "init no longer has AskUserQuestion reinit prompt" grep -q 'AskUserQuestion' "$INIT_SKILL"
 

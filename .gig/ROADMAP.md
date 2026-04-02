@@ -2,7 +2,12 @@
 
 ## Current Milestone
 
-_None — run `/gig:milestone` to create the next one._
+| Field | Value |
+|-------|-------|
+| **Name** | Fix Version Identity |
+| **Version** | v0.119.0 |
+| **Status** | in-progress |
+| **Description** | .gig-version tracks gig tool version (from plugin.json), not project version. Project milestones use their own independent sequence (0.1.0, 0.2.0). Init compares .gig-version against gig plugin version for upgrades. Add upgrade migration for existing projects. |
 
 ## Iterations
 

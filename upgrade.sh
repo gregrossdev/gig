@@ -40,8 +40,9 @@ while [ $# -gt 0 ]; do
             echo "What it does:"
             echo "  1. Runs terminology migration (phase -> iteration)"
             echo "  2. Renames FUTURE.md to BACKLOG.md (if present)"
+            echo "  2b. Renames Upcoming Iterations to Upcoming Milestones"
             echo "  3. Adds missing template files to .gig/"
-            echo "  4. Sets .gig/.gig-version to track the gig version"
+            echo "  4. Sets .gig/.gig-version to track the gig tool version"
             exit 0
             ;;
         --dry-run)
@@ -127,6 +128,20 @@ if [ -f "$GIG_DIR/FUTURE.md" ] && [ ! -f "$GIG_DIR/BACKLOG.md" ]; then
         echo "  Renamed FUTURE.md to BACKLOG.md"
     fi
     CHANGED=$((CHANGED + 1))
+fi
+
+# --- Step 2b: Rename Upcoming Iterations to Upcoming Milestones ---
+
+if [ -f "$GIG_DIR/ROADMAP.md" ] && grep -q '^## Upcoming Iterations$' "$GIG_DIR/ROADMAP.md" 2>/dev/null; then
+    if [ "$DRY_RUN" = true ]; then
+        echo "  [dry-run] Would rename '## Upcoming Iterations' to '## Upcoming Milestones' in ROADMAP.md"
+        CHANGED=$((CHANGED + 1))
+    else
+        sed -i.bak 's/^## Upcoming Iterations$/## Upcoming Milestones/' "$GIG_DIR/ROADMAP.md"
+        rm -f "$GIG_DIR/ROADMAP.md.bak"
+        echo "  ROADMAP.md: renamed ## Upcoming Iterations to ## Upcoming Milestones"
+        CHANGED=$((CHANGED + 1))
+    fi
 fi
 
 # --- Step 3: Add missing template files ---

@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.118.0` |
+| **Version** | `0.119.0` |
 | **Iteration** | — |
-| **Status** | `IDLE` |
-| **Last Batch** | — |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Fix Version Identity |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -64,7 +64,14 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Milestone: Fix Version Identity (v0.119.0)
+- Two version spaces: gig TOOL version (plugin.json) vs PROJECT version (STATE.md/ROADMAP.md)
+- .gig-version must track gig tool version only
+- Project versioning: milestones start at 0.1.0 for new projects, independent of gig version
+- Init upgrade: compare .gig-version against plugin.json to detect gig updates
+- Upgrade migration: rename Upcoming Iterations → Upcoming Milestones, fix stale .gig-version
+- Key files: skills/init/SKILL.md, upgrade.sh, skills/govern/SKILL.md, skills/gather/SKILL.md
+- ssg example: .gig-version=0.128.4 (wrong — should be gig tool version), ROADMAP has old headers
 
 ---
 
