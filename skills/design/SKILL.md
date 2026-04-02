@@ -1,6 +1,6 @@
 ---
 name: gig:design
-description: Generate UI/UX prototypes in Figma and produce DESIGN.md with design decisions and links.
+description: Brainstorm with mockups, diagrams, and design notes to align on what to build.
 user-invocable: true
 argument-hint: "[screen or flow to design]"
 ---
@@ -52,11 +52,11 @@ If `.gig/DESIGN.md` exists and has content, present it: "Found existing design. 
 
 Review all requirements in `.gig/SPEC.md` and classify each:
 
-| REQ ID | Description | Needs UI/UX Design? | Notes |
-|--------|-------------|---------------------|-------|
+| REQ ID | Description | Needs Design? | Notes |
+|--------|-------------|---------------|-------|
 
 Present the classification:
-- Requirements needing UI/UX design: {list with REQ IDs}
+- Requirements needing design: {list with REQ IDs}
 - Requirements that are system-only (no design needed): {list}
 
 Ask: "Want to design all UI requirements, or focus on specific ones?"
@@ -65,7 +65,7 @@ Ask: "Want to design all UI requirements, or focus on specific ones?"
 
 Ask: "What screens, flows, or UI components need design?" Use the user's response to define the design scope.
 
-## Step 4 — Generate Figma Prototypes
+## Step 4 — Generate Design Mockups
 
 **Update `.gig/STATE.md`:**
 - Set **Status** to `DESIGNING`
@@ -75,17 +75,35 @@ For each screen or flow in scope:
 
 1. **Describe the design intent** — what the screen does, its layout, key components, user interactions. Reference ARCHITECTURE.md for stack/framework context.
 
-2. **Generate the Figma design** — use `mcp__figma__generate_figma_design` or `mcp__figma__create_new_file` to create the design in Figma. Provide clear descriptions of:
-   - Layout structure (header, sidebar, content area, etc.)
-   - Key UI components (buttons, forms, tables, cards, etc.)
-   - User flow connections (what happens on click, navigation paths)
-   - Visual hierarchy and content placement
+2. **Generate an ASCII mockup** — create a text-based wireframe showing layout structure:
 
-3. **Capture a screenshot** — use `mcp__figma__get_screenshot` to verify the design looks correct. Present it to the user.
+```
+### {Screen Name}
+{Brief description of purpose and what the user does here.}
 
-4. **Track the design** — record: screen name, Figma file key, Figma URL, REQ IDs covered, design notes.
+┌─────────────────────────────────┐
+│ {Header / Nav}                  │
+├─────────────────────────────────┤
+│ ┌───────────┐  ┌─────────────┐ │
+│ │ {Section}  │  │ {Section}   │ │
+│ │ {content}  │  │ {content}   │ │
+│ └───────────┘  └─────────────┘ │
+├─────────────────────────────────┤
+│ {Actions / Footer}              │
+└─────────────────────────────────┘
+```
 
-5. **Iterate** — if the user requests changes, use `mcp__figma__get_design_context` to read the current state, then regenerate or modify.
+3. **Generate a Mermaid diagram** if the screen has user flows or state transitions:
+   - Flowcharts for navigation and user actions
+   - State diagrams for stateful components
+   - Sequence diagrams for multi-step interactions
+   - Save to `.gig/design/{screen-name}.mmd`
+
+4. **Document design decisions** — key choices about layout, components, interactions, and why.
+
+5. **Track the design** — record: screen name, REQ IDs covered, mockup description, design notes.
+
+6. **Iterate** — present the mockup and diagram to the user. If changes are requested, regenerate.
 
 Repeat for each screen/flow until all in-scope designs are complete.
 
@@ -93,10 +111,10 @@ Repeat for each screen/flow until all in-scope designs are complete.
 
 **Present the design summary table in full. Do not abbreviate, inline, or collapse into prose.**
 
-| # | Screen/Flow | Figma Link | REQ IDs | Notes |
-|---|-------------|------------|---------|-------|
-| 1 | {name} | {Figma URL} | {REQ-001, REQ-002} | {key design decisions} |
-| 2 | {name} | {Figma URL} | {REQ-003} | {notes} |
+| # | Screen/Flow | Mockup | REQ IDs | Notes |
+|---|-------------|--------|---------|-------|
+| 1 | {name} | ASCII + flow diagram | {REQ-001, REQ-002} | {key design decisions} |
+| 2 | {name} | ASCII + state diagram | {REQ-003} | {notes} |
 | ... | ... | ... | ... | ... |
 
 Then say:
@@ -118,23 +136,27 @@ Once the user approves:
 ```markdown
 # Design
 
-> Locked design for the current iteration. Gather references these designs when making decisions.
+> Locked design for the current milestone. Gather references these designs when making decisions.
 
 ## Design Summary
 
-| # | Screen/Flow | Figma Link | REQ IDs | Notes |
-|---|-------------|------------|---------|-------|
+| # | Screen/Flow | Mockup | REQ IDs | Notes |
+|---|-------------|--------|---------|-------|
 | {table rows from approval gate} |
 
 ## Screen Details
 
 ### {Screen Name}
 
-**Figma:** {URL}
 **Requirements:** {REQ IDs}
 **Description:** {What this screen does and key design decisions}
 **Components:** {Key UI components used}
 **Interactions:** {User interactions and navigation}
+
+**Mockup:**
+{ASCII mockup from Step 4}
+
+**Diagrams:** {list .gig/design/*.mmd files for this screen}
 ```
 
 2. **Update `.gig/STATE.md`:**

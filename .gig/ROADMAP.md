@@ -2,7 +2,12 @@
 
 ## Current Milestone
 
-_None — run `/gig:milestone` to create the next one._
+| Field | Value |
+|-------|-------|
+| **Name** | Design as Brainstorm |
+| **Version** | v0.116.0 |
+| **Status** | in-progress |
+| **Description** | Remove Figma from the design skill. Design = brainstorm with pictures, diagrams, and mockups to align on what to build — not Figma prototyping. |
 
 ## Iterations
 

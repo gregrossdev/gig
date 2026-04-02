@@ -28,14 +28,14 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 4. Read `.gig/ROADMAP.md` for milestone context.
 5. Read `.gig/ISSUES.md` for open issues from prior iterations.
 6. Read `.gig/SPEC.md` if it exists — this is the spec for the current milestone.
-7. Read `.gig/DESIGN.md` if it exists — UI/UX design decisions and Figma prototype links.
+7. Read `.gig/DESIGN.md` if it exists — design mockups and decisions from brainstorming.
 8. Read `.gig/DEBT.md` if it exists — structural debt from prior iterations.
 
 **If `.gig/SPEC.md` exists and has content beyond the template:** Use it as the foundation for decisions. Every decision should trace to a requirement in the spec.
 
 **If `.gig/SPEC.md` does not exist or is empty:** Print: "No spec found. Define stories and requirements when creating the milestone with `/gig:milestone`." Then proceed as normal.
 
-**If `.gig/DESIGN.md` exists and has content:** Use it as design context for decisions. Reference Figma designs when making UI-related decisions. Link decisions to design screens where applicable.
+**If `.gig/DESIGN.md` exists and has content:** Use it as design context for decisions. Reference design mockups when making UI-related decisions. Link decisions to design screens where applicable.
 
 **If `.gig/DESIGN.md` does not exist:** Proceed normally. Design is optional.
 
@@ -126,7 +126,7 @@ After research and before presenting decisions, generate Mermaid diagrams to mod
    - **Sequence diagram** (`.gig/design/sequence.mmd`) — key interaction sequences
    - **Entity relationship diagram** (`.gig/design/er.mmd`) — data models and relationships
 3. Only generate diagrams that are relevant to the current iteration. Not every iteration needs all types.
-4. If `.gig/DESIGN.md` exists, reference Figma prototypes in the diagrams where UI components interact with the system.
+4. If `.gig/DESIGN.md` exists, reference design mockups in the diagrams where UI components interact with the system.
 5. Present the diagrams in the conversation for review. The user can view rendered output in VS Code with a Mermaid preview extension.
 6. After updating diagrams, summarize changes in the conversation before presenting decisions:
    - **Updated:** {list of modified .mmd files with one-line change description}
@@ -146,7 +146,7 @@ Organize into a single batch of 3-7 decisions.
 - Each decision is atomic — one choice per entry.
 - Use ID format: `D-{batch}.{num}` (e.g., D-1.1, D-1.2)
 - **If a spec exists:** link each decision to its requirement ID (REQ column). Decisions that can't trace to a requirement should be flagged — either the spec needs amending or the decision is out of scope.
-- **If DESIGN.md exists:** reference relevant Figma screens in rationale for UI-related decisions. Use format: "See design: {screen name} ({Figma link})".
+- **If DESIGN.md exists:** reference relevant design screens in rationale for UI-related decisions. Use format: "See design: {screen name}".
 - **If Mermaid diagrams were generated:** reference them in rationale for architectural decisions. Use format: "See diagram: `.gig/design/{filename}`".
 
 If more than 7 decisions are needed, split into multiple batches and present sequentially.

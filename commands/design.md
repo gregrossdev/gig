@@ -1,12 +1,12 @@
 ---
 name: gig:design
-description: Generate UI/UX prototypes in Figma and produce DESIGN.md with design decisions and links.
+description: Brainstorm with mockups, diagrams, and design notes to align on what to build.
 argument-hint: "[screen or flow to design]"
-allowed-tools: [Read, Write, Edit, Glob, Grep, AskUserQuestion, Agent, mcp__figma__generate_figma_design, mcp__figma__create_new_file, mcp__figma__get_design_context, mcp__figma__get_screenshot, mcp__figma__get_metadata, mcp__figma__whoami, mcp__figma__use_figma]
+allowed-tools: [Read, Write, Edit, Glob, Grep, AskUserQuestion, Agent]
 ---
 
 <objective>
-Generate UI/UX prototypes in Figma and produce DESIGN.md with design decisions and Figma links.
+Brainstorm with ASCII mockups, Mermaid diagrams, and design notes to align on what to build. Produces DESIGN.md with design decisions.
 
 **When to use:** Before `/gig:gather` for iterations with UI/UX work. Optional — skip for backend-only or system-level iterations.
 </objective>

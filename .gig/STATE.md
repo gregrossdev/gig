@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.115.0` |
+| **Version** | `0.116.0` |
 | **Iteration** | — |
-| **Status** | `IDLE` |
-| **Last Batch** | — |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Update Tests (116.3) |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -47,7 +47,11 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-_None._
+- D-1.1: Replace Figma with ASCII mockups + Mermaid + design notes
+- D-1.2: Remove all 7 Figma MCP tools from command
+- D-1.3: DESIGN.md format — mockup references, no Figma URLs
+- D-1.4: Create DESIGN.md template
+- D-1.5: Update all Figma refs in consumer skills/docs
 
 ---
 
@@ -64,7 +68,10 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Milestone: Design as Brainstorm (v0.116.0)
+- Goal: Remove Figma from design skill, make it about brainstorming with diagrams/pictures/mockups
+- Key file: skills/design/SKILL.md
+- Also: commands/design.md, CLAUDE.md references, RULES.md references, test.sh
 
 ---
 

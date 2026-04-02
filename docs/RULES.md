@@ -13,10 +13,9 @@ steps in one.
 1. **Milestone** (`/gig:milestone`) — Create milestone with interactive spec
    elicitation (stories, requirements, constraints). Produces SPEC.md as the
    contract for gather.
-1b. **Design** (`/gig:design`) — Optional. Generate UI/UX prototypes in Figma,
-   produce DESIGN.md with screen designs and Figma links. Gather references
-   designs when making UI-related decisions. Mermaid system diagrams are
-   generated automatically during gather.
+1b. **Design** (`/gig:design`) — Optional. Brainstorm with ASCII mockups,
+   Mermaid diagrams, and design notes. Produces DESIGN.md with design
+   decisions. Gather references designs when making UI-related decisions.
 2. **Gather** (`/gig:gather`) — Claude researches the problem, asks itself
    every question, makes all decisions with rationale, presents a batch for
    approval, then enters plan mode to design the implementation plan for
@@ -191,7 +190,7 @@ These are shortcuts the user can type during an active gig session:
 
 | Command | Effect |
 |---------|--------|
-| `design` | Generate UI/UX prototypes in Figma, produce DESIGN.md |
+| `design` | Brainstorm with mockups, diagrams, and design notes |
 | `gather` | Start/continue gathering (research + decisions + plan) |
 | `implement` / `next` | Execute the next planned batch |
 | `govern` | Start governance |

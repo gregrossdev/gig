@@ -700,10 +700,11 @@ assert "design skill has DESIGNED status" grep -q 'DESIGNED' "$DESIGN_SKILL"
 assert "design skill references SPEC.md" grep -q 'SPEC\.md' "$DESIGN_SKILL"
 assert "design skill references DESIGN.md" grep -q 'DESIGN\.md' "$DESIGN_SKILL"
 assert "design skill references ARCHITECTURE.md" grep -q 'ARCHITECTURE\.md' "$DESIGN_SKILL"
-assert "design skill references Figma" grep -q 'Figma\|figma' "$DESIGN_SKILL"
+assert "design skill has ASCII mockup" grep -q 'ASCII mockup' "$DESIGN_SKILL"
 assert "design skill has design summary table" grep -q 'Screen/Flow' "$DESIGN_SKILL"
 assert "design command references skill" grep -q '@~/.claude/skills/gig/design/SKILL.md' "$SCRIPT_DIR/commands/design.md"
-assert "design command has Figma tools" grep -q 'mcp__figma__generate_figma_design' "$SCRIPT_DIR/commands/design.md"
+assert_not "design command has no Figma tools" grep -q 'mcp__figma' "$SCRIPT_DIR/commands/design.md"
+assert "design DESIGN.md template exists" test -f "$SCRIPT_DIR/templates/gig/DESIGN.md"
 
 # [34] Design-gather integration
 echo "[34] Design-gather integration"
@@ -714,7 +715,7 @@ assert "gather has Mermaid diagram step" grep -q 'System Diagrams' "$GATHER_SKIL
 assert "gather references .gig/design/ directory" grep -q '\.gig/design/' "$GATHER_SKILL"
 assert "gather has .mmd file references" grep -q '\.mmd' "$GATHER_SKILL"
 assert "gather design is optional" grep -q 'Design is optional' "$GATHER_SKILL"
-assert "gather references Figma in decisions" grep -q 'Figma' "$GATHER_SKILL"
+assert "gather references design mockups in decisions" grep -q 'design mockups\|design screens' "$GATHER_SKILL"
 
 # [35] Design in docs
 echo "[35] Design in docs"

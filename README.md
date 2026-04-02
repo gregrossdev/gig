@@ -182,7 +182,7 @@ Safe to run multiple times — idempotent.
 | `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
 | `/gig:milestone` | Create milestone with spec elicitation, complete milestones, view roadmap |
 | `/gig:learn` | Create structured lesson plans for any topic or course |
-| `/gig:design` | Generate UI/UX prototypes in Figma, create DESIGN.md |
+| `/gig:design` | Brainstorm with mockups, diagrams, and design notes |
 | `/gig:gather` | Research → decisions → plan (two approval gates) |
 | `/gig:implement` | Execute batches, checkpoints, parallel when possible |
 | `/gig:govern` | Test, validate, track issues, archive iteration |

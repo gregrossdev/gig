@@ -81,6 +81,9 @@ project-root/
 
 ## Audit Log
 
+### Milestone 116 — 2026-04-02
+Design as Brainstorm: Design skill has 7 Figma MCP tools baked in. Step 4 entirely generates Figma prototypes. DESIGN.md output format requires Figma URLs. Command stub lists all 7 Figma tools. Gather/RULES/GETTING-STARTED reference "Figma prototypes." No DESIGN.md template exists. ~15 test assertions reference design/Figma. Clean removal: replace Figma calls with ASCII mockups/Mermaid diagrams, update all consumer references.
+
 ### Iteration 115 — 2026-04-02
 One feature per milestone: Current versioning has MINOR=iteration (globally incrementing), PATCH=batch. Needs to change to MINOR=milestone, PATCH=iteration within milestone. "Upcoming Iterations" appears in 9 files. Govern Step 10 auto-queues iterations; needs to prompt milestone completion instead. ~23 test assertions affected. Branch naming uses iteration numbers. Core restructure of versioning model across govern, gather, milestone, RULES.md, GIT-STRATEGY.md, ROADMAP template.
 

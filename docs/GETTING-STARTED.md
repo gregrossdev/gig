@@ -65,11 +65,11 @@ For iterations with UI/UX work, create prototypes before gathering:
 ```
 
 Claude will:
-- Analyze requirements that need UI/UX design
-- Generate Figma prototypes using the Figma MCP
+- Analyze requirements that need design
+- Brainstorm with ASCII mockups, Mermaid diagrams, and design notes
 - Present a design summary for approval
 
-After approval, `DESIGN.md` is created with Figma links and design decisions. When you run gather next, it will reference these designs and also generate Mermaid system diagrams automatically.
+After approval, `DESIGN.md` is created with design decisions and mockups. When you run gather next, it will reference these designs when making UI-related decisions.
 
 Skip this step for backend-only or system-level iterations.
 
@@ -191,7 +191,7 @@ Each iteration increments the MINOR version. Iterations build toward the milesto
 | `ROADMAP.md` | Milestones and iterations | Iteration start/end, milestone completion |
 | `GOVERNANCE.md` | Iteration closure report (tests, audit, verdict) | During govern, archived with iteration |
 | `SPEC.md` | Locked spec — stories, requirements, constraints | During spec, read by gather/govern |
-| `DESIGN.md` | UI/UX design decisions, Figma prototype links | During design, read by gather |
+| `DESIGN.md` | Design mockups, diagrams, and decisions | During design, read by gather |
 | `DEBT.md` | Technical debt — structural concerns tracked across iterations | During govern, resolved during refactor iterations |
 | `BACKLOG.md` | Backlog ideas — no commitment, no priority | During govern, anytime |
 | `GIT-STRATEGY.md` | Branch, commit, tag conventions | Reference only |
