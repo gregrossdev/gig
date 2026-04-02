@@ -2,12 +2,7 @@
 
 ## Current Milestone
 
-| Field | Value |
-|-------|-------|
-| **Name** | Fix Version Identity |
-| **Version** | v0.119.0 |
-| **Status** | in-progress |
-| **Description** | .gig-version tracks gig tool version (from plugin.json), not project version. Project milestones use their own independent sequence (0.1.0, 0.2.0). Init compares .gig-version against gig plugin version for upgrades. Add upgrade migration for existing projects. |
+_None — run `/gig:milestone` to create the next one._
 
 ## Iterations
 
@@ -31,6 +26,13 @@
 
 <!-- Milestones moved here by gig:milestone on completion -->
 <!-- Format: ### v{X.Y} — {Name} (completed YYYY-MM-DD) -->
+
+### v0.119.0 — Fix Version Identity (completed 2026-04-02)
+
+.gig-version tracks gig tool version, not project version. Init uses exact match for upgrade detection. Upgrade.sh migrates Upcoming Iterations → Milestones.
+
+**Iterations:**
+1. Fix Version Identity (v0.119.1)
 
 ### v0.118.0 — Brainstorm Prompt + Rules Sync (completed 2026-04-02)
 
