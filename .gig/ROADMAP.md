@@ -14,7 +14,7 @@
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
 | 113 | Milestone Absorbs Spec | v0.113.1–v0.113.5 | complete |
-| 114 | Milestone Resume & Status Integration | v0.114.x | planned |
+| 114 | Milestone Resume & Status Integration | v0.114.1–v0.114.3 | complete |
 
 ## Upcoming Iterations
 

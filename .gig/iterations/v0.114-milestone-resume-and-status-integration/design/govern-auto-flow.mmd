@@ -1,0 +1,19 @@
+%% Govern Auto-Flow (Iteration 99)
+%% Shows the streamlined govern flow: only 2 user stops
+
+flowchart TD
+    A[Step 2: Quick Verify] -->|"verified / skip"| B[Steps 3-8: Auto-Proceed]
+
+    subgraph Auto["Continuous Block — No Stops"]
+        B1[Step 3: Run Tests] --> B2[Step 4: Acceptance Criteria]
+        B2 --> B3[Step 5: Decision Audit]
+        B3 --> B4[Step 5b: Architecture Health]
+        B4 --> B5[Step 6: UAT — Auto-Assessed]
+        B5 --> B6[Step 7: Issue Tracking]
+        B6 --> B7[Step 8: Governance Report]
+    end
+
+    B --> B1
+    B7 --> C{Blockers/Majors?}
+    C -->|Yes| D[Fix routing gate]
+    C -->|No| E[Approve / Rollback]

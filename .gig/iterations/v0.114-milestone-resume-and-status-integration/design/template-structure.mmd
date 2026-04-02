@@ -1,0 +1,35 @@
+%% Template Directory Structure (Iteration 97)
+%% Shows how diagram presets map to project types
+
+flowchart LR
+    subgraph Templates["templates/"]
+        subgraph Project["project/"]
+            A1[ARTICLE.md]
+            A2[README.md]
+            A3[RESEARCH.md]
+        end
+        subgraph Diagrams["diagrams/"]
+            B1[article/outline-flow.mmd]
+            B2[readme/architecture.mmd]
+            B3[research/concept-map.mmd + flow.mmd]
+            B4[webapp/architecture + data-flow + er + sequence]
+            B5[api/architecture + er + data-flow + sequence]
+            B6[cli/architecture + data-flow + sequence]
+            B7[library/architecture + data-flow]
+        end
+    end
+
+    subgraph Target[".gig/design/"]
+        C[Preset .mmd files]
+    end
+
+    A1 -.->|content template| B1
+    A2 -.->|content template| B2
+    A3 -.->|content template| B3
+    B1 --> C
+    B2 --> C
+    B3 --> C
+    B4 --> C
+    B5 --> C
+    B6 --> C
+    B7 --> C

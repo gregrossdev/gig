@@ -4,9 +4,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.114.0` |
+| **Version** | `0.114.3` |
 | **Iteration** | 114 — Milestone Resume & Status Integration |
-| **Status** | `IMPLEMENTED` |
+| **Status** | `GOVERNED` |
 | **Last Batch** | Update Tests (114.3) |
 | **Last Updated** | 2026-04-02 |
 
@@ -18,6 +18,9 @@
 
 | Version | Iteration | Batch Title | Type | Status | Timestamp |
 |---------|-----------|-------------|------|--------|-----------|
+| 0.114.3 | 114 | Update Tests | PLANNED | done | 2026-04-02 |
+| 0.114.2 | 114 | Status Spec Progress Display | PLANNED | done | 2026-04-02 |
+| 0.114.1 | 114 | Milestone Resume Guard + Status SPECING | PLANNED | done | 2026-04-02 |
 | 0.113.5 | 113 | Update Tests | PLANNED | done | 2026-04-02 |
 | 0.113.4 | 113 | Update Global Rules | PLANNED | done | 2026-04-02 |
 | 0.113.3 | 113 | Update Consumer Skills | PLANNED | done | 2026-04-02 |
@@ -35,9 +38,6 @@
 | 0.109.2 | 109 | Doc derivation in spec After MVP Lock | PLANNED | done | 2026-03-30 |
 | 0.109.1 | 109 | DOCS.md template + doc templates | PLANNED | done | 2026-03-30 |
 | 0.108.5 | 108 | Tests | PLANNED | done | 2026-03-30 |
-| 0.108.4 | 108 | Update install.sh + docs | PLANNED | done | 2026-03-30 |
-| 0.108.3 | 108 | Auto-detect type + scaffold docs + MVP routing | PLANNED | done | 2026-03-30 |
-| 0.108.2 | 108 | Remove project templates + diagram files | PLANNED | done | 2026-03-30 |
 
 
 
@@ -47,10 +47,7 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-- D-1.1: Add resume guard for SPECING in milestone skill
-- D-1.2: Add SPECING suggestion to status skill
-- D-1.3: Show spec progress (stories/requirements) in status
-- D-1.4: Show spec coverage (covered/total) in status
+_None._
 
 ---
 
@@ -67,12 +64,7 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-- Iteration 114: Milestone Resume & Status Integration
-- Key files: skills/milestone/SKILL.md, skills/status/SKILL.md, test.sh
-- Milestone guard goes between Step 1 and Step 2
-- Status SPECING row goes between IDLE and SPECCED in Step 3 table
-- Status spec progress goes after Milestone line in Step 2
-- Status reads SPEC.md in Step 1 alongside other files
+_None._
 
 ---
 

@@ -96,7 +96,4 @@ Govern doc health: Adding Step 5c (Documentation Health Check) to govern, betwee
 ### Iteration 109 — 2026-03-30
 MVP-driven doc derivation: Adding logic to the spec skill's After MVP Lock step to auto-derive documentation needs from MVP.md content. Also creating doc templates (API reference, deployment guide, contributing guide, usage guide, env setup) in templates/docs/. No new skills — extends existing spec skill behavior and adds template files. The derivation is instructional (Claude reads MVP.md and determines what docs are needed), not code-based.
 
-### Iteration 108 — 2026-03-30
-Init overhaul: Removing the manual template picker (Step 1b) and diagram preset scaffolding (Step 1c) from init. Replacing with auto-detection of project type (already partly exists in Step 2), minimum doc scaffolding (README, CHANGELOG, LICENSE), and MVP-first routing for new projects. This is a structural rewrite of init's post-scaffold flow. Project templates reduced from 3 to 1 (Article.md only). Diagram templates directory removed entirely — gather Step 3b handles diagrams dynamically. Significant test rewrite needed: tests [23], [26], [53] heavily affected. Install.sh project template and diagram copy sections need updating.
-
 
