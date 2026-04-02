@@ -572,7 +572,7 @@ Once the user approves:
 
 > "Milestone **{name}** v{version} created with {N} stories and {M} requirements."
 >
-> "Run `/gig:gather` to start making decisions — gather will trace every decision back to these requirements."
+> "Run `/gig:design` to brainstorm with mockups and diagrams first, or `/gig:gather` to start making decisions directly."
 
 ---
 

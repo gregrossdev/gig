@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.117.0` |
+| **Version** | `0.118.0` |
 | **Iteration** | — |
-| **Status** | `IDLE` |
-| **Last Batch** | — |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Brainstorm Prompt + Rules Sync |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -64,7 +64,10 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Milestone: Brainstorm Prompt + Rules Sync (v0.118.0)
+- Two changes: (1) milestone skill ending offers design before gather, (2) CLAUDE.md global rules sync
+- Key files: skills/milestone/SKILL.md (Step 3a.6 ending), CLAUDE.md (root)
+- CLAUDE.md still has old Spec step and old versioning — needs to match docs/RULES.md
 
 ---
 

@@ -2,7 +2,12 @@
 
 ## Current Milestone
 
-_None — run `/gig:milestone` to create the next one._
+| Field | Value |
+|-------|-------|
+| **Name** | Milestone Brainstorm Prompt + Rules Sync |
+| **Version** | v0.118.0 |
+| **Status** | in-progress |
+| **Description** | After milestone creation, offer brainstorm/design phase before suggesting gather. Also sync global CLAUDE.md rules with current milestone-driven workflow. |
 
 ## Iterations
 
@@ -17,8 +22,6 @@ _None — run `/gig:milestone` to create the next one._
 
 | # | Name | Description |
 |---|------|-------------|
-| 118 | CLAUDE.md Global Rules Sync | Global CLAUDE.md still references old workflow (Spec step, old versioning). Sync with current milestone-driven, one-feature-per-milestone model. |
-| 119 | Milestone Brainstorm Prompt | After milestone creation, offer brainstorm/design phase before suggesting gather. Currently skips straight to "run gather." |
 | 120 | Init-to-Milestone Seamless Flow | Init auto-transitions to milestone elicitation. Verify SPECING/SPECCED status transitions work across the init → milestone boundary in real projects. |
 
 

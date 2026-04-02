@@ -7,9 +7,21 @@
 
 ## Active Iteration
 
-<!-- Populated by gig:gather. Cleared and archived by gig:govern on completion. -->
+### Milestone 118 — Brainstorm Prompt + Rules Sync (v0.118.x)
 
-_No active iteration. Run `/gig:gather` to start._
+> Offer design/brainstorm after milestone creation. Sync global rules and test count.
+
+**Decisions:** D-1.1, D-1.2, D-1.3
+**Type:** feature
+
+| Batch | Version | Title | Delegation | Status |
+|-------|---------|-------|------------|--------|
+| 118.1 | `0.118.1` | Brainstorm Prompt + Rules Sync | in-session | done |
+
+**Iteration Acceptance Criteria:**
+- [x] Milestone ending offers /gig:design before /gig:gather
+- [x] Test count updated to 600+
+- [x] All tests pass
 
 ---
 
