@@ -4,9 +4,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.115.0` |
+| **Version** | `0.115.5` |
 | **Iteration** | — |
-| **Status** | `IMPLEMENTED` |
+| **Status** | `GOVERNED` |
 | **Last Batch** | Update Tests (115.5) |
 | **Last Updated** | 2026-04-02 |
 
@@ -18,6 +18,11 @@
 
 | Version | Iteration | Batch Title | Type | Status | Timestamp |
 |---------|-----------|-------------|------|--------|-----------|
+| 0.115.5 | 115 | Update Tests | PLANNED | done | 2026-04-02 |
+| 0.115.4 | 115 | ROADMAP Template & Milestone Skill | PLANNED | done | 2026-04-02 |
+| 0.115.3 | 115 | Gather Version Derivation | PLANNED | done | 2026-04-02 |
+| 0.115.2 | 115 | Govern Step 10 Restructure | PLANNED | done | 2026-04-02 |
+| 0.115.1 | 115 | Versioning & Rules Update | PLANNED | done | 2026-04-02 |
 | 0.114.3 | 114 | Update Tests | PLANNED | done | 2026-04-02 |
 | 0.114.2 | 114 | Status Spec Progress Display | PLANNED | done | 2026-04-02 |
 | 0.114.1 | 114 | Milestone Resume Guard + Status SPECING | PLANNED | done | 2026-04-02 |
@@ -33,11 +38,6 @@
 | 0.112.1 | 112 | Agent Profiles in RULES.md | PLANNED | done | 2026-04-01 |
 | 0.111.1 | 111 | Flexible Article template + tests | PLANNED | done | 2026-03-30 |
 | 0.110.2 | 110 | Tests | PLANNED | done | 2026-03-30 |
-| 0.110.1 | 110 | Govern doc health step + report section | PLANNED | done | 2026-03-30 |
-| 0.109.3 | 109 | install.sh + tests | PLANNED | done | 2026-03-30 |
-| 0.109.2 | 109 | Doc derivation in spec After MVP Lock | PLANNED | done | 2026-03-30 |
-| 0.109.1 | 109 | DOCS.md template + doc templates | PLANNED | done | 2026-03-30 |
-| 0.108.5 | 108 | Tests | PLANNED | done | 2026-03-30 |
 
 
 
@@ -47,12 +47,7 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-- D-1.1: MINOR=milestone, PATCH=iteration versioning
-- D-1.2: Rename Upcoming Iterations → Upcoming Milestones
-- D-1.3: Govern prompts milestone completion after archiving
-- D-1.4: Gather derives patch from current milestone, not global
-- D-1.5: Branch naming stays feature/v0.{M}-{name}
-- D-1.6: Update RULES.md versioning docs
+_None._
 
 ---
 
@@ -69,13 +64,7 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-- Milestone: One Feature Per Milestone (v0.115.0)
-- Goal: Each milestone = one feature, kept small
-- Versioning: milestone = 0.X.0, iterations within = 0.X.1, 0.X.2, etc.
-- Iterations still exist within milestones (patch bumps)
-- After govern: default prompt = complete milestone, not auto-queue more iterations
-- ROADMAP: "Upcoming Milestones" replaces "Upcoming Iterations"
-- Former upcoming iterations (115-117) become milestone proposals on roadmap
+_None._
 
 ---
 

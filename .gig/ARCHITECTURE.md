@@ -96,7 +96,4 @@ Agent profile standardization: Inconsistent agent usage across skills — triage
 ### Iteration 110 — 2026-03-30
 Govern doc health: Adding Step 5c (Documentation Health Check) to govern, between Architecture Health Check (5b) and UAT (6). Reads DOCS.md for tracked docs, checks each for existence and staleness against recent iteration changes. Auto-generates updates, presents diffs for approval. Deferred updates become DOC issues. New Documentation Coverage section in governance report. No new skills — extends govern skill.
 
-### Iteration 109 — 2026-03-30
-MVP-driven doc derivation: Adding logic to the spec skill's After MVP Lock step to auto-derive documentation needs from MVP.md content. Also creating doc templates (API reference, deployment guide, contributing guide, usage guide, env setup) in templates/docs/. No new skills — extends existing spec skill behavior and adds template files. The derivation is instructional (Claude reads MVP.md and determines what docs are needed), not code-based.
-
 

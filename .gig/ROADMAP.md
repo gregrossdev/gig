@@ -13,6 +13,7 @@
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
+| 1 | Versioning & Workflow Restructure | v0.115.1–v0.115.5 | complete |
 
 ## Upcoming Milestones
 

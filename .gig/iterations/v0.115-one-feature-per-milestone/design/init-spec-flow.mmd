@@ -1,0 +1,27 @@
+%% Init → Spec Flow (Iteration 97)
+%% Shows the new seamless flow from init through diagram scaffolding to spec
+
+flowchart TD
+    subgraph Init["gig:init"]
+        A[Step 0: Guard Check] --> B[Step 1: Scaffold .gig/]
+        B --> C[Step 1b: Template Selection]
+        C --> D{Project Type?}
+        D -->|Content| E[Copy project file + diagram preset]
+        D -->|Code| F[Copy diagram preset only]
+        D -->|Skip| G[No diagrams]
+        E --> H[Create .gig/design/ with .mmd files]
+        F --> H
+        G --> I[Steps 2-8: Discovery + State]
+        H --> I
+    end
+
+    subgraph Spec["gig:spec (auto-launched)"]
+        I --> J[Spec elicitation starts]
+        J --> K[User stories + requirements]
+    end
+
+    subgraph Lifecycle["Diagram Evolution"]
+        L[Init scaffolds preset] --> M[Gather updates in place]
+        M --> N[Govern archives snapshot]
+        N --> M
+    end
