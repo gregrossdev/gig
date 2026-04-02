@@ -1,0 +1,32 @@
+sequenceDiagram
+    participant U as User
+    participant S as Spec Skill
+    participant G as Gather Skill
+    participant I as Implement Skill
+    participant SP as SPEC.md
+
+    Note over U,SP: Tier 1 — During Spec (Free)
+    U->>S: Change requirement
+    S->>S: Update draft in conversation
+    Note right of S: No file write, no record
+
+    Note over U,SP: Tier 2 — During Gather (Lightweight)
+    U->>G: amend REQ-X
+    G->>SP: Increment version (v1.0 → v1.1)
+    G->>SP: Append AMD-N entry
+    G->>G: Re-evaluate affected decisions
+    G->>U: Re-present decision table
+
+    Note over U,SP: Tier 3 — During Implement (Impact-Assessed)
+    U->>I: amend REQ-X
+    I->>I: Pause execution
+    I->>SP: Increment version
+    I->>SP: Append AMD-N with impact analysis
+    I->>U: Present 3 options
+    alt Patch batch
+        I->>I: Adjust current batch, continue
+    else Re-gather
+        I->>G: Re-run gather with amended spec
+    else Story-level re-eval
+        I->>S: Flag all REQs under story
+    end

@@ -2,12 +2,7 @@
 
 ## Current Milestone
 
-| Field | Value |
-|-------|-------|
-| **Name** | Design as Brainstorm |
-| **Version** | v0.116.0 |
-| **Status** | in-progress |
-| **Description** | Remove Figma from the design skill. Design = brainstorm with pictures, diagrams, and mockups to align on what to build — not Figma prototyping. |
+_None — run `/gig:milestone` to create the next one._
 
 ## Iterations
 
@@ -28,6 +23,13 @@
 
 <!-- Milestones moved here by gig:milestone on completion -->
 <!-- Format: ### v{X.Y} — {Name} (completed YYYY-MM-DD) -->
+
+### v0.116.0 — Design as Brainstorm (completed 2026-04-02)
+
+Remove Figma from the design skill. Design = brainstorm with pictures, diagrams, and mockups to align on what to build — not Figma prototyping.
+
+**Iterations:**
+1. Figma Removal & Brainstorm Rewrite (v0.116.1–v0.116.3)
 
 ### v0.115.0 — One Feature Per Milestone (completed 2026-04-02)
 
