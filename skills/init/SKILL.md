@@ -171,8 +171,9 @@ Add gig workflow rules to the project's `.claude/CLAUDE.md` so they apply when C
 
 1. **Locate RULES.md:**
    - Plugin install: `${CLAUDE_PLUGIN_ROOT}/docs/RULES.md`
-   - Script install: `~/.claude/templates/gig/RULES.md`
-   - If not found at either location, say: "Warning: RULES.md not found. Skipping project rules setup. You can manually copy docs/RULES.md to `.claude/CLAUDE.md`." and skip this step.
+   - Script install (copy): `~/.claude/templates/gig/RULES.md`
+   - Script install (symlink): Follow `~/.claude/templates/gig` symlink to find the repo root, then read `docs/RULES.md` relative to it. If `~/.claude/templates/gig` is a symlink, resolve it and look for `../docs/RULES.md` relative to the symlink target.
+   - If not found at any location, say: "Warning: RULES.md not found. Skipping project rules setup." and skip this step.
 
 2. **Create `.claude/` directory** in the project root if not present.
 
