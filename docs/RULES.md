@@ -43,13 +43,13 @@ steps in one.
 > - "change X" / "redline" → Claude adjusts and re-presents
 > - "no" / "scrap it" → Claude re-evaluates
 
-## Batch Versioning
+## Versioning
 
-Version format: `MAJOR.MINOR.PATCH` — a linear timeline of everything done.
+Version format: `MAJOR.MINOR.PATCH` — each milestone is one feature.
 
-- **PATCH** — every executed batch (planned or unplanned)
-- **MINOR** — iteration completion (MINOR always equals the iteration number)
-- **MAJOR** — milestone completion (user declares, Claude never proposes v1.0+)
+- **MINOR** — milestone number (each milestone = one feature)
+- **PATCH** — iteration within the milestone (0.X.1, 0.X.2, etc.)
+- **MAJOR** — user declares (Claude never proposes v1.0+)
 
 Unplanned work (`fix [thing]`) gets the next PATCH, tagged `[UNPLANNED]`,
 and inserted retroactively into PLAN.md.
@@ -78,11 +78,12 @@ Issue flow: `OPEN → FIXING → RESOLVED` or `OPEN → DEFERRED`
 ## Iteration Archiving
 
 When an iteration completes (`/gig:govern` approved):
-- Iteration plan, decisions, and resolved issues are archived to `.gig/iterations/v0.{N}-{iteration-name}/`
+- Iteration plan, decisions, and resolved issues are archived to `.gig/iterations/v0.{M}.{P}-{iteration-name}/`
 - Active PLAN.md and DECISIONS.md are cleared for the next iteration
 - Deferred issues remain in ISSUES.md
-- A summary of what was built + 3 next iteration suggestions are presented
-- Upcoming Iterations queue holds max 3 entries — always replaced, never appended
+- A summary of what was built is presented
+- User is prompted to complete the milestone or run another iteration
+- Upcoming Milestones queue on the roadmap proposes future features (max 3)
 - Ideas beyond the 3-cap go to `.gig/BACKLOG.md` as backlog (no commitment, no priority)
 - `ls .gig/iterations/` shows the full linear project history
 

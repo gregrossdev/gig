@@ -8,9 +8,9 @@
 
 ```
 main                          ← stable, verified, tagged
-  └── feature/v0.1-auth       ← iteration 1 work
-  └── feature/v0.2-crud       ← iteration 2 work
-  └── feature/v0.3-tests      ← iteration 3 work
+  └── feature/v0.1-auth       ← milestone 1 (auth feature)
+  └── feature/v0.2-crud       ← milestone 2 (CRUD feature)
+  └── feature/v0.3-tests      ← milestone 3 (test feature)
 ```
 
 ### Branch Naming
@@ -18,14 +18,14 @@ main                          ← stable, verified, tagged
 | Branch | Pattern | Created By | Lifecycle |
 |--------|---------|-----------|-----------|
 | **main** | `main` | — | Permanent. Always deployable. |
-| **iteration** | `feature/v0.{N}-{iteration-name}` | `gig:apply` | Created at iteration start, deleted after merge. |
-| **team task** | `feature/v0.{N}-{iteration-name}/batch-{P}` | `gig:apply` (team mode) | Created per parallel batch, merged into iteration branch. |
+| **milestone** | `feature/v0.{M}-{milestone-name}` | `gig:implement` | Created at milestone start, deleted after merge. |
+| **team task** | `feature/v0.{M}-{milestone-name}/batch-{P}` | `gig:implement` (team mode) | Created per parallel batch, merged into milestone branch. |
 
 ### Rules
 
-- One iteration branch at a time. No long-lived feature branches.
-- Iteration branches are created from `main` HEAD at iteration start.
-- Team task branches are created from the iteration branch.
+- One milestone branch at a time. No long-lived feature branches.
+- Milestone branches are created from `main` HEAD at first iteration start.
+- Team task branches are created from the milestone branch.
 - Never work directly on `main`.
 
 ---
@@ -112,38 +112,38 @@ Tags mark significant points aligned with the version timeline.
 
 ### Iteration Tags
 
-Created automatically when an iteration merges to main. The tag is the **actual last batch version** — not a reset.
+Created automatically when an iteration is governed. The tag is the milestone version with the iteration patch.
 
 ```
-git tag -a v0.{N}.{last-P} -m "Iteration {N}: {iteration name}"
+git tag -a v0.{M}.{P} -m "Milestone {M}, iteration {P}: {iteration name}"
 ```
 
 **Examples:**
 ```
-v0.1.3  — Iteration 1: Database & Schema (3 batches)
-v0.2.6  — Iteration 2: Task CRUD Routes (3 batches, including unplanned)
-v0.3.2  — Iteration 3: Validation & Error Handling (2 batches)
+v0.1.1  — Milestone 1, iteration 1: Database & Schema
+v0.1.2  — Milestone 1, iteration 2: Task CRUD Routes
+v0.2.1  — Milestone 2, iteration 1: Validation & Error Handling
 ```
 
 ### Milestone Tags
 
-Created by `gig:milestone` when a milestone completes:
+Created by `gig:milestone complete` when a milestone finishes. The tag is the last iteration version.
 
 ```
-git tag -a v{MAJOR}.0.0 -m "Milestone: {milestone name}"
+git tag -a v0.{M}.{last-P} -m "Milestone: {milestone name}"
 ```
 
 **Examples:**
 ```
-v1.0.0  — Milestone: MVP Release
-v2.0.0  — Milestone: Multi-tenant Support
+v0.1.3  — Milestone: Auth Feature (3 iterations)
+v0.2.1  — Milestone: CRUD Feature (1 iteration)
 ```
 
 ### Tag Rules
 
 - Tags are created on `main` after merge.
-- Iteration tags use the `v0.{N}.{last-P}` format (actual last batch version).
-- Milestone tags use the `v{MAJOR}.0.0` format.
+- Iteration tags use the `v0.{M}.{P}` format (milestone.iteration).
+- Milestone tags use the last iteration version.
 - Never move or delete tags.
 
 ---
@@ -161,10 +161,10 @@ feature/v0.1:   ──●──●──●──●                       ─�
 ```
 
 **Reading the graph:**
-- Each `●` on a feature branch = one batch commit
-- Each batch commit is versioned `v0.{N}.{P}`
-- Iteration merges back to main tagged with the **last batch version** (e.g., `v0.1.4`)
-- The next iteration starts at `v0.{N+1}.1` (first batch of next iteration)
+- Each `●` on a feature branch = one iteration commit
+- Each iteration is versioned `v0.{M}.{P}` (milestone.iteration)
+- Milestone merges back to main tagged with the **last iteration version** (e.g., `v0.1.4`)
+- The next milestone starts at `v0.{M+1}.1` (first iteration of next milestone)
 - Main always has clean, verified, tagged code
 
 ---

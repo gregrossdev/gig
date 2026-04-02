@@ -140,9 +140,9 @@ gig will:
 
 After governance approves the iteration, just say `gather` to start the next one.
 
-If your roadmap has pre-planned iterations (in the Upcoming Iterations section of ROADMAP.md), gig auto-flows:
+After governance, complete the milestone or run another iteration:
 
-- **Govern** finishes with: `> Next up: Iteration Name — description. Run gather to start.`
+- **Govern** finishes with: `> Run /gig:milestone complete to finish this feature, or /gig:gather for another iteration.`
 - **Gather** auto-pulls the next planned iteration — no need to specify what to build
 - You can still say `skip` to choose something different
 

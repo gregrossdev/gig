@@ -524,12 +524,12 @@ Reference: `.gig/GIT-STRATEGY.md` for full conventions.
 
 ---
 
-## Step 10 — Iteration Summary & Next Suggestions
+## Step 10 — Iteration Summary & Next Action
 
 After archiving, present a comprehensive summary:
 
 ```
-## Iteration {N} Complete — {Iteration Name}
+## Iteration Complete — {Iteration Name}
 
 ### What Was Built
 - {Feature/capability 1}
@@ -544,7 +544,7 @@ After archiving, present a comprehensive summary:
 - Deferred to future: {count} {list if any}
 
 ### Version
-Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
+v0.{M}.{P} ({milestone name})
 
 ### Current Project State
 {Brief assessment of what the project can do now — working features, capabilities}
@@ -553,72 +553,22 @@ Started: v0.{N}.0 → Ended: v0.{N}.{last-P}
 ### Debt-Driven Refactor Check
 
 Read `.gig/DEBT.md`. Group OPEN and TRACKED entries by Area.
-If 2+ entries share the same area, recommend a refactor iteration:
-- When writing Upcoming Iterations, insert as first entry: `| {N} | Refactor: {area} | Address DEBT-X, DEBT-Y — {area} has accumulated structural debt |`
-- Note the iteration type should be `refactor` (gather will set this based on the goal).
+If 2+ entries share the same area, note: "Technical debt cluster in {area} — consider a refactor iteration before completing the milestone."
 
 If no debt clusters, skip this section.
 
-### Determine What's Next
+### Spec Coverage Check
 
-**Path A — Spec exists with uncovered requirements (auto-queue):**
+Read `.gig/SPEC.md` if it exists. Check requirement coverage:
 
-Read `.gig/SPEC.md`. Identify requirements with Status `NOT COVERED`. If any exist:
+**If uncovered requirements remain:**
+> "Spec has {N} uncovered requirements. Run `/gig:gather` for another iteration, or `/gig:milestone complete` if remaining items should move to a future milestone."
 
-1. Group uncovered requirements by parent story into iteration-sized chunks (1 story or 2-3 related requirements per iteration).
-2. Take the next 3 chunks (or fewer if less remain).
-3. **Automatically write them to the Upcoming Iterations queue** — no suggestions, no asking. The spec already defines what needs to be built.
-
-```
-### Auto-Queued from Spec
-
-| # | Name | Requirements |
-|---|------|-------------|
-| {N} | {Story or requirement group name} | REQ-001, REQ-002 |
-| {N+1} | {Story or requirement group name} | REQ-003 |
-| {N+2} | {Story or requirement group name} | REQ-004, REQ-005 |
-
-{remaining} uncovered requirements after these 3.
-```
-
-Present the auto-queued iterations, then:
-> "These are queued from your spec. Edit or reorder if needed, or say 'go' to accept."
-
-**If user edits:** Apply changes and write the edited versions.
-**Otherwise:** Write all to ROADMAP.md.
-
-If open/deferred issues exist in ISSUES.md, surface them:
-> "Open issues: {list}. Want to insert a fix iteration before the spec queue?"
-
-**Path B — All requirements covered:**
-
-The current spec is complete — every requirement has been addressed.
-
-```
-### Spec Complete
-
-All {count} requirements in SPEC.md are now COVERED.
-
-Run `/gig:milestone` to create the next milestone with requirements, or `/gig:milestone complete` if this milestone is done.
-```
-
-Clear the Upcoming Iterations queue (nothing left to auto-queue). Do not generate suggestions — the spec phase is the right place to decide what's next.
+**If all requirements covered (or no spec):**
+> "All requirements covered. Run `/gig:milestone complete` to finish this feature."
 
 If open/deferred issues exist, surface them:
-> "Open issues remain: {list}. Consider addressing these in the next spec, or run `gather fix [thing]` for urgent fixes."
-
-**Path C — No spec exists:**
-
-No spec means the project hasn't adopted spec-driven development yet.
-
-```
-### No Spec
-
-Run `/gig:milestone` to define what to build next, or `/gig:milestone baseline` to create a spec from what's already been built.
-```
-
-If open/deferred issues exist, surface them:
-> "Open issues: {list}. Run `gather fix [thing]` for urgent fixes, or include them in your next spec."
+> "Open issues: {list}. Run `gather fix [thing]` for urgent fixes before completing."
 
 ### In the Backlog
 
@@ -631,22 +581,9 @@ Read `.gig/BACKLOG.md` and surface any items relevant to this iteration's change
 
 If nothing in the backlog is relevant, skip this section. **Do not pull backlog items into suggestions.**
 
-### Write to Roadmap
-
-**Clear** the entire Upcoming Iterations table in `.gig/ROADMAP.md`, then write the 3 new entries:
-```
-| {next iteration #} | {Iteration Name} | {One-line description} |
-```
-
-Number new suggestions starting after the highest existing iteration number (from both the Iterations table and Upcoming Iterations table).
-
-**Hard rule:** The Upcoming Iterations table holds a maximum of 3 entries. Always replace, never append.
-
-If additional ideas are worth noting but not immediately actionable, append them to `.gig/BACKLOG.md` as bullet points. These are backlog items — no commitment, no priority.
-
 Then say:
 
-> "Iteration archived to `.gig/iterations/v0.{N}-{iteration-name}/`. Pick a direction and run `/gig:gather` to start the next iteration, or `/gig:milestone` to manage milestones."
+> "Iteration archived. Run `/gig:milestone complete` to finish this milestone, or `/gig:gather` for another iteration."
 
 ## If Failures Need Fixing
 

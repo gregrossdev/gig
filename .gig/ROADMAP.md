@@ -2,19 +2,23 @@
 
 ## Current Milestone
 
-_None — run `/gig:milestone` to create the next one._
+| Field | Value |
+|-------|-------|
+| **Name** | One Feature Per Milestone |
+| **Version** | v0.115.0 |
+| **Status** | in-progress |
+| **Description** | Each milestone = one feature. Versioning: milestone = 0.X.0, iterations within = 0.X.1, 0.X.2, etc. After govern, prompt to complete milestone. Roadmap shows upcoming milestones, not upcoming iterations. |
 
 ## Iterations
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
 
-## Upcoming Iterations
+## Upcoming Milestones
 
-<!-- Maximum 3 entries. Replaced with fresh suggestions after each iteration by gig:govern.
-     Gather auto-pulls the first entry when no args are provided.
-     Entries move to the Iterations table when gather starts them.
-     Run "gather [your idea]" to start something not listed here. -->
+<!-- Maximum 3 entries. Proposed by user or during milestone completion.
+     Each entry is a feature proposal for a future milestone.
+     Run "/gig:milestone" to create one of these as the next milestone. -->
 
 | # | Name | Description |
 |---|------|-------------|

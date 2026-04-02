@@ -47,25 +47,13 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 
 ### Step 2 — Gather Intent
 
-Check `.gig/ROADMAP.md` for an Upcoming Iterations section with entries.
+Use the current milestone's goal from `.gig/ROADMAP.md` as context.
 
-**If user provided args:** Check if the args match an entry name in the Upcoming Iterations table (case-insensitive). If matched, consume that entry (see "Consuming an Upcoming Iteration" below). If no match, use the args as a freeform goal and skip to "After intent is set".
+**If user provided args:** Use the args as the iteration goal. Skip to "After intent is set".
 
-**If user did NOT provide args and the Upcoming Iterations table has entries:** Take the **first row** of the table.
-1. Present: "Next planned iteration: **{name}** — {description}. Starting research on this. Say `skip` to choose something else."
-2. If user says `skip`, ask: "What do you want to build or accomplish?"
-3. Otherwise, consume that entry (see below).
-
-**If no upcoming iterations and no user goal:** Ask the user ONE open-ended question: "What do you want to build or accomplish?"
+**If user did NOT provide args:** Use the milestone description as the default goal. If the milestone description is too broad, ask: "What aspect of this milestone do you want to work on?"
 
 If the user already stated their goal (same message or prior context), skip and proceed.
-
-#### Consuming an Upcoming Iteration
-
-When an iteration is selected from the Upcoming Iterations table:
-1. **Remove** the entry's row from the Upcoming Iterations table in `.gig/ROADMAP.md`.
-2. **Add** it to the Iterations table with status `planned`: `| {N} | {Name} | v0.{N}.x | planned |`
-3. Use the iteration name and description as the goal for Steps 3-4.
 
 #### After intent is set
 
@@ -222,16 +210,18 @@ After decisions are locked, call `EnterPlanMode` to design the iteration plan. I
 
 ### Step 7 — Determine Iteration
 
-Look at `.gig/ROADMAP.md` iterations table and `.gig/iterations/` directory.
-- If no iterations exist: iteration number = `1`.
-- Otherwise: increment from highest existing.
+Read the current milestone version from `.gig/ROADMAP.md` (e.g., `v0.115.0`). The MINOR is the milestone number.
 
-The iteration version follows the batch versioning rule: **MINOR = iteration number**.
-- Iteration 1 → version `0.1.x`
-- Iteration 2 → version `0.2.x`
-- Iteration N → version `0.N.x`
+Look at the Iterations table in `.gig/ROADMAP.md` for the current milestone:
+- If no iterations exist for this milestone: iteration = `1` → version `0.{M}.1`
+- Otherwise: increment from highest PATCH → version `0.{M}.{P+1}`
 
-Derive iteration name from the decisions context. Format: `v0.{N}-{kebab-case}`.
+Version follows: **MINOR = milestone number, PATCH = iteration within milestone**.
+- First iteration of milestone 115 → version `0.115.1`
+- Second iteration → version `0.115.2`
+- Iteration N → version `0.{M}.{N}`
+
+Derive iteration name from the decisions context. Branch format: `feature/v0.{M}-{kebab-case-milestone-name}`.
 
 ### Step 8 — Decompose Into Batches
 
@@ -318,12 +308,11 @@ Write the iteration to `.gig/PLAN.md`, replacing the "Active Iteration" section:
 **Step 10 — Update State & Roadmap**
 
 Update `.gig/STATE.md`:
-- **Version:** `0.{N}.0`
-- **Iteration:** {N} — {Name}
+- **Version:** `0.{M}.{P}` (milestone.iteration)
+- **Iteration:** {P} — {Name}
 - **Status:** `GATHERED`
 - **Last Batch:** — (not started)
 - **Working Memory:** key context from the plan (file paths, naming, patterns)
 
 Update `.gig/ROADMAP.md` iterations table:
-- If the iteration was consumed from Upcoming Iterations in Step 2, it's already in the Iterations table — skip adding.
-- Otherwise (freeform goal), add row: `| {N} | {Name} | v0.{N}.x | planned |`
+- Add row: `| {P} | {Name} | v0.{M}.{P} | planned |`

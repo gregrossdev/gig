@@ -91,7 +91,7 @@ If no backlog entries, skip to Step 3a.2.
 3. Update `.gig/ROADMAP.md`:
    - Set Current Milestone with name, version, status "in-progress", description.
    - Clear Iterations table.
-   - **Preserve** the Upcoming Iterations table — existing entries may be pre-planned for the new milestone.
+   - **Preserve** the Upcoming Milestones table — existing entries are future feature proposals.
 
 4. Update `.gig/STATE.md`:
    - Working Memory: milestone context.
@@ -583,9 +583,9 @@ Once the user approves:
    - All iterations must be "complete" or "verified".
    - If incomplete, list them and STOP.
 
-2. **Note upcoming iterations** (informational only):
-   - Read the Upcoming Iterations table in ROADMAP.md.
-   - If entries exist, note: "Upcoming iterations queued: {list names}. These will be cleared."
+2. **Note upcoming milestones** (informational only):
+   - Read the Upcoming Milestones table in ROADMAP.md.
+   - If entries exist, note: "Upcoming milestones on roadmap: {list names}."
 
 3. **Single confirmation:**
    - Present milestone summary with iteration count and version.
@@ -633,8 +633,8 @@ Once the user approves:
    Iterations:
      {list from roadmap table}
 
-   Upcoming:
-     {list from Upcoming Iterations table, or "None"}
+   Upcoming Milestones:
+     {list from Upcoming Milestones table, or "None"}
 
    Archived:
      {list from .gig/iterations/ directory}

@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `5.0.0` |
+| **Version** | `0.115.0` |
 | **Iteration** | — |
-| **Status** | `IDLE` |
-| **Last Batch** | — |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Update Tests (115.5) |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -47,7 +47,12 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-_None._
+- D-1.1: MINOR=milestone, PATCH=iteration versioning
+- D-1.2: Rename Upcoming Iterations → Upcoming Milestones
+- D-1.3: Govern prompts milestone completion after archiving
+- D-1.4: Gather derives patch from current milestone, not global
+- D-1.5: Branch naming stays feature/v0.{M}-{name}
+- D-1.6: Update RULES.md versioning docs
 
 ---
 
@@ -64,7 +69,13 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Milestone: One Feature Per Milestone (v0.115.0)
+- Goal: Each milestone = one feature, kept small
+- Versioning: milestone = 0.X.0, iterations within = 0.X.1, 0.X.2, etc.
+- Iterations still exist within milestones (patch bumps)
+- After govern: default prompt = complete milestone, not auto-queue more iterations
+- ROADMAP: "Upcoming Milestones" replaces "Upcoming Iterations"
+- Former upcoming iterations (115-117) become milestone proposals on roadmap
 
 ---
 

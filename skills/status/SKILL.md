@@ -69,8 +69,8 @@ Debt: {count from DEBT.md — OPEN or TRACKED, omit if none}
 Verify Later: {count of rows in Verify Later table in STATE.md, or omit if empty}
 Backlog: {count of bullet points in BACKLOG.md, or omit line if empty/no file}
 
-Upcoming:
-  {list iteration names from ROADMAP.md Upcoming Iterations table, or "None"}
+Upcoming Milestones:
+  {list from ROADMAP.md Upcoming Milestones table, or "None"}
 
 Archived iterations:
   {list from .gig/iterations/ or "None yet"}

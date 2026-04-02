@@ -81,6 +81,9 @@ project-root/
 
 ## Audit Log
 
+### Iteration 115 — 2026-04-02
+One feature per milestone: Current versioning has MINOR=iteration (globally incrementing), PATCH=batch. Needs to change to MINOR=milestone, PATCH=iteration within milestone. "Upcoming Iterations" appears in 9 files. Govern Step 10 auto-queues iterations; needs to prompt milestone completion instead. ~23 test assertions affected. Branch naming uses iteration numbers. Core restructure of versioning model across govern, gather, milestone, RULES.md, GIT-STRATEGY.md, ROADMAP template.
+
 ### Iteration 114 — 2026-04-02
 Milestone resume & status integration: SPECING status is missing from the status skill's suggestion table (11 statuses defined, only 10 handled). Milestone skill has no guard for SPECING — user can accidentally overwrite an in-progress elicitation. Status displays milestone name but not spec progress (stories/requirements). Small, targeted changes to 2 skills.
 

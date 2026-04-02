@@ -15,12 +15,11 @@
 |---|------|---------------|--------|
 <!-- Iterations added by gig:gather, archived by gig:govern -->
 
-## Upcoming Iterations
+## Upcoming Milestones
 
-<!-- Maximum 3 entries. Replaced with fresh suggestions after each iteration by gig:govern.
-     Gather auto-pulls the first entry when no args are provided.
-     Entries move to the Iterations table when gather starts them.
-     Run "gather [your idea]" to start something not listed here. -->
+<!-- Maximum 3 entries. Proposed by user or during milestone completion.
+     Each entry is a feature proposal for a future milestone.
+     Run "/gig:milestone" to create one of these as the next milestone. -->
 
 | # | Name | Description |
 |---|------|-------------|

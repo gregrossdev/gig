@@ -500,12 +500,12 @@ assert "govern skill references Plugin Version" grep -q 'Plugin Version' "$SCRIP
 assert "implement skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/implement/SKILL.md"
 assert "init skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_DIR/skills/init/SKILL.md"
 
-# --- Test 18: Iteration queue cap ---
+# --- Test 18: Milestone queue cap ---
 
-echo "[18] Iteration queue cap"
-assert "govern has 3-cap for queued iterations" grep -q 'next 3 chunks' "$SCRIPT_DIR/skills/govern/SKILL.md"
-assert "govern has queue cap hard rule" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
+echo "[18] Milestone queue cap"
+assert "ROADMAP template has Upcoming Milestones" grep -q 'Upcoming Milestones' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
 assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
+assert "govern prompts milestone complete" grep -q 'milestone complete' "$SCRIPT_DIR/skills/govern/SKILL.md"
 
 # --- Test 19: Implement auto-continue ---
 
@@ -640,13 +640,11 @@ assert "gather Gate 2 has table enforcement" grep -q "Do not abbreviate or colla
 echo "[31] Govern suggestion research"
 
 assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GOVERN_SKILL"
-assert "govern Step 10 auto-queues from spec" grep -q 'Auto-Queued from Spec' "$GOVERN_SKILL"
+assert "govern Step 10 checks spec coverage" grep -q 'Spec Coverage Check' "$GOVERN_SKILL"
 assert "govern Step 10 checks NOT COVERED requirements" grep -q 'NOT COVERED' "$GOVERN_SKILL"
-assert "govern Step 10 groups by parent story" grep -q 'Group uncovered requirements by parent story' "$GOVERN_SKILL"
-assert "govern Step 10 surfaces issues alongside spec queue" grep -q 'insert a fix iteration before the spec queue' "$GOVERN_SKILL"
-assert "govern Path B directs to new spec" grep -q 'Spec Complete' "$GOVERN_SKILL"
-assert "govern Path C handles no spec" grep -q 'No Spec' "$GOVERN_SKILL"
-assert "govern Path C suggests baseline" grep -q 'gig:milestone baseline' "$GOVERN_SKILL"
+assert "govern Step 10 prompts milestone complete" grep -q 'gig:milestone complete' "$GOVERN_SKILL"
+assert "govern Step 10 offers another iteration" grep -q 'gig:gather' "$GOVERN_SKILL"
+assert "govern Step 10 surfaces open issues" grep -q 'Open issues' "$GOVERN_SKILL"
 
 # [31b] Govern spec coverage
 echo "[31b] Govern spec coverage"
