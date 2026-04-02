@@ -505,7 +505,7 @@ assert "init skill references Plugin Version" grep -q 'Plugin Version' "$SCRIPT_
 echo "[18] Milestone queue cap"
 assert "ROADMAP template has Upcoming Milestones" grep -q 'Upcoming Milestones' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
 assert "ROADMAP template has 3-cap comment" grep -q 'Maximum 3 entries' "$SCRIPT_DIR/templates/gig/ROADMAP.md"
-assert "govern prompts milestone complete" grep -q 'milestone complete' "$SCRIPT_DIR/skills/govern/SKILL.md"
+assert "govern auto-completes milestone" grep -q 'Auto-Complete Milestone' "$SCRIPT_DIR/skills/govern/SKILL.md"
 
 # --- Test 19: Implement auto-continue ---
 
@@ -642,7 +642,7 @@ echo "[31] Govern suggestion research"
 assert "govern Step 10 has In the Backlog section" grep -q 'In the Backlog' "$GOVERN_SKILL"
 assert "govern Step 10 checks spec coverage" grep -q 'Spec Coverage Check' "$GOVERN_SKILL"
 assert "govern Step 10 checks NOT COVERED requirements" grep -q 'NOT COVERED' "$GOVERN_SKILL"
-assert "govern Step 10 prompts milestone complete" grep -q 'gig:milestone complete' "$GOVERN_SKILL"
+assert "govern Step 10 auto-completes milestone" grep -q 'Auto-Complete Milestone' "$GOVERN_SKILL"
 assert "govern Step 10 offers another iteration" grep -q 'gig:gather' "$GOVERN_SKILL"
 assert "govern Step 10 surfaces open issues" grep -q 'Open issues' "$GOVERN_SKILL"
 

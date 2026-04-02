@@ -562,13 +562,16 @@ If no debt clusters, skip this section.
 Read `.gig/SPEC.md` if it exists. Check requirement coverage:
 
 **If uncovered requirements remain:**
-> "Spec has {N} uncovered requirements. Run `/gig:gather` for another iteration, or `/gig:milestone complete` if remaining items should move to a future milestone."
+> "Spec has {N} uncovered requirements."
+> Present: "Run another iteration to cover remaining requirements, or complete milestone now (uncovered items move to a future milestone)?"
+> - If user says complete: proceed to Auto-Complete Milestone below.
+> - If user says iterate: say "Run `/gig:gather` for another iteration." STOP.
 
 **If all requirements covered (or no spec):**
-> "All requirements covered. Run `/gig:milestone complete` to finish this feature."
+Proceed directly to Auto-Complete Milestone below.
 
 If open/deferred issues exist, surface them:
-> "Open issues: {list}. Run `gather fix [thing]` for urgent fixes before completing."
+> "Open issues: {list}. These will carry forward."
 
 ### In the Backlog
 
@@ -579,11 +582,38 @@ Read `.gig/BACKLOG.md` and surface any items relevant to this iteration's change
 - {item} — {relevant because: connection to this iteration}
 ```
 
-If nothing in the backlog is relevant, skip this section. **Do not pull backlog items into suggestions.**
+If nothing in the backlog is relevant, skip this section.
 
-Then say:
+### Auto-Complete Milestone
 
-> "Iteration archived. Run `/gig:milestone complete` to finish this milestone, or `/gig:gather` for another iteration."
+After presenting the summary, automatically complete the milestone:
+
+1. **Tag the milestone:**
+   - Read the milestone version from `.gig/ROADMAP.md` Current Milestone.
+   - Create annotated tag: `git tag -a v{version} -m "Milestone: {name}"`
+
+2. **Move to Completed Milestones** in ROADMAP.md using the rich format:
+   ```
+   ### v{version} — {Name} (completed {TODAY'S DATE})
+
+   {Description}
+
+   **Iterations:**
+   {For each iteration in the Iterations table, format as:}
+   {N}. {Name} ({version range})
+   ```
+
+3. **Clear Current Milestone** section in ROADMAP.md.
+
+4. **Archive SPEC.md** if it exists and has content: copy to `.gig/iterations/SPEC-{milestone-version}.md`, then reset to template.
+
+5. **Update STATE.md:** set status to `IDLE`, clear iteration/batch.
+
+6. **Push (if remote exists):**
+   - Check: `git remote` — if output is non-empty, push main and tags.
+   - Report: "Pushed to origin." or note if push fails.
+
+7. Say: "Milestone **v{version}** complete. Run `/gig:milestone` to start the next feature."
 
 ## If Failures Need Fixing
 
