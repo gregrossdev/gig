@@ -14,6 +14,7 @@
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
 | 113 | Milestone Absorbs Spec | v0.113.1–v0.113.5 | complete |
+| 114 | Milestone Resume & Status Integration | v0.114.x | planned |
 
 ## Upcoming Iterations
 
@@ -24,6 +25,8 @@
 
 | # | Name | Description |
 |---|------|-------------|
+| 115 | Backlog-Driven Roadmap | Structured backlog entries with story/requirement previews. Milestone create presents backlog as prioritized menu. Govern appends structured items, not bullet points. |
+| 116 | Init-to-Milestone Seamless Flow | Init's auto-transition to milestone elicitation needs testing in real projects. Ensure SPECING/SPECCED status transitions work across init → milestone boundary. |
 
 
 ## Completed Milestones

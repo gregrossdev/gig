@@ -45,7 +45,7 @@ Check if `.gig/` exists.
 Say: "No gig context. Run `/gig:init` to start." STOP.
 
 **If present:**
-Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/ROADMAP.md`, `.gig/ISSUES.md`.
+Read `.gig/STATE.md`, `.gig/PLAN.md`, `.gig/ROADMAP.md`, `.gig/ISSUES.md`, `.gig/SPEC.md` (if it exists).
 
 ## Step 2 — Display Status
 
@@ -59,6 +59,10 @@ Batch:   {last batch title}
 
 Milestone: {name} v{target} ({status})
 Iterations: {completed}/{total} complete
+{If SPEC.md exists and has content beyond the template:}
+Spec: {N} stories, {M} requirements ({DRAFT if status is SPECING, LOCKED if SPECCED or later})
+{If any requirements have Status=COVERED:}
+Coverage: {covered}/{total} requirements
 
 Open Issues: {count from ISSUES.md — OPEN or DEFERRED}
 Debt: {count from DEBT.md — OPEN or TRACKED, omit if none}
@@ -80,6 +84,7 @@ Based on current status, suggest exactly ONE next action:
 |--------|-----------|
 | `IDLE` (no milestone) | "Run `/gig:milestone` to create a milestone." |
 | `IDLE` (has milestone) | "Run `/gig:gather` to start the next iteration." |
+| `SPECING` | "Spec elicitation in progress. Continue with `/gig:milestone`." |
 | `SPECCED` | "Run `/gig:design` for UI/UX prototypes, or `/gig:gather` to start making decisions." |
 | `DESIGNING` | "Design in progress. Continue with `/gig:design`." |
 | `DESIGNED` | "Run `/gig:gather` to start making decisions." |

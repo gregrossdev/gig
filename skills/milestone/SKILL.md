@@ -19,6 +19,34 @@ Check if `.gig/` exists in the current project root.
 **If NOT present:**
 Say: "No gig context found. Run `/gig:init` first." STOP.
 
+## Step 1b — Resume Check
+
+Read `.gig/STATE.md` to check current status.
+
+**If status is `SPECING`:**
+
+Elicitation was interrupted. Present options:
+
+1. **Resume elicitation** — continue from where you left off.
+2. **Start fresh** — discard draft and begin a new milestone.
+3. **View roadmap** — show milestone/iteration overview.
+
+- If **Resume:** Skip directly to Step 3a.3 (Load Project Context), which detects the partial SPEC.md and continues elicitation.
+- If **Start fresh:** Reset SPEC.md to template state, then proceed to Step 2 normally.
+- If **View roadmap:** Proceed to Step 3c.
+
+**If status is `SPECCED`:**
+
+Spec is already locked. Present options:
+
+1. **Create new milestone** — start a new milestone (overwrites current spec).
+2. **Complete current milestone** — verify all iterations done, tag, and archive.
+3. **View roadmap** — show milestone/iteration overview.
+
+Proceed to the selected action normally.
+
+**Otherwise:** Proceed to Step 2.
+
 ## Step 2 — Determine Action
 
 Use AskUserQuestion to present options:

@@ -81,6 +81,9 @@ project-root/
 
 ## Audit Log
 
+### Iteration 114 — 2026-04-02
+Milestone resume & status integration: SPECING status is missing from the status skill's suggestion table (11 statuses defined, only 10 handled). Milestone skill has no guard for SPECING — user can accidentally overwrite an in-progress elicitation. Status displays milestone name but not spec progress (stories/requirements). Small, targeted changes to 2 skills.
+
 ### Iteration 113 — 2026-04-02
 Milestone-driven workflow: Current system has 5-step user journey (milestone → spec → gather → implement → govern) where spec (535 lines) is a standalone skill. Milestone skill (118 lines) is thin — only manages versions and ROADMAP.md. Spec elicitation produces SPEC.md that gather/govern consume. Traceability chain (US→REQ→Decision→Batch→Tests) is solid and should be preserved. 52 test assertions reference spec directly. Backlog is empty and well-structured. The restructure is primarily UX consolidation — absorb spec into milestone create, streamline lifecycle, make backlog drive roadmap.
 

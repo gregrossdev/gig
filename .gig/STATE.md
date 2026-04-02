@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `0.113.5` |
-| **Iteration** | 113 — Milestone Absorbs Spec |
-| **Status** | `GOVERNED` |
-| **Last Batch** | Update Tests (113.5) |
+| **Version** | `0.114.0` |
+| **Iteration** | 114 — Milestone Resume & Status Integration |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Update Tests (114.3) |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -47,7 +47,10 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-_None._
+- D-1.1: Add resume guard for SPECING in milestone skill
+- D-1.2: Add SPECING suggestion to status skill
+- D-1.3: Show spec progress (stories/requirements) in status
+- D-1.4: Show spec coverage (covered/total) in status
 
 ---
 
@@ -64,7 +67,12 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Iteration 114: Milestone Resume & Status Integration
+- Key files: skills/milestone/SKILL.md, skills/status/SKILL.md, test.sh
+- Milestone guard goes between Step 1 and Step 2
+- Status SPECING row goes between IDLE and SPECCED in Step 3 table
+- Status spec progress goes after Milestone line in Step 2
+- Status reads SPEC.md in Step 1 alongside other files
 
 ---
 
