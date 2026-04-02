@@ -2,12 +2,18 @@
 
 ## Current Milestone
 
-_None — run `/gig:milestone` to create the next one._
+| Field | Value |
+|-------|-------|
+| **Name** | Milestone-Driven Workflow |
+| **Version** | v5.0.0 |
+| **Status** | in-progress |
+| **Description** | Milestones become the primary way to define requirements and user stories. Absorb spec into milestone creation, streamline lifecycle UX, and drive the roadmap from a maintained backlog. |
 
 ## Iterations
 
 | # | Name | Version Range | Status |
 |---|------|---------------|--------|
+| 113 | Milestone Absorbs Spec | v0.113.x | planned |
 
 ## Upcoming Iterations
 

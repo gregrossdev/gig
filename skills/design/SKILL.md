@@ -42,7 +42,7 @@ Read these files for background:
 
 If `.gig/SPEC.md` exists and has content beyond the template, use it as the foundation for design work. Every design should trace to a requirement in the spec.
 
-If `.gig/SPEC.md` does not exist or is empty, print: "No spec found. Consider running `/gig:spec` first for complex features." Then proceed — ask the user what screens or flows need design.
+If `.gig/SPEC.md` does not exist or is empty, print: "No spec found. Define stories and requirements when creating the milestone with `/gig:milestone`." Then proceed — ask the user what screens or flows need design.
 
 If `.gig/DESIGN.md` exists and has content, present it: "Found existing design. Resuming from where you left off."
 

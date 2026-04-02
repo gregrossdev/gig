@@ -33,7 +33,7 @@ Say: "No gig context found. Run `/gig:init` first." STOP.
 
 **If `.gig/SPEC.md` exists and has content beyond the template:** Use it as the foundation for decisions. Every decision should trace to a requirement in the spec.
 
-**If `.gig/SPEC.md` does not exist or is empty:** Print: "No spec found. Consider running `/gig:spec` first for complex features." Then proceed as normal.
+**If `.gig/SPEC.md` does not exist or is empty:** Print: "No spec found. Define stories and requirements when creating the milestone with `/gig:milestone`." Then proceed as normal.
 
 **If `.gig/DESIGN.md` exists and has content:** Use it as design context for decisions. Reference Figma designs when making UI-related decisions. Link decisions to design screens where applicable.
 

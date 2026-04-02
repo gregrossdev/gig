@@ -4,10 +4,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `4.0.0` |
-| **Iteration** | — |
-| **Status** | `IDLE` |
-| **Last Batch** | — |
+| **Version** | `0.113.0` |
+| **Iteration** | 113 — Milestone Absorbs Spec |
+| **Status** | `IMPLEMENTED` |
+| **Last Batch** | Update Tests (113.5) |
 | **Last Updated** | 2026-04-02 |
 
 ---
@@ -50,7 +50,13 @@
 
 <!-- Decisions that affect current/upcoming work -->
 
-_None._
+- D-1.1: Absorb spec elicitation into milestone create
+- D-1.2: Remove /gig:spec entirely
+- D-1.3: Keep SPEC.md as inter-skill contract file
+- D-1.4: New milestone create flow (name → stories → requirements → lock)
+- D-1.5: Move MVP interview into milestone create
+- D-1.6: Streamline milestone complete confirmations
+- D-1.7: Backlog items seed milestone creation
 
 ---
 
@@ -67,7 +73,16 @@ _None._
 <!-- Key context: file paths, patterns, naming conventions, gotchas.
      Updated during plan and apply. Keep under 100 lines. -->
 
-_None._
+- Milestone: Milestone-Driven Workflow (v5.0.0)
+- Iteration 113: Absorb spec elicitation into milestone create
+- Spec skill (535 lines) being absorbed into milestone skill
+- SPEC.md stays as inter-skill contract (gather/govern still read it)
+- Key files: skills/milestone/SKILL.md, skills/spec/SKILL.md (to delete)
+- Consumer skills to update: gather, govern, init, status, implement
+- Global rules: CLAUDE.md, docs/RULES.md
+- 52+ spec test assertions need rewriting in test.sh
+- Backlog seed: milestone create offers BACKLOG.md entries as starting points
+- MVP flow moves into milestone create as routing option
 
 ---
 

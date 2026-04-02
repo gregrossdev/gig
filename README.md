@@ -17,7 +17,7 @@ Init scaffolds project-type-specific Mermaid diagrams and flows directly into sp
 Each iteration is one loop — **decide, build, verify**:
 
 ```
-/gig:spec       →  spec:   (optional) interactive elicitation — stories, requirements, constraints
+/gig:milestone  →  spec:   create milestone with stories, requirements, constraints
 /gig:gather     →  decide: research, make decisions, build the plan
 /gig:implement  →  build:  execute batches with checkpoints
 /gig:govern     →  verify: test, validate, track issues, archive
@@ -180,20 +180,18 @@ Safe to run multiple times — idempotent.
 | Skill | What it does |
 |-------|-------------|
 | `/gig:init` | Scaffold `.gig/`, discover project context, propose first milestone |
-| `/gig:spec` | Interactive elicitation — stories, requirements, constraints (optional, before gather) |
+| `/gig:milestone` | Create milestone with spec elicitation, complete milestones, view roadmap |
 | `/gig:learn` | Create structured lesson plans for any topic or course |
 | `/gig:design` | Generate UI/UX prototypes in Figma, create DESIGN.md |
 | `/gig:gather` | Research → decisions → plan (two approval gates) |
 | `/gig:implement` | Execute batches, checkpoints, parallel when possible |
 | `/gig:govern` | Test, validate, track issues, archive iteration |
 | `/gig:status` | Where am I? What's next? |
-| `/gig:milestone` | Create or complete milestones |
 | `/gig:research` | Deep-dive a topic with subagents |
-| `/gig:triage` | Evaluate upcoming iterations, surface knowledge gaps, recommend priority |
 
 **Natural language shortcuts:**
 
-`spec` · `next` · `status` · `triage` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
+`next` · `status` · `fix [thing]` · `skip` · `decisions` · `issues` · `history` · `iteration done`
 
 ## Hooks
 

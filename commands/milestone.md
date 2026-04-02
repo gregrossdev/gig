@@ -1,14 +1,14 @@
 ---
 name: gig:milestone
-description: Create and complete milestones, manage ROADMAP.md, tag releases.
-argument-hint:
-allowed-tools: [Read, Write, Edit, Bash, Glob, AskUserQuestion]
+description: Create milestones with spec elicitation, complete milestones, manage ROADMAP.md, tag releases.
+argument-hint: "[create | complete | view]"
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Agent, WebSearch, WebFetch]
 ---
 
 <objective>
-Create and complete milestones, manage ROADMAP.md, tag releases. Wraps around the decide→plan→apply→verify loop.
+Create milestones with interactive spec elicitation (stories, requirements, constraints), complete milestones, manage ROADMAP.md, tag releases.
 
-**When to use:** To create a new milestone, complete the current one, or view the roadmap.
+**When to use:** To create a new milestone (with requirements), complete the current one, or view the roadmap.
 </objective>
 
 <execution_context>

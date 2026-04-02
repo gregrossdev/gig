@@ -599,7 +599,7 @@ The current spec is complete — every requirement has been addressed.
 
 All {count} requirements in SPEC.md are now COVERED.
 
-Run `/gig:spec` to define the next body of work, or `/gig:milestone complete` if this milestone is done.
+Run `/gig:milestone` to create the next milestone with requirements, or `/gig:milestone complete` if this milestone is done.
 ```
 
 Clear the Upcoming Iterations queue (nothing left to auto-queue). Do not generate suggestions — the spec phase is the right place to decide what's next.
@@ -614,7 +614,7 @@ No spec means the project hasn't adopted spec-driven development yet.
 ```
 ### No Spec
 
-Run `/gig:spec` to define what to build next, or `/gig:spec baseline` to create a spec from what's already been built.
+Run `/gig:milestone` to define what to build next, or `/gig:milestone baseline` to create a spec from what's already been built.
 ```
 
 If open/deferred issues exist, surface them:

@@ -260,7 +260,7 @@ Then say:
 > - **Adjust milestone** — change the name or description.
 > - **Review architecture** — I'll show the full ARCHITECTURE.md for review.
 >
-> After approval, {if new project or MVP flag: "MVP product discovery" | else: "spec elicitation"} will begin automatically.
+> After approval, {if new project or MVP flag: "MVP product discovery" | else: "milestone spec elicitation"} will begin automatically.
 
 **STOP. Do not create iterations. Do not make decisions. Wait for approval.**
 
@@ -269,7 +269,7 @@ Then say:
 1. If user adjusted version/name/description, update ROADMAP.md and STATE.md.
 2. **If new project OR MVP flag is set:**
    - Say: "Project initialized. Starting MVP product discovery..."
-   - Proceed directly to `/gig:spec` with the `mvp` argument. This triggers the MVP Product Discovery flow in the spec skill. Do NOT stop or ask the user to run a separate command.
+   - Proceed directly to `/gig:milestone` with the `mvp` argument. This triggers the MVP Product Discovery flow in the milestone skill's create flow. Do NOT stop or ask the user to run a separate command.
 3. **If existing project without MVP flag:**
-   - Say: "Project initialized. Starting spec elicitation..."
-   - Proceed directly to `/gig:spec` Step 2 (Load Project Context) and Step 3 (Elicitation). The spec guard check accepts IDLE status, so this transition works seamlessly. Do NOT stop or ask the user to run a separate command.
+   - Say: "Project initialized. Starting milestone spec elicitation..."
+   - Proceed directly to `/gig:milestone` create flow's Step 3a.3 (Load Project Context) and Step 3a.4 (Elicitation). The milestone skill accepts IDLE status, so this transition works seamlessly. Do NOT stop or ask the user to run a separate command.

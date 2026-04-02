@@ -43,7 +43,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-SKILLS="init spec learn design gather implement govern status milestone research"
+SKILLS="init learn design gather implement govern status milestone research"
 TEMPLATES="STATE.md PLAN.md DECISIONS.md ISSUES.md GOVERNANCE.md ARCHITECTURE.md ROADMAP.md GIT-STRATEGY.md BACKLOG.md DEBT.md SPEC.md MVP.md DOCS.md"
 PROJECT_TEMPLATES="ARTICLE.md"
 
@@ -600,8 +600,8 @@ assert "gather uses parallel agents" grep -q 'parallel' "$SCRIPT_DIR/skills/gath
 assert "gather references Architecture Agent" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/gather/SKILL.md"
 assert "init uses parallel agents" grep -q 'parallel' "$SCRIPT_DIR/skills/init/SKILL.md"
 assert "init synthesizes findings" grep -qi 'synthe' "$SCRIPT_DIR/skills/init/SKILL.md"
-assert "spec uses 3 agents for assessment" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/spec/SKILL.md"
-assert "spec has background research" grep -qi 'background' "$SCRIPT_DIR/skills/spec/SKILL.md"
+assert "milestone uses 3 agents for assessment" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/milestone/SKILL.md"
+assert "milestone has background research" grep -qi 'background' "$SCRIPT_DIR/skills/milestone/SKILL.md"
 assert "research has subagent type table" grep -qi 'decision table' "$SCRIPT_DIR/skills/research/SKILL.md"
 assert "research uses parallel execution" grep -q 'parallel' "$SCRIPT_DIR/skills/research/SKILL.md"
 assert "learn uses Architecture + Discovery" grep -q 'Architecture Agent' "$SCRIPT_DIR/skills/learn/SKILL.md"
@@ -646,7 +646,7 @@ assert "govern Step 10 groups by parent story" grep -q 'Group uncovered requirem
 assert "govern Step 10 surfaces issues alongside spec queue" grep -q 'insert a fix iteration before the spec queue' "$GOVERN_SKILL"
 assert "govern Path B directs to new spec" grep -q 'Spec Complete' "$GOVERN_SKILL"
 assert "govern Path C handles no spec" grep -q 'No Spec' "$GOVERN_SKILL"
-assert "govern Path C suggests baseline" grep -q 'gig:spec baseline' "$GOVERN_SKILL"
+assert "govern Path C suggests baseline" grep -q 'gig:milestone baseline' "$GOVERN_SKILL"
 
 # [31b] Govern spec coverage
 echo "[31b] Govern spec coverage"
@@ -659,31 +659,34 @@ assert "govern updates SPEC.md after archive" grep -q 'Update.*SPEC\.md' "$GOVER
 assert "govern marks requirements COVERED" grep -q 'Status.*to.*COVERED' "$GOVERN_SKILL"
 assert "govern records iteration in SPEC.md" grep -q 'Iteration.*v0' "$GOVERN_SKILL"
 
-# [32] Spec skill
-echo "[32] Spec skill"
+# [32] Milestone spec elicitation
+echo "[32] Milestone spec elicitation"
 
-SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
-assert "spec skill has elicitation step" grep -q 'Elicitation' "$SPEC_SKILL"
-assert "spec skill has lock gate" grep -q 'Lock Gate' "$SPEC_SKILL"
-assert "spec skill references SPEC.md" grep -q 'SPEC\.md' "$SPEC_SKILL"
-assert "spec skill has SPECING status" grep -q 'SPECING' "$SPEC_SKILL"
-assert "spec skill has SPECCED status" grep -q 'SPECCED' "$SPEC_SKILL"
-assert "spec skill has user story format" grep -q 'As a \[who\]' "$SPEC_SKILL"
-assert "spec skill has requirement IDs" grep -q 'REQ-001' "$SPEC_SKILL"
+MILESTONE_SKILL="$SCRIPT_DIR/skills/milestone/SKILL.md"
+assert "milestone has elicitation step" grep -q 'Elicitation' "$MILESTONE_SKILL"
+assert "milestone has lock gate" grep -q 'Lock Gate' "$MILESTONE_SKILL"
+assert "milestone references SPEC.md" grep -q 'SPEC\.md' "$MILESTONE_SKILL"
+assert "milestone has SPECING status" grep -q 'SPECING' "$MILESTONE_SKILL"
+assert "milestone has SPECCED status" grep -q 'SPECCED' "$MILESTONE_SKILL"
+assert "milestone has user story format" grep -q 'As a \[who\]' "$MILESTONE_SKILL"
+assert "milestone has requirement IDs" grep -q 'REQ-001' "$MILESTONE_SKILL"
 assert "SPEC.md template exists" test -f "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Stories section" grep -q '## Stories' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Requirements section" grep -q '## Requirements' "$SCRIPT_DIR/templates/gig/SPEC.md"
-assert "spec skill has existing project analysis" grep -q 'Explore agents in parallel' "$SPEC_SKILL"
-assert "spec skill proposes directions" grep -q 'Suggested Directions' "$SPEC_SKILL"
-assert "spec skill has project assessment" grep -q 'Your Project Now' "$SPEC_SKILL"
-assert "spec skill has baseline from iterations" grep -q 'Baseline from Iterations' "$SPEC_SKILL"
-assert "spec skill reads archived iterations" grep -q 'gig/iterations/' "$SPEC_SKILL"
-assert "spec skill has DELIVERED status" grep -q 'DELIVERED' "$SPEC_SKILL"
-assert "spec skill has NOT COVERED for new work" grep -q 'NOT COVERED' "$SPEC_SKILL"
+assert "milestone has existing project analysis" grep -q 'Explore agents in parallel' "$MILESTONE_SKILL"
+assert "milestone proposes directions" grep -q 'Suggested Directions' "$MILESTONE_SKILL"
+assert "milestone has project assessment" grep -q 'Your Project Now' "$MILESTONE_SKILL"
+assert "milestone has baseline from iterations" grep -q 'Baseline from Iterations' "$MILESTONE_SKILL"
+assert "milestone reads archived iterations" grep -q 'gig/iterations/' "$MILESTONE_SKILL"
+assert "milestone has DELIVERED status" grep -q 'DELIVERED' "$MILESTONE_SKILL"
+assert "milestone has NOT COVERED for new work" grep -q 'NOT COVERED' "$MILESTONE_SKILL"
 assert "SPEC.md template has Status column in requirements" grep -q '| Status | Iteration |' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template has Status column in stories" grep -q '| Status |' "$SCRIPT_DIR/templates/gig/SPEC.md"
 assert "SPEC.md template documents requirement statuses" grep -q 'Requirement statuses' "$SCRIPT_DIR/templates/gig/SPEC.md"
-assert "milestone archives SPEC.md" grep -q 'SPEC.*archive' "$SCRIPT_DIR/skills/milestone/SKILL.md"
+assert "milestone archives SPEC.md" grep -q 'SPEC.*archive' "$MILESTONE_SKILL"
+assert "milestone has backlog seed" grep -q 'BACKLOG.md' "$MILESTONE_SKILL"
+assert_not "spec skill dir exists" test -d "$SCRIPT_DIR/skills/spec"
+assert_not "spec command exists" test -f "$SCRIPT_DIR/commands/spec.md"
 
 # [33] Design skill
 echo "[33] Design skill"
@@ -718,7 +721,7 @@ assert "gather references Figma in decisions" grep -q 'Figma' "$GATHER_SKILL"
 # [35] Design in docs
 echo "[35] Design in docs"
 
-assert "RULES.md has design in workflow header" grep -q 'Design.*Gather' "$SCRIPT_DIR/docs/RULES.md"
+assert "RULES.md has design step" grep -q 'Design.*gig:design' "$SCRIPT_DIR/docs/RULES.md"
 assert "RULES.md lists gig:design skill" grep -q 'gig:design' "$SCRIPT_DIR/docs/RULES.md"
 assert "RULES.md has design natural language command" grep -q '| .design.' "$SCRIPT_DIR/docs/RULES.md"
 assert "GETTING-STARTED.md mentions gig:design" grep -q 'gig:design' "$SCRIPT_DIR/docs/GETTING-STARTED.md"
@@ -823,7 +826,7 @@ echo "[46] Context hygiene"
 
 GOVERN_SKILL="$SCRIPT_DIR/skills/govern/SKILL.md"
 GATHER_SKILL="$SCRIPT_DIR/skills/gather/SKILL.md"
-SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
+MILESTONE_SKILL="$SCRIPT_DIR/skills/milestone/SKILL.md"
 
 # REQ-001: Govern trims batch history
 assert "govern trims batch history to 20 rows" grep -q 'last 20 rows' "$GOVERN_SKILL"
@@ -838,14 +841,9 @@ assert "govern archives design directory" grep -q 'design.*iterations' "$GOVERN_
 assert "gather treats diagrams as living artifacts" grep -q 'living diagrams' "$GATHER_SKILL"
 assert "gather evolves diagrams across iterations" grep -q 'evolve across iterations' "$GATHER_SKILL"
 
-# REQ-006: Spec auto-archives completed specs
-assert "spec archives completed specs" grep -q 'SPEC-completed' "$SPEC_SKILL"
-assert "spec archives to iterations dir" grep -q '.gig/iterations/SPEC' "$SPEC_SKILL"
-
-# REQ-007: Spec warns on partial overwrite
-assert "spec warns on uncovered requirements" grep -q 'uncovered requirements' "$SPEC_SKILL"
-assert "spec has partial archive option" grep -q 'SPEC-partial' "$SPEC_SKILL"
-assert "spec auto-archives without prompt when complete" grep -q 'Auto-archive' "$SPEC_SKILL"
+# REQ-006: Milestone archives specs on completion
+assert "milestone archives SPEC on completion" grep -q 'SPEC.*archive' "$MILESTONE_SKILL"
+assert "milestone archives to iterations dir" grep -q '.gig/iterations/.*SPEC' "$MILESTONE_SKILL"
 
 # [47] Init-to-spec flow and auto-detection
 echo "[47] Init-to-spec flow and auto-detection"
@@ -860,7 +858,7 @@ assert_not "init has no diagram scaffolding" grep -q 'Scaffold Diagrams' "$INIT_
 assert_not "init has no template preview table" grep -q '| # | Template | Type |' "$INIT_SKILL"
 
 # Init skill — flows into spec/MVP
-assert "init references spec elicitation" grep -q 'spec elicitation' "$INIT_SKILL"
+assert "init references milestone spec elicitation" grep -q 'milestone spec elicitation' "$INIT_SKILL"
 assert "init routes new projects to MVP" grep -q 'new project OR MVP flag' "$INIT_SKILL"
 assert "init no longer suggests run gather as ending" grep -q 'will begin automatically' "$INIT_SKILL"
 
@@ -885,11 +883,11 @@ README_FILE="$SCRIPT_DIR/README.md"
 assert "architecture has templates/project/" grep -q 'project/' "$ARCH_FILE"
 assert "architecture has SPEC.md in templates" grep -q 'SPEC.md' "$ARCH_FILE"
 assert "architecture has DEBT.md in templates" grep -q 'DEBT.md' "$ARCH_FILE"
-assert "architecture has spec skill" grep -q 'spec/SKILL.md' "$ARCH_FILE"
+assert "architecture has milestone skill" grep -q 'milestone/SKILL.md' "$ARCH_FILE"
 assert "architecture has design skill" grep -q 'design/SKILL.md' "$ARCH_FILE"
 
 # REQ-002: ARCHITECTURE.md patterns
-assert "architecture has spec-driven pattern" grep -q 'Spec-driven development' "$ARCH_FILE"
+assert "architecture has milestone-driven pattern" grep -q 'Milestone-driven development' "$ARCH_FILE"
 assert "architecture has living diagrams pattern" grep -q 'Living diagrams' "$ARCH_FILE"
 
 # REQ-005/006: BACKLOG.md pruned
@@ -917,18 +915,18 @@ STATUS_SKILL="$SCRIPT_DIR/skills/status/SKILL.md"
 
 # REQ-005: Workflow order — skills exist for each workflow step
 assert "rules has Init in workflow" grep -q 'Init' "$RULES_FILE"
-assert "rules has Spec in workflow" grep -q 'Spec' "$RULES_FILE"
+assert "rules has Milestone in workflow" grep -q 'Milestone' "$RULES_FILE"
 assert "rules has Gather in workflow" grep -q 'Gather' "$RULES_FILE"
 assert "rules has Implement in workflow" grep -q 'Implement' "$RULES_FILE"
 assert "rules has Govern in workflow" grep -q 'Govern' "$RULES_FILE"
 assert "init skill dir exists" test -d "$SCRIPT_DIR/skills/init"
-assert "spec skill dir exists" test -d "$SCRIPT_DIR/skills/spec"
+assert "milestone skill dir exists" test -d "$SCRIPT_DIR/skills/milestone"
 assert "gather skill dir exists" test -d "$SCRIPT_DIR/skills/gather"
 assert "implement skill dir exists" test -d "$SCRIPT_DIR/skills/implement"
 assert "govern skill dir exists" test -d "$SCRIPT_DIR/skills/govern"
 
 # REQ-006: Natural language commands — key commands in RULES.md table
-assert "rules has spec command" grep -q '| .spec.' "$RULES_FILE"
+assert_not "rules has no spec command" grep -q '| .spec.' "$RULES_FILE"
 assert "rules has gather command" grep -q '| .gather.' "$RULES_FILE"
 assert "rules has status command" grep -q '| .status.' "$RULES_FILE"
 assert "rules has issues command" grep -q '| .issues.' "$RULES_FILE"
@@ -1070,15 +1068,15 @@ assert "install.sh uninstalls doc templates" grep -q 'Removed.*templates/docs' "
 # Init template lists include DOCS.md
 assert "init scaffold list has DOCS.md" grep -q 'DOCS.md' "$SCRIPT_DIR/skills/init/SKILL.md"
 
-# --- [61] Spec doc derivation ---
+# --- [61] Milestone doc derivation ---
 
-echo "[61] Spec doc derivation"
-SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
-assert "spec has doc derivation step" grep -q 'Derive documentation needs' "$SPEC_SKILL"
-assert "spec writes DOCS.md" grep -q 'Write.*DOCS.md' "$SPEC_SKILL"
-assert "spec references doc templates" grep -q 'templates/docs/' "$SPEC_SKILL"
-assert "spec derives from MVP.md" grep -q 'MVP.md.*ARCHITECTURE.md' "$SPEC_SKILL"
-assert "spec presents documentation plan" grep -q 'Documentation plan written' "$SPEC_SKILL"
+echo "[61] Milestone doc derivation"
+MILESTONE_SKILL="$SCRIPT_DIR/skills/milestone/SKILL.md"
+assert "milestone has doc derivation step" grep -q 'Derive documentation needs' "$MILESTONE_SKILL"
+assert "milestone writes DOCS.md" grep -q 'Write.*DOCS.md' "$MILESTONE_SKILL"
+assert "milestone references doc templates" grep -q 'templates/docs/' "$MILESTONE_SKILL"
+assert "milestone derives from MVP.md" grep -q 'MVP.md.*ARCHITECTURE.md' "$MILESTONE_SKILL"
+assert "milestone presents documentation plan" grep -q 'Documentation plan written' "$MILESTONE_SKILL"
 
 # --- [62] Govern documentation health ---
 
@@ -1126,7 +1124,7 @@ assert "MVP.md has Mermaid stateDiagram example" grep -q 'stateDiagram' "$MVP_TM
 
 echo "[55] MVP command argument hints"
 assert "init command has mvp hint" grep -q 'mvp' "$SCRIPT_DIR/commands/init.md"
-assert "spec command has mvp hint" grep -q 'mvp' "$SCRIPT_DIR/commands/spec.md"
+assert "milestone command has create hint" grep -q 'create' "$SCRIPT_DIR/commands/milestone.md"
 
 # --- [56] Init MVP routing ---
 
@@ -1136,25 +1134,25 @@ assert "init has MVP flag detection" grep -q 'MVP check' "$INIT_SKILL"
 assert "init has MVP routing" grep -q 'MVP flag is set' "$INIT_SKILL"
 assert "init scaffold list has MVP.md" grep -q 'MVP.md' "$INIT_SKILL"
 
-# --- [57] Spec MVP interview ---
+# --- [57] Milestone MVP interview ---
 
-echo "[57] Spec MVP interview"
-SPEC_SKILL="$SCRIPT_DIR/skills/spec/SKILL.md"
-assert "spec has MVP Product Discovery section" grep -q 'MVP Product Discovery' "$SPEC_SKILL"
-assert "spec has MVP arg detection" grep -q 'mvp' "$SPEC_SKILL"
-assert "spec has Mermaid flowchart instruction" grep -q 'flowchart TD' "$SPEC_SKILL"
-assert "spec has Mermaid stateDiagram instruction" grep -q 'stateDiagram-v2' "$SPEC_SKILL"
-assert "spec has ASCII mockup instruction" grep -q 'ASCII' "$SPEC_SKILL"
-assert "spec has 7 interview sections" grep -q 'Section 7' "$SPEC_SKILL"
-assert "spec has MVP lock gate" grep -q 'MVP Lock Gate' "$SPEC_SKILL"
-assert "spec writes MVP.md on lock" grep -q 'Write.*MVP.md' "$SPEC_SKILL"
+echo "[57] Milestone MVP interview"
+MILESTONE_SKILL="$SCRIPT_DIR/skills/milestone/SKILL.md"
+assert "milestone has MVP Product Discovery section" grep -q 'MVP Product Discovery' "$MILESTONE_SKILL"
+assert "milestone has MVP arg detection" grep -q 'mvp' "$MILESTONE_SKILL"
+assert "milestone has Mermaid flowchart instruction" grep -q 'flowchart TD' "$MILESTONE_SKILL"
+assert "milestone has Mermaid stateDiagram instruction" grep -q 'stateDiagram-v2' "$MILESTONE_SKILL"
+assert "milestone has ASCII mockup instruction" grep -q 'ASCII' "$MILESTONE_SKILL"
+assert "milestone has 7 interview sections" grep -q 'Section 7' "$MILESTONE_SKILL"
+assert "milestone has MVP lock gate" grep -q 'MVP Lock Gate' "$MILESTONE_SKILL"
+assert "milestone writes MVP.md on lock" grep -q 'Write.*MVP.md' "$MILESTONE_SKILL"
 
-# --- [58] Spec MVP context integration ---
+# --- [58] Milestone MVP context integration ---
 
-echo "[58] Spec MVP context integration"
-assert "spec loads MVP.md in context" grep -q 'MVP.md.*MVP product discovery' "$SPEC_SKILL"
-assert "spec pre-populates from MVP" grep -q 'pre-populate' "$SPEC_SKILL"
-assert "spec surfaces MVP open questions" grep -q 'Open Questions.*MVP' "$SPEC_SKILL"
+echo "[58] Milestone MVP context integration"
+assert "milestone loads MVP.md in context" grep -q 'MVP.md.*MVP product discovery' "$MILESTONE_SKILL"
+assert "milestone pre-populates from MVP" grep -q 'pre-populate' "$MILESTONE_SKILL"
+assert "milestone surfaces MVP open questions" grep -q 'Open Questions.*MVP' "$MILESTONE_SKILL"
 
 # --- [59] Walkthrough command ---
 
